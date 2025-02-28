@@ -36,7 +36,7 @@
     const firebaseConfig = {
       apiKey: "AIzaSyCTfRRVc-QRKpEpzIpe3OtI2cYeotP1WCs",
       authDomain: "healthtechn-c15da.firebaseapp.com",
-      databaseURL: "https://healthtechn-c15da-default-rtdb.firebaseio.com",
+      databaseURL: "https://healthtechn-c15da-default-rtdb.firebaseio.com", // ✅ Fixed databaseURL
       projectId: "healthtechn-c15da",
       storageBucket: "healthtechn-c15da.appspot.com",
       messagingSenderId: "508561693923",
@@ -46,27 +46,35 @@
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
   
-    document.getElementById('contact-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
+    document.getElementById('contact-form').addEventListener('submit', async function (e) {
+      e.preventDefault(); // Prevent page reload
   
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const message = document.getElementById('message').value;
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+  
+      console.log("Name:", name, "Email:", email, "Message:", message); // ✅ Debugging
+  
+      if (!name || !email || !message) {
+        alert("Please fill in all fields.");
+        return;
+      }
   
       try {
-        const messagesRef = ref(database, 'messages');
+        const messagesRef = ref(database, "messages");
         const newMessageRef = push(messagesRef);
   
         await set(newMessageRef, { name, email, message });
   
         alert("Message sent successfully!");
-        document.getElementById('contact-form').reset();
+        document.getElementById("contact-form").reset();
       } catch (error) {
         console.error("Error submitting form:", error);
         alert("Something went wrong. Please try again.");
       }
     });
   </script>
+  
   
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
