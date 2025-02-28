@@ -30,66 +30,44 @@
 </div>
 
 <script type="module">
-  // Import Firebase v9+ SDK
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-  import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
-
-  // Your Firebase configuration
-  const firebaseConfig = {
-  apiKey: "AIzaSyCTfRRVc-QRKpEpzIpe3OtI2cYeotP1WCs",
-  authDomain: "healthtechn-c15da.firebaseapp.com",
-  databaseURL: "https://healthtechn-c15da-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "healthtechn-c15da",
-  storageBucket: "healthtechn-c15da.firebasestorage.app",
-  messagingSenderId: "508561693923",
-  appId: "1:508561693923:web:d5ce35934eded8ff50f9d6"
-};
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const database = getDatabase(app);
-
-  // Handle form submission
-  document.getElementById('contact').addEventListener('submit', submitForm);
-
-  async function submitForm(e) {
-      e.preventDefault(); // Prevent page reload
-
-      // Get form values
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+  
+    const firebaseConfig = {
+      apiKey: "AIzaSyCTfRRVc-QRKpEpzIpe3OtI2cYeotP1WCs",
+      authDomain: "healthtechn-c15da.firebaseapp.com",
+      databaseURL: "https://healthtechn-c15da-default-rtdb.firebaseio.com",
+      projectId: "healthtechn-c15da",
+      storageBucket: "healthtechn-c15da.appspot.com",
+      messagingSenderId: "508561693923",
+      appId: "1:508561693923:web:d5ce35934eded8ff50f9d6"
+    };
+  
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+  
+    document.getElementById('contact-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+  
       const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
       const message = document.getElementById('message').value;
-
+  
       try {
-          // Save message to Firebase
-          await saveMessage(name, email, message);
-
-          // Optionally, show a confirmation message
-          alert("Message sent successfully!");
-
-          // Reset form after submission
-          document.getElementById('contact').reset();
+        const messagesRef = ref(database, 'messages');
+        const newMessageRef = push(messagesRef);
+  
+        await set(newMessageRef, { name, email, message });
+  
+        alert("Message sent successfully!");
+        document.getElementById('contact-form').reset();
       } catch (error) {
-          console.error("Error submitting form: ", error);
-          alert("Something went wrong. Please try again.");
+        console.error("Error submitting form:", error);
+        alert("Something went wrong. Please try again.");
       }
-  }
-
-  // Function to save message to Firebase Realtime Database
-  async function saveMessage(name, email, message) {
-      const messagesRef = ref(database, 'messages'); // Reference to 'messages' node
-      const newMessageRef = push(messagesRef); // Create a new unique key for the message
-
-      // Set message data in the new reference
-      await set(newMessageRef, {
-          email: email,
-          message: message,
-          name: name,
-      });
-
-      console.log("Message saved successfully.");
-  }
-</script>
+    });
+  </script>
+  
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
