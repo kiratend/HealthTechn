@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #f4f8fb;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            background-color: #007bff !important;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+        }
+        .hero-section {
+            background: linear-gradient(to right, #007bff, #00bcd4);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: none;
+        }
+        .footer {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">FinTrack</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="logout.html">Log Out</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="hero-section">
+        <h1 class="display-4">Finance Management</h1>
+        <p class="lead">Keeping Your Finances in Check</p>
+    </div>
+    
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card text-bg-primary text-white text-center p-3">
+                    <i class="fas fa-dollar-sign card-icon"></i>
+                    <h5>Total Revenue</h5>
+                    <p id="total-revenue">$50,000</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-bg-success text-white text-center p-3">
+                    <i class="fas fa-coins card-icon"></i>
+                    <h5>Expenses</h5>
+                    <p id="total-expenses">$20,000</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-bg-warning text-white text-center p-3">
+                    <i class="fas fa-balance-scale card-icon"></i>
+                    <h5>Net Profit</h5>
+                    <p id="net-profit">$30,000</p>
+                </div>
+            </div>
+        </div>
+        
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="finance-list"></tbody>
+        </table>
+        
+        <div class="mt-4">
+            <button class="btn btn-primary" onclick="addTransaction()"><i class="fas fa-plus"></i> Add Transaction</button>
+            <button class="btn btn-outline-secondary" onclick="generateReport()"><i class="fas fa-file-alt"></i> Generate Report</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2025 FinTrack. All Rights Reserved.</p>
+    </div>
+    
+    <script>
+        let transactions = [
+            { date: "2025-04-01", description: "Product Sales", amount: 10000, type: "Revenue" },
+            { date: "2025-04-02", description: "Supplier Payment", amount: 5000, type: "Expense" },
+            { date: "2025-04-03", description: "Service Fee", amount: 3000, type: "Expense" }
+        ];
+
+        function loadFinance() {
+            let financeList = document.getElementById("finance-list");
+            financeList.innerHTML = "";
+            transactions.forEach((transaction, index) => {
+                let row = `<tr>
+                    <td>${transaction.date}</td>
+                    <td>${transaction.description}</td>
+                    <td>$${transaction.amount}</td>
+                    <td>${transaction.type}</td>
+                    <td><button class="btn btn-sm btn-outline-primary" onclick="editTransaction(${index})">Edit</button></td>
+                </tr>`;
+                financeList.innerHTML += row;
+            });
+        }
+
+        function addTransaction() {
+            let date = prompt("Enter transaction date (YYYY-MM-DD):");
+            let description = prompt("Enter transaction description:");
+            let amount = prompt("Enter amount:");
+            let type = prompt("Enter type (Revenue/Expense):");
+            if (date && description && amount && type) {
+                transactions.push({ date, description, amount: parseFloat(amount), type });
+                loadFinance();
+            }
+        }
+
+        function editTransaction(index) {
+            let newAmount = prompt("Enter new amount:", transactions[index].amount);
+            if (newAmount) {
+                transactions[index].amount = parseFloat(newAmount);
+                loadFinance();
+            }
+        }
+
+        function generateReport() { alert("Generating Financial Report..."); }
+        window.onload = loadFinance;
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
