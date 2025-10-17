@@ -1,0 +1,443 @@
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~
+$ ls
+ -1.14-windows.xml
+'3D Objects'/
+ AppData/
+'Application Data'@
+ Contacts/
+ Cookies@
+ Desktop/
+ Documents/
+ Downloads/
+ Favorites/
+ IntelGraphicsProfiles/
+ Links/
+'Local Settings'@
+ Music/
+'My Documents'@
+ NTUSER.DAT
+ NTUSER.DAT{83890103-d6cb-11ef-bf62-c3b7cd5a4b75}.TM.blf
+ NTUSER.DAT{83890103-d6cb-11ef-bf62-c3b7cd5a4b75}.TMContainer00000000000000000001.regtrans-ms
+ NTUSER.DAT{83890103-d6cb-11ef-bf62-c3b7cd5a4b75}.TMContainer00000000000000000002.regtrans-ms
+ NetHood@
+ OneDrive/
+ Pictures/
+ PrintHood@
+ Recent@
+'Saved Games'/
+ Searches/
+ SendTo@
+'Start Menu'@
+ Templates@
+ Videos/
+'VirtualBox VMs'/
+'WPS Cloud Files'/
+ netsh
+ ntuser.dat.LOG1
+ ntuser.dat.LOG2
+ ntuser.ini
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~
+$ cd Documents
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents
+$ ls
+'Custom Office Templates'/  'My Music'@     'My Videos'@          Overwatch/   TestWeb/    desktop.ini                       medventory/
+ IBM/                       'My Pictures'@   NCM107-Group6.docx   PPSSPP/      database/   linuxmint-22-cinnamon-64bit.iso   rufus-4.6.exe*
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents
+$ cd medventory
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory
+$ cd Medventory
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+remote: Enumerating objects: 4, done.
+remote: Counting objects: 100% (4/4), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (3/3), 1.62 KiB | 87.00 KiB/s, done.
+From https://github.com/kiratend/Medventory
+   55b6e82..4d18f5c  main       -> origin/main
+Updating 55b6e82..4d18f5c
+Fast-forward
+ index.html | 43 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+ create mode 100644 index.html
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+
+fatal: unable to access 'https://github.com/kiratend/Medventory.git/': Could not resolve host: github.com
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+Already up to date.
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+Everything up-to-date
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+Already up to date.D MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git pull
+Already up to date.
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Everything up-to-date
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        deleted:    PHPMailer/PHPMailer/COMMITMENT
+        deleted:    PHPMailer/PHPMailer/LICENSE
+        deleted:    PHPMailer/PHPMailer/README.md
+        deleted:    PHPMailer/PHPMailer/SECURITY.md
+        deleted:    PHPMailer/PHPMailer/VERSION
+        deleted:    PHPMailer/PHPMailer/composer.json
+        deleted:    PHPMailer/PHPMailer/get_oauth_token.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-af.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-ar.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-as.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-az.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-ba.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-be.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-bg.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-bn.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-ca.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-cs.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-da.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-de.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-el.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-eo.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-es.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-et.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-fa.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-fi.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-fo.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-fr.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-gl.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-he.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-hi.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-hr.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-hu.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-hy.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-id.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-it.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-ja.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-ka.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-ko.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-ku.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-lt.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-lv.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-mg.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-mn.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-ms.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-nb.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-nl.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-pl.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-pt.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-pt_br.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-ro.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-ru.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-si.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-sk.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-sl.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-sr.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-sr_latn.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-sv.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-tl.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-tr.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-uk.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-ur.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-vi.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-zh.php
+        deleted:    PHPMailer/PHPMailer/language/phpmailer.lang-zh_cn.php
+        deleted:    PHPMailer/PHPMailer/src/DSNConfigurator.php
+        deleted:    PHPMailer/PHPMailer/src/Exception.php
+        deleted:    PHPMailer/PHPMailer/src/OAuth.php
+        deleted:    PHPMailer/PHPMailer/src/OAuthTokenProvider.php
+        deleted:    PHPMailer/PHPMailer/src/PHPMailer.php
+        deleted:    PHPMailer/PHPMailer/src/POP3.php
+        deleted:    PHPMailer/PHPMailer/src/SMTP.php
+        deleted:    README.md
+        deleted:    contact.php
+        deleted:    index.php
+        deleted:    send_email.php
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git add .
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git commit -m "FIles"
+[main 4b23ff4] FIles
+ 75 files changed, 10592 deletions(-)
+ delete mode 100644 PHPMailer/PHPMailer/COMMITMENT
+ delete mode 100644 PHPMailer/PHPMailer/LICENSE
+ delete mode 100644 PHPMailer/PHPMailer/README.md
+ delete mode 100644 PHPMailer/PHPMailer/SECURITY.md
+ delete mode 100644 PHPMailer/PHPMailer/VERSION
+ delete mode 100644 PHPMailer/PHPMailer/composer.json
+ delete mode 100644 PHPMailer/PHPMailer/get_oauth_token.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-af.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-ar.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-as.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-az.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-ba.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-be.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-bg.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-bn.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-ca.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-cs.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-da.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-de.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-el.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-eo.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-es.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-et.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-fa.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-fi.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-fo.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-fr.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-gl.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-he.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-hi.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-hr.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-hu.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-hy.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-id.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-it.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-ja.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-ka.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-ko.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-ku.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-lt.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-lv.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-mg.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-mn.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-ms.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-nb.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-nl.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-pl.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-pt.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-pt_br.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-ro.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-ru.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-si.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-sk.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-sl.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-sr.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-sr_latn.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-sv.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-tl.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-tr.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-uk.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-ur.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-vi.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-zh.php
+ delete mode 100644 PHPMailer/PHPMailer/language/phpmailer.lang-zh_cn.php
+ delete mode 100644 PHPMailer/PHPMailer/src/DSNConfigurator.php
+ delete mode 100644 PHPMailer/PHPMailer/src/Exception.php
+ delete mode 100644 PHPMailer/PHPMailer/src/OAuth.php
+ delete mode 100644 PHPMailer/PHPMailer/src/OAuthTokenProvider.php
+ delete mode 100644 PHPMailer/PHPMailer/src/PHPMailer.php
+ delete mode 100644 PHPMailer/PHPMailer/src/POP3.php
+ delete mode 100644 PHPMailer/PHPMailer/src/SMTP.php
+ delete mode 100644 README.md
+ delete mode 100644 contact.php
+ delete mode 100644 index.php
+ delete mode 100644 send_email.php
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$ git push
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (1/1), done.
+Writing objects: 100% (2/2), 238 bytes | 47.00 KiB/s, done.
+Total 2 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/kiratend/Medventory.git
+   4d18f5c..4b23ff4  main -> main
+
+DELL@DESKTOP-QDKTTPD MINGW64 ~/Documents/medventory/Medventory (main)
+$

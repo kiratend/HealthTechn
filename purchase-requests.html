@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>View Purchase Requests - MedVentory</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f4f8fb;
+      font-family: "Segoe UI", sans-serif;
+    }
+    .navbar {
+      background-color: #198754 !important;
+    }
+    .navbar-brand, .nav-link {
+      color: #fff !important;
+    }
+    .header-section {
+      background-color: #198754;
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+    }
+    .footer {
+      background-color: #198754;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+    .table thead {
+      background-color: #198754;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="admin.html">MedVentory</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="admin.html">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="logout.html">Log Out</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <div class="header-section">
+    <h1>Purchase Requests</h1>
+    <p>Review and approve supply requests</p>
+  </div>
+
+  <!-- Main Table -->
+  <div class="container mt-5">
+    <div class="table-responsive">
+      <table class="table table-bordered text-center align-middle">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Item</th>
+            <th>Requested By</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="request-table">
+          <!-- Dynamic rows -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    &copy; 2025 MedVentory. All Rights Reserved.
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    const requests = [
+      { id: "REQ1001", item: "Masks", by: "Dr. Reyes", qty: 100, status: "Pending", date: "2025-04-23" },
+      { id: "REQ1002", item: "Gloves", by: "Nurse Bella", qty: 150, status: "Approved", date: "2025-04-22" },
+      { id: "REQ1003", item: "Sanitizers", by: "Admin Paul", qty: 60, status: "Denied", date: "2025-04-21" },
+      { id: "REQ1004", item: "Thermometers", by: "Dr. Chan", qty: 20, status: "Pending", date: "2025-04-24" }
+    ];
+
+    function getStatusBadge(status) {
+      switch (status) {
+        case "Pending": return `<span class="badge bg-warning text-dark">${status}</span>`;
+        case "Approved": return `<span class="badge bg-success">${status}</span>`;
+        case "Denied": return `<span class="badge bg-danger">${status}</span>`;
+        default: return `<span class="badge bg-secondary">${status}</span>`;
+      }
+    }
+
+    function loadRequests() {
+      const table = document.getElementById("request-table");
+      table.innerHTML = "";
+
+      requests.forEach(req => {
+        const actions = req.status === "Pending" 
+          ? `<button class="btn btn-sm btn-success me-1" onclick="approveRequest('${req.id}')">Approve</button>
+             <button class="btn btn-sm btn-danger" onclick="denyRequest('${req.id}')">Deny</button>`
+          : "—";
+
+        table.innerHTML += `
+          <tr>
+            <td>${req.id}</td>
+            <td>${req.item}</td>
+            <td>${req.by}</td>
+            <td>${req.qty}</td>
+            <td>${getStatusBadge(req.status)}</td>
+            <td>${req.date}</td>
+            <td>${actions}</td>
+          </tr>`;
+      });
+    }
+
+    function approveRequest(id) {
+      alert("Approved request " + id);
+    }
+
+    function denyRequest(id) {
+      alert("Denied request " + id);
+    }
+
+    window.onload = loadRequests;
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

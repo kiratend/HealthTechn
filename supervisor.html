@@ -5,134 +5,782 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supervisor Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #198754;
+            --primary-light: #28a745;
+            --secondary: #f8f9fa;
+            --accent-warning: #ffc107;
+            --accent-danger: #dc3545;
+            --accent-info: #0dcaf0;
+            --text-dark: #212529;
+            --text-light: #f8f9fa;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
         body {
             background-color: #f4f8fb;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+        
         .navbar {
-            background-color: #007bff !important;
+            background-color: var(--primary) !important;
+            box-shadow: var(--shadow);
         }
+        
         .navbar-brand, .nav-link {
-            color: #fff !important;
+            color: var(--text-light) !important;
+            font-weight: 600;
         }
+        
         .hero-section {
-            background: linear-gradient(to right, #007bff, #00bcd4);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
             padding: 60px 0;
             text-align: center;
         }
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border: none;
+        
+        .dashboard-card {
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            height: 100%;
         }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .dashboard-card i {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            border-radius: 50%;
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light)) !important;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        
         .footer {
-            background-color: #007bff;
-            color: white;
+            background-color: var(--primary);
+            color: var(--text-light);
             text-align: center;
             padding: 15px;
             margin-top: 30px;
+        }
+        
+        .btn i {
+            margin-right: 5px;
+        }
+        
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background-color: rgba(25, 135, 84, 0.15);
+            color: var(--primary);
+        }
+        
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.15);
+            color: #ffc107;
+        }
+        
+        /* Notification Styles */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--accent-danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .notification-dropdown {
+            width: 350px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .notification-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        
+        .notification-item.unread {
+            background-color: #f8f9fa;
+        }
+        
+        .notification-item.purchase-request {
+            border-left: 4px solid var(--accent-info);
+        }
+        
+        .notification-item.supply-alert {
+            border-left: 4px solid var(--accent-warning);
+        }
+        
+        .notification-item.budget-approval {
+            border-left: 4px solid var(--accent-danger);
+        }
+        
+        .notification-time {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
+        .notification-priority {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+        
+        .priority-high {
+            background-color: rgba(220, 53, 69, 0.15);
+            color: var(--accent-danger);
+        }
+        
+        .priority-medium {
+            background-color: rgba(255, 193, 7, 0.15);
+            color: var(--accent-warning);
+        }
+        
+        .priority-low {
+            background-color: rgba(13, 110, 253, 0.15);
+            color: #0d6efd;
+        }
+        
+        .notification-actions {
+            margin-top: 8px;
+            display: flex;
+            gap: 5px;
+        }
+        
+        .notification-actions .btn {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 30px 0;
+            }
+            
+            .dashboard-card {
+                margin-bottom: 15px;
+            }
+            
+            .notification-dropdown {
+                width: 300px;
+            }
         }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="#">Supervisor Panel</a>
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-user-shield me-2"></i>Supervisor Panel
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="logout.html">Log Out</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle position-relative" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge" id="notification-count">4</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end notification-dropdown" aria-labelledby="notificationDropdown">
+                            <li class="dropdown-header">Procurement Notifications</li>
+                            <li><hr class="dropdown-divider"></li>
+                            <div id="notification-list">
+                                <!-- Notifications will be populated here by JavaScript -->
+                            </div>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-center" href="#" onclick="markAllAsRead()">Mark all as read</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-user-circle"></i> Supervisor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="logout.html"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
     
     <div class="hero-section">
-        <h1 class="display-4">Supervisor Dashboard</h1>
-        <p class="lead">Monitor and Manage Operations Efficiently</p>
+        <div class="container">
+            <h1 class="display-5 fw-bold">Supervisor Dashboard</h1>
+            <p class="lead mb-0">Monitor and Manage Operations Efficiently</p>
+        </div>
     </div>
     
     <div class="container mt-4">
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <div class="card text-bg-primary text-white text-center p-3">
-                    <i class="fas fa-users card-icon"></i>
-                    <h5>Total Employees</h5>
-                    <p id="total-employees">50</p>
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="dashboard-card bg-success text-white">
+                    <i class="fas fa-users"></i>
+                    <h5 class="mt-2">Total Employees</h5>
+                    <h2 id="total-employees">50</h2>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card text-bg-success text-white text-center p-3">
-                    <i class="fas fa-tasks card-icon"></i>
-                    <h5>Pending Approvals</h5>
-                    <p id="pending-approvals">3</p>
+            <div class="col-md-3">
+                <div class="dashboard-card bg-warning text-dark">
+                    <i class="fas fa-tasks"></i>
+                    <h5 class="mt-2">Pending Approvals</h5>
+                    <h2 id="pending-approvals">3</h2>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card text-bg-warning text-white text-center p-3">
-                    <i class="fas fa-chart-line card-icon"></i>
-                    <h5>Performance Reports</h5>
-                    <p id="performance-reports">7</p>
+            <div class="col-md-3">
+                <div class="dashboard-card bg-info text-white">
+                    <i class="fas fa-chart-line"></i>
+                    <h5 class="mt-2">Performance Reports</h5>
+                    <h2 id="performance-reports">7</h2>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="dashboard-card bg-danger text-white">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h5 class="mt-2">Procurement Requests</h5>
+                    <h2 id="procurement-requests">4</h2>
                 </div>
             </div>
         </div>
         
-        <table class="table table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>Employee</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="supervisor-list"></tbody>
-        </table>
+        <!-- Supply Monitoring Section -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Supply Monitoring</span>
+                <span class="badge bg-light text-dark" id="supply-count">5 items</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Supply Item</th>
+                                <th>Current Stock</th>
+                                <th>Status</th>
+                                <th>Last Ordered</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="supply-list"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         
-        <div class="mt-4">
-            <button class="btn btn-primary" onclick="approveRequest()"><i class="fas fa-check"></i> Approve Requests</button>
-            <button class="btn btn-outline-secondary" onclick="viewReports()"><i class="fas fa-file-alt"></i> View Reports</button>
+        <div class="card shadow-sm mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Employee Management</span>
+                <span class="badge bg-light text-dark" id="employee-count">3 employees</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Employee</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="supervisor-list"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-success" onclick="approveRequest()">
+                <i class="fas fa-check"></i> Approve Requests
+            </button>
+            <button class="btn btn-outline-success" onclick="viewReports()">
+                <i class="fas fa-file-alt"></i> View Reports
+            </button>
+            <button class="btn btn-outline-success" onclick="generateReport()">
+                <i class="fas fa-file-pdf"></i> Generate Report
+            </button>
+            <button class="btn btn-outline-info" onclick="viewAllNotifications()">
+                <i class="fas fa-bell"></i> View All Notifications
+            </button>
+            <button class="btn btn-outline-warning" onclick="monitorSupplies()">
+                <i class="fas fa-boxes"></i> Monitor Supplies
+            </button>
         </div>
     </div>
 
-    <div class="footer">
-        <p>&copy; 2025 Supervisor Panel. All Rights Reserved.</p>
+    <div class="footer mt-5">
+        <p class="mb-0">&copy; 2025 Supervisor Panel. All Rights Reserved.</p>
     </div>
     
     <script>
         let employees = [
             { name: "John Doe", role: "Manager", status: "Active" },
             { name: "Jane Smith", role: "Supervisor", status: "Pending Approval" },
-            { name: "Robert Brown", role: "Technician", status: "Active" }
+            { name: "Robert Brown", role: "Technician", status: "Active" },
+            { name: "Sarah Johnson", role: "Nurse", status: "Pending Approval" },
+            { name: "Michael Williams", role: "Pharmacist", status: "Active" }
+        ];
+
+        let supplies = [
+            { item: "Medical Masks", stock: 120, status: "Adequate", lastOrdered: "2023-10-15" },
+            { item: "Disposable Gloves", stock: 45, status: "Low Stock", lastOrdered: "2023-10-10" },
+            { item: "Syringes", stock: 200, status: "Adequate", lastOrdered: "2023-10-05" },
+            { item: "Sanitizers", stock: 30, status: "Critical", lastOrdered: "2023-10-18" },
+            { item: "Bandages", stock: 85, status: "Adequate", lastOrdered: "2023-10-12" }
+        ];
+
+        let notifications = [
+            {
+                id: 1,
+                title: "Purchase Request Approval Needed",
+                message: "Purchase request PR-2023-0456 for medical supplies requires your approval.",
+                type: "purchase-request",
+                priority: "high",
+                sender: "Procurement Department",
+                timestamp: new Date(Date.now() - 30 * 60 * 1000), // 30 minutes ago
+                read: false,
+                requestId: "PR-2023-0456"
+            },
+            {
+                id: 2,
+                title: "Low Stock Alert",
+                message: "Disposable gloves stock is critically low (45 units). Please approve replenishment.",
+                type: "supply-alert",
+                priority: "high",
+                sender: "Inventory System",
+                timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+                read: false,
+                item: "Disposable Gloves"
+            },
+            {
+                id: 3,
+                title: "Budget Approval Required",
+                message: "Q4 procurement budget exceeding requires supervisor approval.",
+                type: "budget-approval",
+                priority: "medium",
+                sender: "Finance Department",
+                timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000), // 5 hours ago
+                read: false
+            },
+            {
+                id: 4,
+                title: "New Vendor Approval",
+                message: "New supplier MedSupply Pro requires supervisor approval for onboarding.",
+                type: "purchase-request",
+                priority: "medium",
+                sender: "Procurement Department",
+                timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
+                read: false,
+                vendor: "MedSupply Pro"
+            },
+            {
+                id: 5,
+                title: "Monthly Supply Report",
+                message: "October supply consumption report is ready for review.",
+                type: "supply-alert",
+                priority: "low",
+                sender: "Inventory System",
+                timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+                read: true
+            }
         ];
 
         function loadEmployees() {
             let employeeList = document.getElementById("supervisor-list");
             employeeList.innerHTML = "";
+            
             employees.forEach((employee, index) => {
+                let statusClass = employee.status === "Active" ? "status-active" : "status-pending";
+                let statusBadge = `<span class="status-badge ${statusClass}">${employee.status}</span>`;
+                
                 let row = `<tr>
                     <td>${employee.name}</td>
                     <td>${employee.role}</td>
-                    <td>${employee.status}</td>
-                    <td><button class="btn btn-sm btn-outline-primary" onclick="approveEmployee(${index})">Approve</button></td>
+                    <td>${statusBadge}</td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-outline-success me-1" onclick="approveEmployee(${index})" title="Approve">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary me-1" onclick="viewEmployee(${index})" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteEmployee(${index})" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
                 </tr>`;
                 employeeList.innerHTML += row;
             });
+
+            // Update counts
+            document.getElementById("total-employees").textContent = employees.length;
+            document.getElementById("pending-approvals").textContent = employees.filter(emp => emp.status === "Pending Approval").length;
+            document.getElementById("employee-count").textContent = `${employees.length} employees`;
+            document.getElementById("procurement-requests").textContent = notifications.filter(n => !n.read && n.type === "purchase-request").length;
+        }
+
+        function loadSupplies() {
+            let supplyList = document.getElementById("supply-list");
+            supplyList.innerHTML = "";
+            
+            supplies.forEach((supply, index) => {
+                let statusClass = supply.status === "Adequate" ? "status-active" : 
+                                supply.status === "Low Stock" ? "status-pending" : "status-pending";
+                let statusBadge = `<span class="status-badge ${statusClass}">${supply.status}</span>`;
+                
+                let row = `<tr>
+                    <td>${supply.item}</td>
+                    <td>${supply.stock}</td>
+                    <td>${statusBadge}</td>
+                    <td>${supply.lastOrdered}</td>
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-outline-success me-1" onclick="reorderSupply(${index})" title="Reorder">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary me-1" onclick="viewSupply(${index})" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>`;
+                supplyList.innerHTML += row;
+            });
+
+            document.getElementById("supply-count").textContent = `${supplies.length} items`;
+        }
+
+        function loadNotifications() {
+            const notificationList = document.getElementById("notification-list");
+            notificationList.innerHTML = "";
+            
+            // Sort notifications by timestamp (newest first)
+            const sortedNotifications = [...notifications].sort((a, b) => b.timestamp - a.timestamp);
+            
+            // Display only the 5 most recent notifications in the dropdown
+            const recentNotifications = sortedNotifications.slice(0, 5);
+            
+            recentNotifications.forEach(notification => {
+                const timeAgo = getTimeAgo(notification.timestamp);
+                const unreadClass = notification.read ? "" : "unread";
+                const priorityBadge = `<span class="notification-priority priority-${notification.priority}">${notification.priority.toUpperCase()}</span>`;
+                
+                notificationList.innerHTML += `
+                    <li>
+                        <div class="notification-item ${unreadClass} ${notification.type}" onclick="viewNotification(${notification.id})">
+                            <div class="d-flex justify-content-between">
+                                <strong>${notification.title}</strong>
+                                <span class="notification-time">${timeAgo}</span>
+                            </div>
+                            <div class="mt-1">${notification.message}</div>
+                            <div class="d-flex justify-content-between mt-1">
+                                <small><i class="fas fa-user-tie"></i> ${notification.sender}</small>
+                                ${priorityBadge}
+                            </div>
+                            <div class="notification-actions">
+                                <button class="btn btn-sm ${notification.read ? 'btn-outline-secondary' : 'btn-primary'}" onclick="event.stopPropagation(); markAsRead(${notification.id})">
+                                    ${notification.read ? 'Mark as Unread' : 'Mark as Read'}
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); deleteNotification(${notification.id})">
+                                    Delete
+                                </button>
+                                ${notification.requestId ? `<button class="btn btn-sm btn-outline-info" onclick="event.stopPropagation(); viewPurchaseRequest('${notification.requestId}')">
+                                    View Request
+                                </button>` : ''}
+                            </div>
+                        </div>
+                    </li>
+                `;
+            });
+            
+            // Update notification count
+            const unreadCount = notifications.filter(n => !n.read).length;
+            document.getElementById("notification-count").textContent = unreadCount;
+        }
+
+        function getTimeAgo(timestamp) {
+            const now = new Date();
+            const diffMs = now - timestamp;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+            
+            if (diffMins < 1) return "Just now";
+            if (diffMins < 60) return `${diffMins} min ago`;
+            if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+            return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+        }
+
+        function markAsRead(notificationId) {
+            const notification = notifications.find(n => n.id === notificationId);
+            if (notification) {
+                notification.read = !notification.read;
+                loadNotifications();
+                loadEmployees(); // Update procurement request count
+            }
+        }
+
+        function markAllAsRead() {
+            notifications.forEach(notification => {
+                notification.read = true;
+            });
+            loadNotifications();
+            loadEmployees(); // Update procurement request count
+            showAlert("All notifications marked as read", "success");
+        }
+
+        function deleteNotification(notificationId) {
+            notifications = notifications.filter(n => n.id !== notificationId);
+            loadNotifications();
+            loadEmployees(); // Update procurement request count
+            showAlert("Notification deleted", "info");
+        }
+
+        function viewNotification(notificationId) {
+            const notification = notifications.find(n => n.id === notificationId);
+            if (notification) {
+                alert(`Notification Details:\n\nTitle: ${notification.title}\nMessage: ${notification.message}\nFrom: ${notification.sender}\nPriority: ${notification.priority}\nTime: ${notification.timestamp.toLocaleString()}`);
+                if (!notification.read) {
+                    markAsRead(notificationId);
+                }
+            }
+        }
+
+        function viewPurchaseRequest(requestId) {
+            alert(`This would open purchase request ${requestId} details in a real application.`);
+        }
+
+        function viewAllNotifications() {
+            alert("This would open a full notifications page in a real application.");
         }
 
         function approveEmployee(index) {
             employees[index].status = "Active";
             loadEmployees();
+            showAlert(`Employee ${employees[index].name} has been approved.`, "success");
+        }
+        
+        function viewEmployee(index) {
+            alert(`Viewing details for: ${employees[index].name}\nRole: ${employees[index].role}\nStatus: ${employees[index].status}`);
+        }
+        
+        function deleteEmployee(index) {
+            if (confirm(`Are you sure you want to remove ${employees[index].name} from the system?`)) {
+                const removedEmployee = employees[index].name;
+                employees.splice(index, 1);
+                loadEmployees();
+                showAlert(`Employee ${removedEmployee} has been removed.`, "info");
+            }
         }
 
-        function approveRequest() { alert("Processing approvals..."); }
-        function viewReports() { alert("Loading reports..."); }
-        window.onload = loadEmployees;
+        function reorderSupply(index) {
+            supplies[index].stock += 50;
+            supplies[index].lastOrdered = new Date().toISOString().split('T')[0];
+            supplies[index].status = "Adequate";
+            loadSupplies();
+            showAlert(`Successfully reordered ${supplies[index].item}. Stock updated.`, "success");
+        }
+
+        function viewSupply(index) {
+            alert(`Supply Details:\nItem: ${supplies[index].item}\nCurrent Stock: ${supplies[index].stock}\nStatus: ${supplies[index].status}\nLast Ordered: ${supplies[index].lastOrdered}`);
+        }
+
+        function approveRequest() { 
+            const pendingEmployees = employees.filter(emp => emp.status === "Pending Approval");
+            if (pendingEmployees.length === 0) {
+                showAlert("No pending approvals at this time.", "info");
+                return;
+            }
+            
+            if (confirm(`Approve all ${pendingEmployees.length} pending employees?`)) {
+                employees.forEach(emp => {
+                    if (emp.status === "Pending Approval") {
+                        emp.status = "Active";
+                    }
+                });
+                loadEmployees();
+                showAlert("All pending employees have been approved.", "success");
+            }
+        }
+        
+        function viewReports() { 
+            alert("Loading performance reports..."); 
+        }
+        
+        function generateReport() {
+            // Create a comprehensive supervisor report
+            const reportData = {
+                title: "Supervisor Activity Report",
+                generated: new Date().toLocaleDateString(),
+                employees: employees.length,
+                pendingApprovals: employees.filter(emp => emp.status === "Pending Approval").length,
+                supplies: supplies.length,
+                lowStockItems: supplies.filter(s => s.status !== "Adequate").length,
+                notifications: notifications.filter(n => !n.read).length
+            };
+            
+            const reportSummary = `
+Supervisor Activity Report:
+Generated: ${reportData.generated}
+
+Employee Summary:
+- Total Employees: ${reportData.employees}
+- Pending Approvals: ${reportData.pendingApprovals}
+
+Supply Summary:
+- Total Supply Items: ${reportData.supplies}
+- Low/Critical Stock Items: ${reportData.lowStockItems}
+
+Notifications:
+- Unread Notifications: ${reportData.notifications}
+            `;
+            
+            alert("Supervisor Report Generated Successfully!\n\n" + reportSummary);
+            showAlert("Supervisor report generated successfully!", "success");
+        }
+
+        function monitorSupplies() {
+            const lowStockItems = supplies.filter(s => s.status !== "Adequate");
+            if (lowStockItems.length === 0) {
+                showAlert("All supplies are at adequate levels.", "info");
+                return;
+            }
+            
+            let alertMessage = "Low Stock Items:\n\n";
+            lowStockItems.forEach(item => {
+                alertMessage += `${item.item}: ${item.stock} units (${item.status})\n`;
+            });
+            
+            alert(alertMessage);
+        }
+        
+        function showAlert(message, type) {
+            // Remove any existing alerts
+            const existingAlert = document.querySelector('.alert');
+            if (existingAlert) {
+                existingAlert.remove();
+            }
+            
+            // Create alert element
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            // Add alert to page
+            document.querySelector('.container').prepend(alertDiv);
+            
+            // Auto-dismiss after 3 seconds
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.classList.remove('show');
+                    setTimeout(() => alertDiv.remove(), 150);
+                }
+            }, 3000);
+        }
+
+        // Simulate receiving new notifications
+        function simulateNewNotification() {
+            const types = ["purchase-request", "supply-alert", "budget-approval"];
+            const priorities = ["high", "medium", "low"];
+            const senders = ["Procurement Department", "Inventory System", "Finance Department"];
+            const titles = {
+                "purchase-request": ["Purchase Request Approval Needed", "New Vendor Approval", "Contract Renewal Request"],
+                "supply-alert": ["Low Stock Alert", "Supply Shortage Warning", "Monthly Supply Report"],
+                "budget-approval": ["Budget Approval Required", "Expense Authorization", "Financial Review Needed"]
+            };
+            
+            const type = types[Math.floor(Math.random() * types.length)];
+            const priority = priorities[Math.floor(Math.random() * priorities.length)];
+            const sender = senders[Math.floor(Math.random() * senders.length)];
+            const title = titles[type][Math.floor(Math.random() * titles[type].length)];
+            
+            const messages = {
+                "purchase-request": [
+                    "Purchase request PR-2023-0462 for emergency supplies requires immediate approval.",
+                    "New supplier BioMed Supplies requires supervisor approval for vendor registration.",
+                    "Annual contract renewal with Global Health Ltd. needs your authorization."
+                ],
+                "supply-alert": [
+                    "Medical masks stock is below minimum threshold (80 units). Replenishment needed.",
+                    "Critical supply shortage detected in surgical equipment. Immediate action required.",
+                    "Monthly supply consumption report shows 15% increase in usage."
+                ],
+                "budget-approval": [
+                    "Department budget for Q1 requires supervisor approval before processing.",
+                    "Expense authorization needed for emergency procurement exceeding $10,000 limit.",
+                    "Financial review of procurement activities for last quarter is pending."
+                ]
+            };
+            
+            const message = messages[type][Math.floor(Math.random() * messages[type].length)];
+            
+            const newNotification = {
+                id: notifications.length > 0 ? Math.max(...notifications.map(n => n.id)) + 1 : 1,
+                title: title,
+                message: message,
+                type: type,
+                priority: priority,
+                sender: sender,
+                timestamp: new Date(),
+                read: false
+            };
+            
+            notifications.unshift(newNotification);
+            loadNotifications();
+            loadEmployees(); // Update procurement request count
+            
+            // Show a toast notification
+            showAlert(`New notification from ${sender}: ${title}`, "info");
+        }
+
+        window.onload = function() {
+            loadEmployees();
+            loadSupplies();
+            loadNotifications();
+            
+            // Simulate receiving a new notification every 45 seconds for demo purposes
+            setInterval(simulateNewNotification, 45000);
+        };
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

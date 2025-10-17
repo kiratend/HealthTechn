@@ -1,89 +1,472 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - MedVentory</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-      body {
-          background-color: #f4f8fb;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home | MedVentory</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Firebase Integration -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCTfRRVc-QRKpEpzIpe3OtI2cYeotP1WCs",
+      authDomain: "healthtechn-c15da.firebaseapp.com",
+      databaseURL: "https://healthtechn-c15da-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "healthtechn-c15da",
+      storageBucket: "healthtechn-c15da.appspot.com",
+      messagingSenderId: "508561693923",
+      appId: "1:508561693923:web:d5ce35934eded8ff50f9d6"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('appointment-form');
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const date = document.getElementById('date').value;
+        const message = document.getElementById('message').value;
+
+        try {
+          const appointmentsRef = ref(database, 'appointments');
+          const newAppointmentRef = push(appointmentsRef);
+          await set(newAppointmentRef, { name, email, date, message });
+
+          alert("Appointment booked successfully!");
+          form.reset();
+          const modal = bootstrap.Modal.getInstance(document.getElementById('appointmentModal'));
+          modal.hide();
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Something went wrong. Please try again.");
+        }
+      });
+    });
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+    }
+
+    .navbar {
+      background-color: #00703c;
+      padding: 12px 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      color: white !important;
+      font-size: 1.5rem;
+    }
+
+    .navbar-brand span {
+      color: #87e2ff;
+    }
+
+    .nav-link {
+      color: white !important;
+      font-weight: 500;
+      padding: 0.5rem 1rem !important;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+      transform: translateY(-2px);
+    }
+
+    .hero {
+      background: linear-gradient(rgba(0, 112, 60, 0.7), rgba(0, 112, 60, 0.5)), 
+                  url('https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80') no-repeat center center;
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      color: white;
+      padding: 40px 20px;
+      position: relative;
+    }
+
+    .hero-content {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      max-width: 550px;
+      border-radius: 12px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+      color: #333;
+      margin-left: 10%;
+    }
+
+    .hero-content h2 {
+      color: #00703c;
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+    }
+
+    .hero-content p {
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+      color: #555;
+    }
+
+    .btn-light-outline {
+      background-color: transparent;
+      border: 2px solid #00703c;
+      color: #00703c;
+      font-weight: bold;
+      padding: 12px 25px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-light-outline:hover {
+      background-color: #00703c;
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 112, 60, 0.3);
+    }
+
+    .mission-vision {
+      padding: 80px 0;
+      background-color: #f8f9fa;
+    }
+
+    .mission-vision h2 {
+      color: #00703c;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .mission-vision .card {
+      border: none;
+      border-radius: 12px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+    }
+
+    .mission-vision .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .mission-vision .card h3 {
+      color: #00703c;
+      font-weight: 600;
+    }
+
+    .features {
+      padding: 80px 0;
+      background-color: white;
+    }
+
+    .feature-box {
+      text-align: center;
+      padding: 30px 20px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      height: 100%;
+    }
+
+    .feature-box:hover {
+      background-color: #f0f9f4;
+      transform: translateY(-5px);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      color: #00703c;
+      margin-bottom: 20px;
+    }
+
+    .testimonials {
+      padding: 80px 0;
+      background-color: #f8f9fa;
+    }
+
+    .testimonial-card {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      margin: 15px 0;
+    }
+
+    .testimonial-text {
+      font-style: italic;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .testimonial-author {
+      font-weight: 600;
+      color: #00703c;
+    }
+
+    .footer {
+      background-color: #00703c;
+      color: white;
+      text-align: center;
+      padding: 40px 10px;
+    }
+
+    .footer a {
+      color: #c2fbd8;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+
+    .social-icons {
+      margin: 20px 0;
+    }
+
+    .social-icons a {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border-radius: 50%;
+      margin: 0 8px;
+      transition: all 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      background: white;
+      color: #00703c;
+      transform: translateY(-5px);
+    }
+
+    .modal-content {
+      border-radius: 12px;
+      border: none;
+    }
+
+    .modal-header {
+      background-color: #00703c;
+      color: white;
+      border-radius: 12px 12px 0 0;
+    }
+
+    .btn-close {
+      filter: invert(1);
+    }
+
+    @media (max-width: 768px) {
+      .hero-content {
+        margin-left: 0;
+        padding: 25px;
       }
-      .navbar {
-          background-color: #003366;
+      
+      .hero-content h2 {
+        font-size: 1.8rem;
       }
-      .navbar-brand, .nav-link {
-          color: white !important;
-      }
-      .hero-section {
-          background-color: #003366;
-          color: white;
-          text-align: center;
-          padding: 80px 20px;
-      }
-      .service-card {
-          background: white;
-          padding: 20px;
-          border-radius: 10px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-          text-align: center;
-      }
-      .footer {
-          background-color: #003366;
-          color: white;
-          text-align: center;
-          padding: 15px;
-          margin-top: 30px;
-      }
+    }
   </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="index.html">MedVentory</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav ms-auto">
-                  <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                  <li class="nav-item"><a class="nav-link" href="appointment.html">Appointment</a></li>
-                  <li class="nav-item"><a class="nav-link" href="supply.html">Supply</a></li>
-                  <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
-                  <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-              </ul>
-          </div>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html"><i class="fas fa-stethoscope me-2"></i>Med<span>Ventory</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="index.html"><i class="fas fa-home me-1"></i>Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="supply.html"><i class="fas fa-boxes me-1"></i>Supply</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html"><i class="fas fa-phone me-1"></i>Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html"><i class="fas fa-sign-in-alt me-1"></i>Login</a></li>
+        </ul>
       </div>
-    </nav>
-    
-    <div class="hero-section">
-        <h1>Welcome to MedVentory</h1>
-        <p>Your trusted medical inventory and appointment management system.</p>
-        <a href="appointment.html" class="btn btn-light btn-lg">Book an Appointment</a>
     </div>
-    
-    <div class="container mt-5">
-        <h2 class="text-center">Our Services</h2>
-        <div class="row mt-4">
-            <div class="col-md-4 text-center">
-                <h4>Medical Supplies</h4>
-                <p>Browse and manage available medical supplies efficiently.</p>
-            </div>
-            <div class="col-md-4 text-center">
-                <h4>Appointments</h4>
-                <p>Schedule and manage patient appointments with ease.</p>
-            </div>
-            <div class="col-md-4 text-center">
-                <h4>Customer Support</h4>
-                <p>Get assistance for any issues or inquiries.</p>
-            </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2><strong><i class="fas fa-notes-medical me-2"></i>Medical Equipment Supplies & Consumables</strong></h2>
+      <p>MedVentory is a world-class choice for medical supplies and inventory management. With an expanding range of products and a dedicated team to support healthcare providers.</p>
+      <button class="btn btn-light-outline mt-3" data-bs-toggle="modal" data-bs-target="#appointmentModal">
+        <i class="fas fa-calendar-check me-1"></i>Book Appointment
+      </button>
+    </div>
+  </section>
+
+  <!-- Mission and Vision Section -->
+  <section class="mission-vision">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold"><i class="fas fa-hands-helping me-2"></i>Our Mission & Vision</h2>
+        <p class="text-muted">Guiding our purpose and direction in transforming healthcare supply systems.</p>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <div class="card p-4 h-100">
+            <h3 class="mb-3"><i class="fas fa-bullseye me-2 text-success"></i>Mission</h3>
+            <p class="text-dark">To provide accessible, reliable, and efficient medical inventory solutions that empower healthcare providers to deliver timely and quality care to patients in need.</p>
+          </div>
         </div>
+        <div class="col-md-6 mb-4">
+          <div class="card p-4 h-100">
+            <h3 class="mb-3"><i class="fas fa-eye me-2 text-success"></i>Vision</h3>
+            <p class="text-dark">To be the leading digital platform in medical supply management, transforming healthcare logistics through innovation and technology for a healthier world.</p>
+          </div>
+        </div>
+      </div>
     </div>
-    
-    <footer class="footer">
-        <p>&copy; 2025 MedVentory | Contact: info@medventory.com | Phone: +123 456 7890</p>
-    </footer>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold text-success"><i class="fas fa-star me-2"></i>Why Choose MedVentory</h2>
+        <p class="text-muted">We provide comprehensive solutions for all your medical supply needs</p>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="feature-box">
+            <div class="feature-icon">
+              <i class="fas fa-shipping-fast"></i>
+            </div>
+            <h4>Fast Delivery</h4>
+            <p>We guarantee quick and reliable delivery to ensure you never run out of essential supplies.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="feature-box">
+            <div class="feature-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <h4>Quality Products</h4>
+            <p>All our products are sourced from reputable manufacturers and meet strict quality standards.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="feature-box">
+            <div class="feature-icon">
+              <i class="fas fa-headset"></i>
+            </div>
+            <h4>24/7 Support</h4>
+            <p>Our customer support team is available around the clock to assist with your needs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold text-success"><i class="fas fa-comments me-2"></i>What Our Clients Say</h2>
+        <p class="text-muted">Hear from healthcare professionals who use our services</p>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <p class="testimonial-text">"MedVentory has transformed how we manage our medical supplies. The inventory system is intuitive and has saved us countless hours."</p>
+            <p class="testimonial-author">- Dr. Sarah Johnson, City Hospital</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <p class="testimonial-text">"The quality of their products is exceptional, and their delivery is always on time. Highly recommended for any healthcare facility."</p>
+            <p class="testimonial-author">- Michael Tan, Clinic Manager</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="testimonial-card">
+            <p class="testimonial-text">"Their customer support team went above and beyond to help us during an emergency shortage. Truly a lifesaver!"</p>
+            <p class="testimonial-author">- Nurse Emily Rodriguez</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Appointment Modal -->
+  <div class="modal fade" id="appointmentModal" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="appointment-form">
+          <div class="modal-header">
+            <h5 class="modal-title" id="appointmentModalLabel"><i class="fas fa-calendar-plus me-2"></i>Book an Appointment</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="name" class="form-label">Your Name</label>
+              <input type="text" class="form-control" id="name" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Your Email</label>
+              <input type="email" class="form-control" id="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="date" class="form-label">Preferred Date</label>
+              <input type="date" class="form-control" id="date" required>
+            </div>
+            <div class="mb-3">
+              <label for="message" class="form-label">Additional Notes</label>
+              <textarea class="form-control" id="message" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success w-100">
+              <i class="fas fa-paper-plane me-1"></i>Book Now
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <h5><i class="fas fa-stethoscope me-2"></i>MedVentory</h5>
+          <p>Your trusted partner in medical supplies and inventory management.</p>
+        </div>
+        <div class="col-md-4 mb-4">
+          <h5>Quick Links</h5>
+          <p><a href="index.html">Home</a> | <a href="supply.html">Supply</a> | <a href="contact.html">Contact</a></p>
+        </div>
+        <div class="col-md-4 mb-4">
+          <h5>Contact Us</h5>
+          <p><i class="fas fa-envelope me-1"></i> <a href="mailto:support@healthtechcorp.com">support@healthtechcorp.com</a></p>
+          <p><i class="fas fa-phone me-1"></i> +1 (234) 567-890</p>
+        </div>
+      </div>
+      <hr>
+      <p>&copy; 2025 HealthTech Corp. All Rights Reserved.</p>
+      <p><a href="#"><i class="fas fa-user-shield me-1"></i>Privacy Policy</a> | <a href="#"><i class="fas fa-file-contract me-1"></i>Terms</a></p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

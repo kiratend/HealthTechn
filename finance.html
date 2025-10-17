@@ -1,155 +1,854 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finance Management</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <style>
-        body {
-            background-color: #f4f8fb;
-            font-family: Arial, sans-serif;
-        }
-        .navbar {
-            background-color: #007bff !important;
-        }
-        .navbar-brand, .nav-link {
-            color: #fff !important;
-        }
-        .hero-section {
-            background: linear-gradient(to right, #007bff, #00bcd4);
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-        }
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border: none;
-        }
-        .footer {
-            background-color: #007bff;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            margin-top: 30px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Finance Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #198754;
+      --primary-light: #28a745;
+      --secondary: #f8f9fa;
+      --accent-warning: #ffc107;
+      --accent-danger: #dc3545;
+      --accent-info: #0dcaf0;
+      --text-dark: #212529;
+      --text-light: #f8f9fa;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    body {
+      background-color: #f4f8fb;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .navbar {
+      background-color: var(--primary) !important;
+      box-shadow: var(--shadow);
+    }
+    
+    .navbar-brand, .nav-link {
+      color: var(--text-light) !important;
+      font-weight: 600;
+    }
+    
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      padding: 60px 0;
+      text-align: center;
+    }
+    
+    .dashboard-card {
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 25px;
+      text-align: center;
+      transition: transform 0.3s ease;
+      height: 100%;
+    }
+    
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .dashboard-card i {
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+      background: rgba(255, 255, 255, 0.2);
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      border-radius: 50%;
+    }
+    
+    .card-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light)) !important;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+    
+    .footer {
+      background-color: var(--primary);
+      color: var(--text-light);
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+    }
+    
+    .btn i {
+      margin-right: 5px;
+    }
+    
+    .table th, .table td {
+      vertical-align: middle;
+    }
+    
+    .search-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    
+    .search-container i {
+      position: absolute;
+      left: 15px;
+      top: 12px;
+      color: #6c757d;
+    }
+    
+    .search-input {
+      padding-left: 40px;
+      border-radius: 25px;
+    }
+    
+    .type-revenue {
+      background-color: rgba(25, 135, 84, 0.1) !important;
+    }
+    
+    .type-expense {
+      background-color: rgba(220, 53, 69, 0.1) !important;
+    }
+    
+    .badge-revenue {
+      background-color: var(--primary);
+    }
+    
+    .badge-expense {
+      background-color: var(--accent-danger);
+    }
+    
+    .filter-buttons {
+      margin-bottom: 15px;
+    }
+    
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    /* Notification Styles */
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: var(--accent-danger);
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .notification-dropdown {
+      width: 350px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .notification-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+    
+    .notification-item:last-child {
+      border-bottom: none;
+    }
+    
+    .notification-item.unread {
+      background-color: #f8f9fa;
+    }
+    
+    .notification-item.purchase-order {
+      border-left: 4px solid var(--accent-info);
+    }
+    
+    .notification-item.payment-reminder {
+      border-left: 4px solid var(--accent-warning);
+    }
+    
+    .notification-item.budget-alert {
+      border-left: 4px solid var(--accent-danger);
+    }
+    
+    .notification-time {
+      font-size: 0.8rem;
+      color: #6c757d;
+    }
+    
+    .notification-priority {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: bold;
+      margin-left: 5px;
+    }
+    
+    .priority-high {
+      background-color: rgba(220, 53, 69, 0.15);
+      color: var(--accent-danger);
+    }
+    
+    .priority-medium {
+      background-color: rgba(255, 193, 7, 0.15);
+      color: var(--accent-warning);
+    }
+    
+    .priority-low {
+      background-color: rgba(13, 110, 253, 0.15);
+      color: #0d6efd;
+    }
+    
+    .notification-actions {
+      margin-top: 8px;
+      display: flex;
+      gap: 5px;
+    }
+    
+    .notification-actions .btn {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+    }
+    
+    @media (max-width: 768px) {
+      .hero-section {
+        padding: 30px 0;
+      }
+      
+      .dashboard-card {
+        margin-bottom: 15px;
+      }
+      
+      .action-buttons .btn {
+        width: 100%;
+        margin-bottom: 5px;
+      }
+      
+      .notification-dropdown {
+        width: 300px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="#">FinTrack</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="logout.html">Log Out</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    
-    <div class="hero-section">
-        <h1 class="display-4">Finance Management</h1>
-        <p class="lead">Keeping Your Finances in Check</p>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-chart-line me-2"></i>FinTrack
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle position-relative" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-bell"></i>
+              <span class="notification-badge" id="notification-count">3</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end notification-dropdown" aria-labelledby="notificationDropdown">
+              <li class="dropdown-header">Purchase Order Notifications</li>
+              <li><hr class="dropdown-divider"></li>
+              <div id="notification-list">
+                <!-- Notifications will be populated here by JavaScript -->
+              </div>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-center" href="#" onclick="markAllAsRead()">Mark all as read</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-user-circle"></i> Finance Manager</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="logout.html"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+          </li>
+        </ul>
+      </div>
     </div>
-    
-    <div class="container mt-4">
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <div class="card text-bg-primary text-white text-center p-3">
-                    <i class="fas fa-dollar-sign card-icon"></i>
-                    <h5>Total Revenue</h5>
-                    <p id="total-revenue">$50,000</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card text-bg-success text-white text-center p-3">
-                    <i class="fas fa-coins card-icon"></i>
-                    <h5>Expenses</h5>
-                    <p id="total-expenses">$20,000</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card text-bg-warning text-white text-center p-3">
-                    <i class="fas fa-balance-scale card-icon"></i>
-                    <h5>Net Profit</h5>
-                    <p id="net-profit">$30,000</p>
-                </div>
-            </div>
+  </nav>
+
+  <div class="hero-section">
+    <div class="container">
+      <h1 class="display-5 fw-bold">Finance Management</h1>
+      <p class="lead mb-0">Keeping Your Finances in Check</p>
+    </div>
+  </div>
+
+  <div class="container mt-4">
+    <div class="row g-4 mb-4">
+      <div class="col-md-4">
+        <div class="dashboard-card bg-success text-white">
+          <i class="fas fa-dollar-sign"></i>
+          <h5 class="mt-2">Total Revenue</h5>
+          <h2 id="total-revenue">$0</h2>
         </div>
-        
-        <table class="table table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>Date</th>
-                    <th>Description</th>
-                    <th>Amount</th>
-                    <th>Type</th>
-                    <th>Actions</th>
-                </tr>
+      </div>
+      <div class="col-md-4">
+        <div class="dashboard-card bg-danger text-white">
+          <i class="fas fa-coins"></i>
+          <h5 class="mt-2">Expenses</h5>
+          <h2 id="total-expenses">$0</h2>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="dashboard-card bg-info text-white">
+          <i class="fas fa-balance-scale"></i>
+          <h5 class="mt-2">Net Profit</h5>
+          <h2 id="net-profit">$0</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search and Filter Section -->
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="search-container">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" class="form-control search-input" placeholder="Search transactions...">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="filter-buttons d-flex justify-content-end gap-2">
+          <button class="btn btn-outline-success btn-sm" onclick="filterTransactions('all')">
+            <i class="fas fa-list"></i> All
+          </button>
+          <button class="btn btn-outline-success btn-sm" onclick="filterTransactions('revenue')">
+            <i class="fas fa-arrow-up"></i> Revenue
+          </button>
+          <button class="btn btn-outline-danger btn-sm" onclick="filterTransactions('expense')">
+            <i class="fas fa-arrow-down"></i> Expenses
+          </button>
+          <button class="btn btn-outline-primary btn-sm" onclick="sortTransactions('date')">
+            <i class="fas fa-sort-numeric-down"></i> Sort by Date
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Finance Table -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Transaction History</span>
+        <span class="badge bg-light text-dark" id="table-count">0 transactions</span>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th class="text-center">Actions</th>
+              </tr>
             </thead>
             <tbody id="finance-list"></tbody>
-        </table>
-        
-        <div class="mt-4">
-            <button class="btn btn-primary" onclick="addTransaction()"><i class="fas fa-plus"></i> Add Transaction</button>
-            <button class="btn btn-outline-secondary" onclick="generateReport()"><i class="fas fa-file-alt"></i> Generate Report</button>
+          </table>
         </div>
+      </div>
     </div>
 
-    <div class="footer">
-        <p>&copy; 2025 FinTrack. All Rights Reserved.</p>
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn btn-success" onclick="addTransaction()">
+        <i class="fas fa-plus"></i> Add Transaction
+      </button>
+      <button class="btn btn-outline-success" onclick="generateReport()">
+        <i class="fas fa-file-alt"></i> Generate Report
+      </button>
+      <button class="btn btn-outline-success" onclick="exportData()">
+        <i class="fas fa-download"></i> Export Data
+      </button>
+      <button class="btn btn-outline-info" onclick="viewAllNotifications()">
+        <i class="fas fa-bell"></i> View All Notifications
+      </button>
     </div>
+  </div>
+
+  <div class="footer mt-5">
+    <p class="mb-0">&copy; 2025 FinTrack. All Rights Reserved.</p>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // TODO: Replace with your own Firebase config
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const transactionsRef = db.collection("transactions");
     
-    <script>
-        let transactions = [
-            { date: "2025-04-01", description: "Product Sales", amount: 10000, type: "Revenue" },
-            { date: "2025-04-02", description: "Supplier Payment", amount: 5000, type: "Expense" },
-            { date: "2025-04-03", description: "Service Fee", amount: 3000, type: "Expense" }
-        ];
+    // Notifications data
+    let notifications = [
+      {
+        id: 1,
+        title: "Purchase Order Approval Required",
+        message: "Purchase order PO-2023-0456 for $12,500 requires your financial approval.",
+        type: "purchase-order",
+        priority: "high",
+        sender: "Procurement Department",
+        timestamp: new Date(Date.now() - 30 * 60 * 1000), // 30 minutes ago
+        read: false,
+        orderId: "PO-2023-0456"
+      },
+      {
+        id: 2,
+        title: "Payment Due Reminder",
+        message: "Payment for vendor MedSupplies Co. is due in 3 days. Amount: $8,250",
+        type: "payment-reminder",
+        priority: "medium",
+        sender: "Accounts Payable",
+        timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+        read: false,
+        vendor: "MedSupplies Co."
+      },
+      {
+        id: 3,
+        title: "Budget Overrun Alert",
+        message: "Q4 procurement budget has been exceeded by 15%. Review required.",
+        type: "budget-alert",
+        priority: "high",
+        sender: "Finance Director",
+        timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000), // 5 hours ago
+        read: false
+      },
+      {
+        id: 4,
+        title: "New Purchase Order Received",
+        message: "Purchase order PO-2023-0457 for $5,200 has been submitted for review.",
+        type: "purchase-order",
+        priority: "medium",
+        sender: "Procurement Department",
+        timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
+        read: true,
+        orderId: "PO-2023-0457"
+      },
+      {
+        id: 5,
+        title: "Quarterly Financial Report",
+        message: "Q3 financial report is ready for your review and approval.",
+        type: "budget-alert",
+        priority: "low",
+        sender: "Finance Team",
+        timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+        read: true
+      }
+    ];
 
-        function loadFinance() {
-            let financeList = document.getElementById("finance-list");
-            financeList.innerHTML = "";
-            transactions.forEach((transaction, index) => {
-                let row = `<tr>
-                    <td>${transaction.date}</td>
-                    <td>${transaction.description}</td>
-                    <td>$${transaction.amount}</td>
-                    <td>${transaction.type}</td>
-                    <td><button class="btn btn-sm btn-outline-primary" onclick="editTransaction(${index})">Edit</button></td>
-                </tr>`;
-                financeList.innerHTML += row;
-            });
+    // Update totals on the cards
+    function updateTotals(transactions) {
+      let totalRevenue = 0;
+      let totalExpenses = 0;
+
+      transactions.forEach(t => {
+        if (t.type.toLowerCase() === "revenue") {
+          totalRevenue += t.amount;
+        } else if (t.type.toLowerCase() === "expense") {
+          totalExpenses += t.amount;
         }
+      });
 
-        function addTransaction() {
-            let date = prompt("Enter transaction date (YYYY-MM-DD):");
-            let description = prompt("Enter transaction description:");
-            let amount = prompt("Enter amount:");
-            let type = prompt("Enter type (Revenue/Expense):");
-            if (date && description && amount && type) {
-                transactions.push({ date, description, amount: parseFloat(amount), type });
-                loadFinance();
-            }
+      const netProfit = totalRevenue - totalExpenses;
+      
+      document.getElementById("total-revenue").textContent = `$${totalRevenue.toLocaleString()}`;
+      document.getElementById("total-expenses").textContent = `$${totalExpenses.toLocaleString()}`;
+      document.getElementById("net-profit").textContent = `$${netProfit.toLocaleString()}`;
+      document.getElementById("net-profit").parentElement.parentElement.style.backgroundColor = 
+        netProfit >= 0 ? 'var(--primary)' : 'var(--accent-danger)';
+    }
+
+    function loadFinance() {
+      let financeList = document.getElementById("finance-list");
+      financeList.innerHTML = "";
+
+      transactionsRef.get().then(snapshot => {
+        let transactions = [];
+        snapshot.forEach(doc => {
+          const transaction = doc.data();
+          transaction.id = doc.id;
+          transactions.push(transaction);
+          
+          const typeClass = transaction.type.toLowerCase() === "revenue" ? "type-revenue" : "type-expense";
+          const badgeClass = transaction.type.toLowerCase() === "revenue" ? "badge-revenue" : "badge-expense";
+          
+          let row = `<tr class="${typeClass}">
+              <td>${transaction.date}</td>
+              <td>${transaction.description}</td>
+              <td>$${transaction.amount.toLocaleString()}</td>
+              <td><span class="badge ${badgeClass}">${transaction.type}</span></td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-outline-primary me-1" onclick="editTransaction('${doc.id}')" title="Edit">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteTransaction('${doc.id}')" title="Delete">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>`;
+          financeList.innerHTML += row;
+        });
+        updateTotals(transactions);
+        document.getElementById("table-count").textContent = `${transactions.length} transactions`;
+      }).catch(error => {
+        showAlert("Error loading transactions: " + error.message, "danger");
+      });
+    }
+
+    function loadNotifications() {
+      const notificationList = document.getElementById("notification-list");
+      notificationList.innerHTML = "";
+      
+      // Sort notifications by timestamp (newest first)
+      const sortedNotifications = [...notifications].sort((a, b) => b.timestamp - a.timestamp);
+      
+      // Display only the 5 most recent notifications in the dropdown
+      const recentNotifications = sortedNotifications.slice(0, 5);
+      
+      recentNotifications.forEach(notification => {
+        const timeAgo = getTimeAgo(notification.timestamp);
+        const unreadClass = notification.read ? "" : "unread";
+        const priorityBadge = `<span class="notification-priority priority-${notification.priority}">${notification.priority.toUpperCase()}</span>`;
+        
+        notificationList.innerHTML += `
+          <li>
+            <div class="notification-item ${unreadClass} ${notification.type}" onclick="viewNotification(${notification.id})">
+              <div class="d-flex justify-content-between">
+                <strong>${notification.title}</strong>
+                <span class="notification-time">${timeAgo}</span>
+              </div>
+              <div class="mt-1">${notification.message}</div>
+              <div class="d-flex justify-content-between mt-1">
+                <small><i class="fas fa-user-tie"></i> ${notification.sender}</small>
+                ${priorityBadge}
+              </div>
+              <div class="notification-actions">
+                <button class="btn btn-sm ${notification.read ? 'btn-outline-secondary' : 'btn-primary'}" onclick="event.stopPropagation(); markAsRead(${notification.id})">
+                  ${notification.read ? 'Mark as Unread' : 'Mark as Read'}
+                </button>
+                <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); deleteNotification(${notification.id})">
+                  Delete
+                </button>
+                ${notification.orderId ? `<button class="btn btn-sm btn-outline-info" onclick="event.stopPropagation(); viewPurchaseOrder('${notification.orderId}')">
+                  View PO
+                </button>` : ''}
+              </div>
+            </div>
+          </li>
+        `;
+      });
+      
+      // Update notification count
+      const unreadCount = notifications.filter(n => !n.read).length;
+      document.getElementById("notification-count").textContent = unreadCount;
+    }
+
+    function getTimeAgo(timestamp) {
+      const now = new Date();
+      const diffMs = now - timestamp;
+      const diffMins = Math.floor(diffMs / 60000);
+      const diffHours = Math.floor(diffMs / 3600000);
+      const diffDays = Math.floor(diffMs / 86400000);
+      
+      if (diffMins < 1) return "Just now";
+      if (diffMins < 60) return `${diffMins} min ago`;
+      if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+      return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    }
+
+    function markAsRead(notificationId) {
+      const notification = notifications.find(n => n.id === notificationId);
+      if (notification) {
+        notification.read = !notification.read;
+        loadNotifications();
+      }
+    }
+
+    function markAllAsRead() {
+      notifications.forEach(notification => {
+        notification.read = true;
+      });
+      loadNotifications();
+      showAlert("All notifications marked as read", "success");
+    }
+
+    function deleteNotification(notificationId) {
+      notifications = notifications.filter(n => n.id !== notificationId);
+      loadNotifications();
+      showAlert("Notification deleted", "info");
+    }
+
+    function viewNotification(notificationId) {
+      const notification = notifications.find(n => n.id === notificationId);
+      if (notification) {
+        alert(`Notification Details:\n\nTitle: ${notification.title}\nMessage: ${notification.message}\nFrom: ${notification.sender}\nPriority: ${notification.priority}\nTime: ${notification.timestamp.toLocaleString()}`);
+        if (!notification.read) {
+          markAsRead(notificationId);
         }
+      }
+    }
 
-        function editTransaction(index) {
-            let newAmount = prompt("Enter new amount:", transactions[index].amount);
-            if (newAmount) {
-                transactions[index].amount = parseFloat(newAmount);
-                loadFinance();
-            }
-        }
+    function viewPurchaseOrder(orderId) {
+      alert(`This would open purchase order ${orderId} details in a real application.`);
+    }
 
-        function generateReport() { alert("Generating Financial Report..."); }
-        window.onload = loadFinance;
-    </script>
+    function viewAllNotifications() {
+      alert("This would open a full notifications page in a real application.");
+    }
+
+    function addTransaction() {
+      const date = prompt("Enter transaction date (YYYY-MM-DD):", new Date().toISOString().split('T')[0]);
+      if (!date) return;
+      
+      const description = prompt("Enter transaction description:");
+      if (!description) return;
+      
+      const amount = prompt("Enter amount:");
+      if (!amount || isNaN(amount)) {
+        showAlert("Please enter a valid amount.", "danger");
+        return;
+      }
+      
+      const type = prompt("Enter type (Revenue/Expense):");
+      if (!type || (type.toLowerCase() !== "revenue" && type.toLowerCase() !== "expense")) {
+        showAlert("Please enter either 'Revenue' or 'Expense'.", "danger");
+        return;
+      }
+      
+      transactionsRef.add({
+        date,
+        description,
+        amount: parseFloat(amount),
+        type: type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()
+      }).then(() => {
+        loadFinance();
+        showAlert("Transaction added successfully!", "success");
+      }).catch(error => {
+        showAlert("Error adding transaction: " + error.message, "danger");
+      });
+    }
+
+    function editTransaction(docId) {
+      const newAmount = prompt("Enter new amount:");
+      if (newAmount && !isNaN(newAmount)) {
+        transactionsRef.doc(docId).update({
+          amount: parseFloat(newAmount)
+        }).then(() => {
+          loadFinance();
+          showAlert("Transaction updated successfully!", "success");
+        }).catch(error => {
+          showAlert("Error updating transaction: " + error.message, "danger");
+        });
+      } else {
+        showAlert("Please enter a valid amount.", "danger");
+      }
+    }
+
+    function deleteTransaction(docId) {
+      if (confirm("Are you sure you want to delete this transaction?")) {
+        transactionsRef.doc(docId).delete().then(() => {
+          loadFinance();
+          showAlert("Transaction deleted successfully!", "info");
+        }).catch(error => {
+          showAlert("Error deleting transaction: " + error.message, "danger");
+        });
+      }
+    }
+
+    function generateReport() {
+      // Create a financial report
+      const reportData = {
+        title: "Financial Report",
+        generated: new Date().toLocaleDateString(),
+        transactions: [],
+        summary: {}
+      };
+      
+      // Get transactions for the report
+      transactionsRef.get().then(snapshot => {
+        let totalRevenue = 0;
+        let totalExpenses = 0;
+        
+        snapshot.forEach(doc => {
+          const transaction = doc.data();
+          reportData.transactions.push(transaction);
+          
+          if (transaction.type.toLowerCase() === "revenue") {
+            totalRevenue += transaction.amount;
+          } else if (transaction.type.toLowerCase() === "expense") {
+            totalExpenses += transaction.amount;
+          }
+        });
+        
+        reportData.summary = {
+          totalRevenue,
+          totalExpenses,
+          netProfit: totalRevenue - totalExpenses
+        };
+        
+        // In a real application, you would send this data to a server to generate a PDF
+        // For this demo, we'll just show an alert with the report summary
+        const reportSummary = `
+Financial Report Summary:
+Generated: ${reportData.generated}
+Total Revenue: $${totalRevenue.toLocaleString()}
+Total Expenses: $${totalExpenses.toLocaleString()}
+Net Profit: $${(totalRevenue - totalExpenses).toLocaleString()}
+Number of Transactions: ${reportData.transactions.length}
+        `;
+        
+        alert("Financial Report Generated Successfully!\n\n" + reportSummary);
+        showAlert("Financial report generated successfully!", "success");
+      }).catch(error => {
+        showAlert("Error generating report: " + error.message, "danger");
+      });
+    }
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    function exportData() {
+      // Export data as CSV
+      transactionsRef.get().then(snapshot => {
+        let csvContent = "Date,Description,Amount,Type\n";
+        
+        snapshot.forEach(doc => {
+          const transaction = doc.data();
+          csvContent += `"${transaction.date}","${transaction.description}",${transaction.amount},"${transaction.type}"\n`;
+        });
+        
+        // Create a download link
+        const encodedUri = encodeURI("data:text/csv;charset=utf-8," + csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "financial_data_" + new Date().toISOString().split('T')[0] + ".csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        showAlert("Data exported successfully as CSV!", "success");
+      }).catch(error => {
+        showAlert("Error exporting data: " + error.message, "danger");
+      });
+    }
+    
+    function filterTransactions(type) {
+      // This would filter the transactions by type
+      showAlert(`Filtering by: ${type}`, "info");
+      // Implementation would depend on your specific needs
+    }
+    
+    function sortTransactions(criteria) {
+      // This would sort the transactions by criteria
+      showAlert(`Sorting by: ${criteria}`, "info");
+      // Implementation would depend on your specific needs
+    }
+    
+    function showAlert(message, type) {
+      // Remove any existing alerts
+      const existingAlert = document.querySelector('.alert');
+      if (existingAlert) {
+        existingAlert.remove();
+      }
+      
+      // Create alert element
+      const alertDiv = document.createElement('div');
+      alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+      alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      `;
+      
+      // Add alert to page
+      document.querySelector('.container').prepend(alertDiv);
+      
+      // Auto-dismiss after 3 seconds
+      setTimeout(() => {
+        if (alertDiv.parentNode) {
+          alertDiv.classList.remove('show');
+          setTimeout(() => alertDiv.remove(), 150);
+        }
+      }, 3000);
+    }
+
+    // Simulate receiving new notifications
+    function simulateNewNotification() {
+      const types = ["purchase-order", "payment-reminder", "budget-alert"];
+      const priorities = ["high", "medium", "low"];
+      const senders = ["Procurement Department", "Accounts Payable", "Finance Director"];
+      const titles = {
+        "purchase-order": ["Purchase Order Approval Required", "New Purchase Order Received", "PO Revision Request"],
+        "payment-reminder": ["Payment Due Reminder", "Overdue Payment Alert", "Payment Confirmation"],
+        "budget-alert": ["Budget Overrun Alert", "Budget Review Required", "Quarterly Financial Report"]
+      };
+      
+      const type = types[Math.floor(Math.random() * types.length)];
+      const priority = priorities[Math.floor(Math.random() * priorities.length)];
+      const sender = senders[Math.floor(Math.random() * senders.length)];
+      const title = titles[type][Math.floor(Math.random() * titles[type].length)];
+      
+      const messages = {
+        "purchase-order": [
+          "Purchase order PO-2023-0460 for $15,750 requires your financial approval.",
+          "New purchase order PO-2023-0461 has been submitted for review.",
+          "Revision requested for purchase order PO-2023-0459. Please review changes."
+        ],
+        "payment-reminder": [
+          "Payment for vendor Global Health Ltd. is due in 5 days. Amount: $9,800",
+          "Payment to Surgical Equipment Co. is overdue. Please process immediately.",
+          "Payment for order PO-2023-0456 has been confirmed and processed."
+        ],
+        "budget-alert": [
+          "Monthly procurement budget has been exceeded by 12%. Review required.",
+          "Budget allocation for Q4 needs your approval before month end.",
+          "Quarterly financial report is ready for your review and approval."
+        ]
+      };
+      
+      const message = messages[type][Math.floor(Math.random() * messages[type].length)];
+      
+      const newNotification = {
+        id: notifications.length > 0 ? Math.max(...notifications.map(n => n.id)) + 1 : 1,
+        title: title,
+        message: message,
+        type: type,
+        priority: priority,
+        sender: sender,
+        timestamp: new Date(),
+        read: false
+      };
+      
+      notifications.unshift(newNotification);
+      loadNotifications();
+      
+      // Show a toast notification (in a real app, you'd use a proper toast library)
+      showAlert(`New notification from ${sender}: ${title}`, "info");
+    }
+
+    window.onload = function() {
+      loadFinance();
+      loadNotifications();
+      
+      // Simulate receiving a new notification every 45 seconds for demo purposes
+      setInterval(simulateNewNotification, 45000);
+    };
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

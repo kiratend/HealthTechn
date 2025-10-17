@@ -1,121 +1,824 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Supplies | HealthTech Corp.</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f4f8fb;
-            font-family: 'Arial', sans-serif;
-        }
-        .navbar {
-            background-color: #004080 !important;
-            padding: 15px 0;
-        }
-        .navbar-brand, .nav-link {
-            color: #fff !important;
-            font-weight: bold;
-        }
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-        }
-        .hero-section {
-            background-color: #004080;
-            color: white;
-            text-align: center;
-            padding: 80px 20px;
-        }
-        .hero-section h1 {
-            font-size: 2.5rem;
-            font-weight: bold;
-        }
-        .content-section {
-            padding: 60px 20px;
-            text-align: center;
-        }
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-        .footer {
-            background-color: #004080;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop Medical Supplies | MedVentory</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  
+  <style>
+    body {
+      background-color: #f4f8fb;
+      font-family: 'Arial', sans-serif;
+    }
+    .navbar {
+      background-color: #198754 !important;
+      padding: 15px 0;
+    }
+    .navbar-brand, .nav-link {
+      color: #fff !important;
+      font-weight: bold;
+    }
+    .nav-link i {
+      margin-right: 5px;
+    }
+    .hero {
+      background-color: #198754;
+      color: white;
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .product-card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      transition: transform 0.2s;
+      height: 100%;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .product-info {
+      padding: 15px;
+      text-align: center;
+    }
+    .product-name {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .product-price {
+      color: #e74c3c;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    .footer {
+      background-color: #198754;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+    .btn-primary {
+      background-color: #198754;
+      border-color: #198754;
+    }
+    .btn-primary:hover {
+      background-color: #157347;
+      border-color: #146c43;
+    }
+    .category-btn {
+      margin: 5px;
+    }
+    .category-section {
+      margin-bottom: 30px;
+    }
+    .category-title {
+      border-bottom: 2px solid #198754;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      color: #198754;
+    }
+    .hidden {
+      display: none;
+    }
+    
+    /* Order Cart Styles */
+    .order-sidebar {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 20px;
+      margin-bottom: 20px;
+    }
+    .order-header {
+      border-bottom: 2px solid #198754;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+    .order-item {
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+    }
+    .order-total {
+      font-weight: bold;
+      font-size: 1.2rem;
+      border-top: 2px solid #198754;
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      margin-top: 5px;
+    }
+    .quantity-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    .quantity-input {
+      width: 40px;
+      text-align: center;
+      margin: 0 5px;
+    }
+    .remove-item {
+      color: #e74c3c;
+      cursor: pointer;
+    }
+    .empty-order {
+      text-align: center;
+      color: #6c757d;
+      padding: 20px 0;
+    }
+    
+    /* Order Modal Styles */
+    .order-items-container {
+      max-height: 400px;
+      overflow-y: auto;
+      border: 1px solid #dee2e6;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .order-summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .order-summary-item:last-child {
+      border-bottom: none;
+    }
+    .order-item-details {
+      flex-grow: 1;
+    }
+    .order-item-price {
+      font-weight: bold;
+      color: #198754;
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="#">MedVentory</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="index.html"><i class="fas fa-stethoscope me-2"></i>MedVentory</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-home"></i>Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="supply.html"><i class="fas fa-box-medical"></i>Supply</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html"><i class="fas fa-envelope"></i>Contact Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html"><i class="fas fa-user"></i>Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Banner -->
+  <div class="hero">
+    <h1><i class="fas fa-notes-medical me-2"></i>Shop Medical Supplies</h1>
+    <p>Affordable. Reliable. Delivered to you.</p>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container py-5">
+    <div class="row">
+      <!-- Products Section -->
+      <div class="col-lg-9">
+        <!-- Category Filter -->
+        <div class="mb-4">
+          <h4>Filter by Category:</h4>
+          <div class="d-flex flex-wrap">
+            <button class="btn btn-outline-success category-btn active" data-category="all">All Products</button>
+            <button class="btn btn-outline-success category-btn" data-category="ppe">PPE</button>
+            <button class="btn btn-outline-success category-btn" data-category="diagnostic">Diagnostic Tools</button>
+            <button class="btn btn-outline-success category-btn" data-category="first-aid">First Aid</button>
+          </div>
+        </div>
+
+        <!-- PPE Category -->
+        <div class="category-section" id="ppe-category">
+          <h3 class="category-title"><i class="fas fa-shield-virus me-2"></i>Personal Protective Equipment</h3>
+          <div class="row g-4">
+            <!-- Product 1 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="ppe">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Mask" alt="Surgical Mask">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-mask-face me-1"></i>Surgical Mask</div>
+                  <div class="product-price">₱120 / box</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Surgical Mask', 120, 'box')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 2 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="ppe">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Gloves" alt="Gloves">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-hand-holding-medical me-1"></i>Medical Gloves</div>
+                  <div class="product-price">₱180 / box</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Medical Gloves', 180, 'box')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 3 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="ppe">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Face+Shield" alt="Face Shield">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-head-side-mask me-1"></i>Face Shield</div>
+                  <div class="product-price">₱75 / unit</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Face Shield', 75, 'unit')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 4 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="ppe">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Sanitizer" alt="Sanitizer">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-pump-soap me-1"></i>Hand Sanitizer</div>
+                  <div class="product-price">₱60 / bottle</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Hand Sanitizer', 60, 'bottle')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 5 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="ppe">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Gown" alt="Medical Gown">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-user-md me-1"></i>Medical Gown</div>
+                  <div class="product-price">₱220 / piece</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Medical Gown', 220, 'piece')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 6 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="ppe">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Shoe+Covers" alt="Shoe Covers">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-shoe-prints me-1"></i>Shoe Covers</div>
+                  <div class="product-price">₱40 / pair</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Shoe Covers', 40, 'pair')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Diagnostic Tools Category -->
+        <div class="category-section" id="diagnostic-category">
+          <h3 class="category-title"><i class="fas fa-stethoscope me-2"></i>Diagnostic Tools</h3>
+          <div class="row g-4">
+            <!-- Product 7 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="diagnostic">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Thermometer" alt="Thermometer">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-thermometer me-1"></i>Digital Thermometer</div>
+                  <div class="product-price">₱250 / unit</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Digital Thermometer', 250, 'unit')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 8 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="diagnostic">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=BP+Monitor" alt="BP Monitor">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-heartbeat me-1"></i>Blood Pressure Monitor</div>
+                  <div class="product-price">₱1,200 / unit</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Blood Pressure Monitor', 1200, 'unit')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 9 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="diagnostic">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Oximeter" alt="Oximeter">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-procedures me-1"></i>Pulse Oximeter</div>
+                  <div class="product-price">₱850 / unit</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Pulse Oximeter', 850, 'unit')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 10 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="diagnostic">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Stethoscope" alt="Stethoscope">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-stethoscope me-1"></i>Stethoscope</div>
+                  <div class="product-price">₱650 / unit</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Stethoscope', 650, 'unit')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 11 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="diagnostic">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Glucometer" alt="Glucometer">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-tint me-1"></i>Glucometer</div>
+                  <div class="product-price">₱950 / unit</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Glucometer', 950, 'unit')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 12 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="diagnostic">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=ECG+Machine" alt="ECG Machine">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-heart me-1"></i>Portable ECG Machine</div>
+                  <div class="product-price">₱8,500 / unit</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Portable ECG Machine', 8500, 'unit')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- First Aid Category -->
+        <div class="category-section" id="first-aid-category">
+          <h3 class="category-title"><i class="fas fa-first-aid me-2"></i>First Aid</h3>
+          <div class="row g-4">
+            <!-- Product 13 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="first-aid">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=First+Aid+Kit" alt="First Aid Kit">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-briefcase-medical me-1"></i>First Aid Kit</div>
+                  <div class="product-price">₱350 / kit</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('First Aid Kit', 350, 'kit')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 14 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="first-aid">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Bandage" alt="Bandage">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-band-aid me-1"></i>Elastic Bandage</div>
+                  <div class="product-price">₱45 / roll</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Elastic Bandage', 45, 'roll')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 15 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="first-aid">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Antiseptic" alt="Antiseptic">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-spray-can me-1"></i>Antiseptic Solution</div>
+                  <div class="product-price">₱85 / bottle</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Antiseptic Solution', 85, 'bottle')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 16 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="first-aid">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Gauze" alt="Gauze">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-bandage me-1"></i>Sterile Gauze</div>
+                  <div class="product-price">₱35 / pack</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Sterile Gauze', 35, 'pack')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 17 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="first-aid">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Adhesive+Tape" alt="Adhesive Tape">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-tape me-1"></i>Medical Adhesive Tape</div>
+                  <div class="product-price">₱25 / roll</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Medical Adhesive Tape', 25, 'roll')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Product 18 -->
+            <div class="col-md-4 col-sm-6 product-item" data-category="first-aid">
+              <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Scissors" alt="Medical Scissors">
+                <div class="product-info">
+                  <div class="product-name"><i class="fas fa-cut me-1"></i>Medical Scissors</div>
+                  <div class="product-price">₱120 / unit</div>
+                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Medical Scissors', 120, 'unit')">
+                    <i class="fas fa-cart-plus me-1"></i>Add to Order
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Cart Section -->
+      <div class="col-lg-3">
+        <div class="order-sidebar">
+          <div class="order-header">
+            <h4><i class="fas fa-shopping-cart me-2"></i>Your Order</h4>
+          </div>
+          <div id="orderItems">
+            <div class="empty-order">
+              <i class="fas fa-shopping-cart fa-2x mb-2"></i>
+              <p>Your order is empty</p>
+            </div>
+          </div>
+          <div id="orderTotal" class="order-total hidden">
+            Total: ₱<span id="totalAmount">0</span>
+          </div>
+          <div class="mt-3">
+            <button class="btn btn-success w-100 mb-2" onclick="placeOrder()" id="placeOrderBtn" disabled>
+              <i class="fas fa-check-circle me-1"></i>Place Order
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="appointment.html">Appointment</a></li>
-                    <li class="nav-item"><a class="nav-link" href="supply.html">Supply</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                </ul>
-            </div>
+            <button class="btn btn-outline-secondary w-100" onclick="clearOrder()">
+              <i class="fas fa-trash me-1"></i>Clear Order
+            </button>
+          </div>
         </div>
-    </nav>
-    
-    <div class="hero-section">
-        <h1>Medical Supplies</h1>
-        <p>Ensuring quality and efficiency in healthcare.</p>
+      </div>
     </div>
-    
-    <div class="container content-section">
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Surgical Masks</h5>
-                        <p class="card-text">High-quality surgical masks for maximum protection.</p>
-                        <button class="btn btn-primary">Order Now</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Gloves</h5>
-                        <p class="card-text">Latex and non-latex gloves available in various sizes.</p>
-                        <button class="btn btn-primary">Order Now</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Sanitizers</h5>
-                        <p class="card-text">Medical-grade hand sanitizers for hygiene and safety.</p>
-                        <button class="btn btn-primary">Order Now</button>
-                    </div>
-                </div>
-            </div>
+  </div>
+
+  <!-- Order Placement Modal -->
+  <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="orderModalLabel"><i class="fas fa-shopping-bag me-2"></i>Place Your Order</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+        <div class="modal-body">
+          <div class="mb-4">
+            <h6>Order Summary</h6>
+            <div class="order-items-container" id="orderSummaryItems">
+              <!-- Order items will be populated here -->
+            </div>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <h6>Shipping Information</h6>
+              <div class="mb-3">
+                <label for="fullName" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="fullName" required>
+              </div>
+              <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <textarea class="form-control" id="address" rows="3" required></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="phone" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h6>Payment Method</h6>
+              <div class="mb-3">
+                <select class="form-select" id="paymentMethod" required>
+                  <option selected disabled value="">Choose a payment method</option>
+                  <option value="GCash">GCash</option>
+                  <option value="Maya">Maya</option>
+                  <option value="Credit Card">Credit Card</option>
+                  <option value="COD">Cash on Delivery (COD)</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="notes" class="form-label">Order Notes (Optional)</label>
+                <textarea class="form-control" id="notes" rows="3" placeholder="Special instructions..."></textarea>
+              </div>
+            </div>
+          </div>
+          
+          <div class="order-total-summary">
+            <div class="d-flex justify-content-between">
+              <span>Subtotal:</span>
+              <span>₱<span id="modalSubtotal">0</span></span>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span>Shipping:</span>
+              <span>₱<span id="modalShipping">100</span></span>
+            </div>
+            <div class="d-flex justify-content-between fw-bold fs-5">
+              <span>Total:</span>
+              <span>₱<span id="modalTotal">0</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-success" onclick="confirmOrder()">
+            <i class="fas fa-check-circle me-1"></i>Confirm Order
+          </button>
+        </div>
+      </div>
     </div>
-    
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 HealthTech Corp. All Rights Reserved.</p>
-            <p>
-                <a href="privacy-policy.html" class="text-white me-3">Privacy Policy</a>
-                <a href="terms-of-service.html" class="text-white">Terms of Service</a>
-            </p>
-            <p>Contact us: <a href="mailto:support@healthtechcorp.com" class="text-white">support@healthtechcorp.com</a> | Phone: <a href="tel:+1234567890" class="text-white">+1 (234) 567-890</a></p>
-        </div>
-    </footer>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 HealthTech Corp. All Rights Reserved.</p>
+      <p>
+        <a href="privacy-policy.html" class="text-white me-3"><i class="fas fa-shield-alt me-1"></i>Privacy Policy</a>
+        <a href="terms-of-service.html" class="text-white"><i class="fas fa-file-contract me-1"></i>Terms of Service</a>
+      </p>
+      <p>
+        <i class="fas fa-envelope me-1"></i>
+        <a href="mailto:support@healthtechcorp.com" class="text-white">support@healthtechcorp.com</a> |
+        <i class="fas fa-phone me-1 ms-2"></i>
+        <a href="tel:+1234567890" class="text-white">+1 (234) 567-890</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Order data
+    let orderItems = [];
+    let totalAmount = 0;
+
+    // Add product to order
+    function addToOrder(productName, price, unit) {
+      // Check if product already exists in order
+      const existingItem = orderItems.find(item => item.name === productName);
+      
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        orderItems.push({
+          name: productName,
+          price: price,
+          unit: unit,
+          quantity: 1
+        });
+      }
+      
+      updateOrderDisplay();
+    }
+
+    // Update order display
+    function updateOrderDisplay() {
+      const orderItemsElement = document.getElementById('orderItems');
+      const orderTotalElement = document.getElementById('orderTotal');
+      const totalAmountElement = document.getElementById('totalAmount');
+      const placeOrderBtn = document.getElementById('placeOrderBtn');
+      
+      // Clear current display
+      orderItemsElement.innerHTML = '';
+      totalAmount = 0;
+      
+      if (orderItems.length === 0) {
+        orderItemsElement.innerHTML = `
+          <div class="empty-order">
+            <i class="fas fa-shopping-cart fa-2x mb-2"></i>
+            <p>Your order is empty</p>
+          </div>
+        `;
+        orderTotalElement.classList.add('hidden');
+        placeOrderBtn.disabled = true;
+        return;
+      }
+      
+      // Add items to display
+      orderItems.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        totalAmount += itemTotal;
+        
+        const itemElement = document.createElement('div');
+        itemElement.className = 'order-item';
+        itemElement.innerHTML = `
+          <div class="d-flex justify-content-between align-items-start">
+            <div class="flex-grow-1">
+              <strong>${item.name}</strong><br>
+              <small class="text-muted">₱${item.price} / ${item.unit}</small>
+              <div class="quantity-controls mt-1">
+                <button class="btn btn-sm btn-outline-secondary quantity-btn" onclick="updateQuantity(${index}, -1)">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <input type="number" class="form-control form-control-sm quantity-input" value="${item.quantity}" min="1" onchange="updateQuantityInput(${index}, this.value)">
+                <button class="btn btn-sm btn-outline-secondary quantity-btn" onclick="updateQuantity(${index}, 1)">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="text-end">
+              <div class="fw-bold">₱${itemTotal}</div>
+              <button class="btn btn-sm btn-outline-danger mt-1" onclick="removeFromOrder(${index})">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+        `;
+        
+        orderItemsElement.appendChild(itemElement);
+      });
+      
+      // Update total
+      totalAmountElement.textContent = totalAmount.toLocaleString();
+      orderTotalElement.classList.remove('hidden');
+      placeOrderBtn.disabled = false;
+    }
+
+    // Update quantity with buttons
+    function updateQuantity(index, change) {
+      orderItems[index].quantity += change;
+      
+      // Ensure quantity doesn't go below 1
+      if (orderItems[index].quantity < 1) {
+        orderItems[index].quantity = 1;
+      }
+      
+      updateOrderDisplay();
+    }
+
+    // Update quantity with input
+    function updateQuantityInput(index, value) {
+      const quantity = parseInt(value);
+      
+      if (quantity > 0) {
+        orderItems[index].quantity = quantity;
+        updateOrderDisplay();
+      }
+    }
+
+    // Remove item from order
+    function removeFromOrder(index) {
+      orderItems.splice(index, 1);
+      updateOrderDisplay();
+    }
+
+    // Clear order
+    function clearOrder() {
+      if (orderItems.length > 0) {
+        if (confirm('Are you sure you want to clear your order?')) {
+          orderItems = [];
+          updateOrderDisplay();
+        }
+      }
+    }
+
+    // Place order - show modal
+    function placeOrder() {
+      // Populate order summary in modal
+      const orderSummaryElement = document.getElementById('orderSummaryItems');
+      orderSummaryElement.innerHTML = '';
+      
+      orderItems.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        
+        const itemElement = document.createElement('div');
+        itemElement.className = 'order-summary-item';
+        itemElement.innerHTML = `
+          <div class="order-item-details">
+            <div class="fw-bold">${item.name}</div>
+            <div class="text-muted">${item.quantity} ${item.unit} × ₱${item.price}</div>
+          </div>
+          <div class="order-item-price">₱${itemTotal}</div>
+        `;
+        
+        orderSummaryElement.appendChild(itemElement);
+      });
+      
+      // Update totals in modal
+      document.getElementById('modalSubtotal').textContent = totalAmount.toLocaleString();
+      document.getElementById('modalTotal').textContent = (totalAmount + 100).toLocaleString();
+      
+      // Show modal
+      new bootstrap.Modal(document.getElementById('orderModal')).show();
+    }
+
+    // Confirm order
+    function confirmOrder() {
+      const fullName = document.getElementById('fullName').value;
+      const address = document.getElementById('address').value;
+      const phone = document.getElementById('phone').value;
+      const paymentMethod = document.getElementById('paymentMethod').value;
+      
+      // Basic validation
+      if (!fullName || !address || !phone || !paymentMethod) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+      
+      // In a real application, you would send this data to a server
+      // For now, we'll just show a success message
+      alert(`✅ Order Placed Successfully!\n\nThank you, ${fullName}!\nYour order will be delivered to:\n${address}\n\nPayment Method: ${paymentMethod}\nTotal: ₱${(totalAmount + 100).toLocaleString()}`);
+      
+      // Close modal and reset order
+      bootstrap.Modal.getInstance(document.getElementById('orderModal')).hide();
+      orderItems = [];
+      updateOrderDisplay();
+      
+      // Reset form
+      document.getElementById('fullName').value = '';
+      document.getElementById('address').value = '';
+      document.getElementById('phone').value = '';
+      document.getElementById('paymentMethod').value = '';
+      document.getElementById('notes').value = '';
+    }
+
+    // Category filtering
+    document.addEventListener('DOMContentLoaded', function() {
+      const categoryButtons = document.querySelectorAll('.category-btn');
+      
+      categoryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Update active button
+          categoryButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          const category = this.getAttribute('data-category');
+          
+          // Show/hide products based on category
+          const productItems = document.querySelectorAll('.product-item');
+          
+          productItems.forEach(item => {
+            if (category === 'all' || item.getAttribute('data-category') === category) {
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+          
+          // Show/hide category sections
+          const categorySections = document.querySelectorAll('.category-section');
+          
+          categorySections.forEach(section => {
+            if (category === 'all' || section.id === `${category}-category`) {
+              section.style.display = 'block';
+            } else {
+              section.style.display = 'none';
+            }
+          });
+        });
+      });
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

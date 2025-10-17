@@ -1,151 +1,1453 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Procurement Management</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <style>
-        body {
-            background-color: #f4f8fb;
-            font-family: Arial, sans-serif;
-        }
-        .navbar {
-            background-color: #007bff !important;
-        }
-        .navbar-brand, .nav-link {
-            color: #fff !important;
-        }
-        .hero-section {
-            background: linear-gradient(to right, #007bff, #00bcd4);
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-        }
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border: none;
-        }
-        .footer {
-            background-color: #007bff;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            margin-top: 30px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Procurement Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #198754;
+      --primary-light: #28a745;
+      --secondary: #f8f9fa;
+      --accent-warning: #ffc107;
+      --accent-danger: #dc3545;
+      --accent-info: #0dcaf0;
+      --text-dark: #212529;
+      --text-light: #f8f9fa;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    body {
+      background-color: #f4f8fb;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .navbar {
+      background-color: var(--primary) !important;
+      box-shadow: var(--shadow);
+    }
+    
+    .navbar-brand, .nav-link {
+      color: var(--text-light) !important;
+      font-weight: 600;
+    }
+    
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      padding: 60px 0;
+      text-align: center;
+    }
+    
+    .dashboard-card {
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 25px;
+      text-align: center;
+      transition: transform 0.3s ease;
+      height: 100%;
+    }
+    
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .dashboard-card i {
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+      background: rgba(255, 255, 255, 0.2);
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      border-radius: 50%;
+    }
+    
+    .card-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light)) !important;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+    
+    .footer {
+      background-color: var(--primary);
+      color: var(--text-light);
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+    }
+    
+    .btn i {
+      margin-right: 5px;
+    }
+    
+    .table th, .table td {
+      vertical-align: middle;
+    }
+    
+    .search-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    
+    .search-container i {
+      position: absolute;
+      left: 15px;
+      top: 12px;
+      color: #6c757d;
+    }
+    
+    .search-input {
+      padding-left: 40px;
+      border-radius: 25px;
+    }
+    
+    .status-badge {
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    
+    .status-pending {
+      background-color: rgba(255, 193, 7, 0.15);
+      color: #ffc107;
+    }
+    
+    .status-approved {
+      background-color: rgba(25, 135, 84, 0.15);
+      color: var(--primary);
+    }
+    
+    .status-transit {
+      background-color: rgba(13, 110, 253, 0.15);
+      color: #0d6efd;
+    }
+    
+    .status-delivered {
+      background-color: rgba(108, 117, 125, 0.15);
+      color: #6c757d;
+    }
+    
+    .status-paid {
+      background-color: rgba(111, 66, 193, 0.15);
+      color: #6f42c1;
+    }
+    
+    .filter-buttons {
+      margin-bottom: 15px;
+    }
+    
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    /* Notification Styles */
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: var(--accent-danger);
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .notification-dropdown {
+      width: 350px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .notification-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+    
+    .notification-item:last-child {
+      border-bottom: none;
+    }
+    
+    .notification-item.unread {
+      background-color: #f8f9fa;
+    }
+    
+    .notification-item.urgent {
+      border-left: 4px solid var(--accent-danger);
+    }
+    
+    .notification-item.approval {
+      border-left: 4px solid var(--accent-warning);
+    }
+    
+    .notification-item.info {
+      border-left: 4px solid var(--accent-info);
+    }
+    
+    .notification-item.payment {
+      border-left: 4px solid #6f42c1;
+    }
+    
+    .notification-time {
+      font-size: 0.8rem;
+      color: #6c757d;
+    }
+    
+    .notification-priority {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: bold;
+      margin-left: 5px;
+    }
+    
+    .priority-high {
+      background-color: rgba(220, 53, 69, 0.15);
+      color: var(--accent-danger);
+    }
+    
+    .priority-medium {
+      background-color: rgba(255, 193, 7, 0.15);
+      color: var(--accent-warning);
+    }
+    
+    .priority-low {
+      background-color: rgba(13, 110, 253, 0.15);
+      color: #0d6efd;
+    }
+    
+    .notification-actions {
+      margin-top: 8px;
+      display: flex;
+      gap: 5px;
+    }
+    
+    .notification-actions .btn {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+    }
+    
+    /* Toast Notification Styles */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1055;
+      width: 350px;
+    }
+    
+    .toast {
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      margin-bottom: 10px;
+      transition: opacity 0.3s ease-in-out;
+    }
+    
+    .toast-header {
+      border-bottom: none;
+      padding: 10px 15px;
+    }
+    
+    .toast-body {
+      padding: 15px;
+    }
+    
+    .toast-success {
+      background-color: #d1e7dd;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .toast-info {
+      background-color: #cff4fc;
+      border-left: 4px solid var(--accent-info);
+    }
+    
+    .toast-warning {
+      background-color: #fff3cd;
+      border-left: 4px solid var(--accent-warning);
+    }
+    
+    .toast-danger {
+      background-color: #f8d7da;
+      border-left: 4px solid var(--accent-danger);
+    }
+    
+    /* Quotation Styles */
+    .product-card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      transition: transform 0.2s;
+      height: 100%;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .product-info {
+      padding: 15px;
+      text-align: center;
+    }
+    
+    .product-name {
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .product-price {
+      color: #e74c3c;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    
+    .quotation-sidebar {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 20px;
+      margin-bottom: 20px;
+      height: fit-content;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .quotation-header {
+      border-bottom: 2px solid #198754;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .quotation-items-container {
+      flex-grow: 1;
+      overflow-y: auto;
+      max-height: 400px;
+      margin-bottom: 15px;
+    }
+    
+    .quotation-item {
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+    }
+    
+    .quotation-item:last-child {
+      border-bottom: none;
+    }
+    
+    .quotation-total {
+      font-weight: bold;
+      font-size: 1.2rem;
+      border-top: 2px solid #198754;
+      padding-top: 10px;
+      margin-top: 10px;
+    }
+    
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      margin-top: 5px;
+    }
+    
+    .quantity-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    
+    .quantity-input {
+      width: 40px;
+      text-align: center;
+      margin: 0 5px;
+    }
+    
+    .remove-item {
+      color: #e74c3c;
+      cursor: pointer;
+    }
+    
+    .empty-quotation {
+      text-align: center;
+      color: #6c757d;
+      padding: 20px 0;
+    }
+    
+    .category-btn {
+      margin: 5px;
+    }
+    
+    .category-section {
+      margin-bottom: 30px;
+    }
+    
+    .category-title {
+      border-bottom: 2px solid #198754;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      color: #198754;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    @media (max-width: 768px) {
+      .hero-section {
+        padding: 30px 0;
+      }
+      
+      .dashboard-card {
+        margin-bottom: 15px;
+      }
+      
+      .action-buttons .btn {
+        width: 100%;
+        margin-bottom: 5px;
+      }
+      
+      .notification-dropdown {
+        width: 300px;
+      }
+      
+      .toast-container {
+        width: 90%;
+        right: 5%;
+        left: 5%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand" href="#">ProcureEase</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="logout.html">Log Out</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    
-    <div class="hero-section">
-        <h1 class="display-4">Procurement Management</h1>
-        <p class="lead">Streamlining Your Supply Chain</p>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-shopping-cart me-2"></i>ProcureEase
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle position-relative" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-bell"></i>
+              <span class="notification-badge" id="notification-count">3</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end notification-dropdown" aria-labelledby="notificationDropdown">
+              <li class="dropdown-header">Supervisor Notifications</li>
+              <li><hr class="dropdown-divider"></li>
+              <div id="notification-list">
+                <!-- Notifications will be populated here by JavaScript -->
+              </div>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-center" href="#" onclick="markAllAsRead()">Mark all as read</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-user-circle"></i> Procurement Manager</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" onclick="logoutUser(event)"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+          </li>
+        </ul>
+      </div>
     </div>
-    
-    <div class="container mt-4">
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <div class="card text-bg-primary text-white text-center p-3">
-                    <i class="fas fa-file-invoice-dollar card-icon"></i>
-                    <h5>Pending Orders</h5>
-                    <p id="pending-orders">8</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card text-bg-success text-white text-center p-3">
-                    <i class="fas fa-check-circle card-icon"></i>
-                    <h5>Approved Orders</h5>
-                    <p id="approved-orders">15</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card text-bg-warning text-white text-center p-3">
-                    <i class="fas fa-truck-loading card-icon"></i>
-                    <h5>Orders in Transit</h5>
-                    <p id="transit-orders">4</p>
-                </div>
-            </div>
+  </nav>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="container">
+      <h1 class="display-5 fw-bold">Procurement Management</h1>
+      <p class="lead mb-0">Streamlining Your Supply Chain</p>
+    </div>
+  </div>
+
+  <!-- Dashboard Cards -->
+  <div class="container mt-4">
+    <div class="row g-4 mb-4">
+      <div class="col-md-3">
+        <div class="dashboard-card bg-warning text-dark">
+          <i class="fas fa-file-invoice-dollar"></i>
+          <h5 class="mt-2">Pending Orders</h5>
+          <h2 id="pending-orders">8</h2>
         </div>
-        
-        <table class="table table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>Order ID</th>
-                    <th>Supplier</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
+      </div>
+      <div class="col-md-3">
+        <div class="dashboard-card bg-success text-white">
+          <i class="fas fa-check-circle"></i>
+          <h5 class="mt-2">Approved Orders</h5>
+          <h2 id="approved-orders">15</h2>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="dashboard-card bg-info text-white">
+          <i class="fas fa-truck-loading"></i>
+          <h5 class="mt-2">Orders in Transit</h5>
+          <h2 id="transit-orders">4</h2>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="dashboard-card bg-secondary text-white">
+          <i class="fas fa-box-open"></i>
+          <h5 class="mt-2">Delivered This Month</h5>
+          <h2 id="delivered-orders">12</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search and Filter Section -->
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="search-container">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" class="form-control search-input" placeholder="Search orders or suppliers...">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="filter-buttons d-flex justify-content-end gap-2">
+          <button class="btn btn-outline-success btn-sm" onclick="filterOrders('all')">
+            <i class="fas fa-list"></i> All Orders
+          </button>
+          <button class="btn btn-outline-warning btn-sm" onclick="filterOrders('pending')">
+            <i class="fas fa-clock"></i> Pending
+          </button>
+          <button class="btn btn-outline-success btn-sm" onclick="filterOrders('approved')">
+            <i class="fas fa-check"></i> Approved
+          </button>
+          <button class="btn btn-outline-primary btn-sm" onclick="filterOrders('transit')">
+            <i class="fas fa-truck"></i> In Transit
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders Table -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Order Management</span>
+        <span class="badge bg-light text-dark" id="order-count">3 orders</span>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Order ID</th>
+                <th>Supplier</th>
+                <th>Items</th>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th class="text-center">Actions</th>
+              </tr>
             </thead>
             <tbody id="order-list"></tbody>
-        </table>
-        
-        <div class="mt-4">
-            <button class="btn btn-primary" onclick="createOrder()"><i class="fas fa-plus"></i> New Order</button>
-            <button class="btn btn-outline-secondary" onclick="manageSuppliers()"><i class="fas fa-user-tie"></i> Manage Suppliers</button>
+          </table>
         </div>
+      </div>
     </div>
 
-    <div class="footer">
-        <p>&copy; 2025 ProcureEase. All Rights Reserved.</p>
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn btn-success" onclick="createOrder()">
+        <i class="fas fa-plus"></i> New Order
+      </button>
+      <button class="btn btn-outline-success" onclick="manageSuppliers()">
+        <i class="fas fa-user-tie"></i> Manage Suppliers
+      </button>
+      <button class="btn btn-outline-success" onclick="generateReport()">
+        <i class="fas fa-file-pdf"></i> Generate Report
+      </button>
+      <button class="btn btn-outline-info" onclick="viewAllNotifications()">
+        <i class="fas fa-bell"></i> View All Notifications
+      </button>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#quotationModal">
+        <i class="fas fa-file-invoice"></i> Create Quotation
+      </button>
     </div>
+  </div>
+
+  <!-- Quotation Modal -->
+  <div class="modal fade" id="quotationModal" tabindex="-1" aria-labelledby="quotationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="quotationModalLabel"><i class="fas fa-file-invoice-dollar me-2"></i>Create New Quotation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <!-- Products Section -->
+            <div class="col-lg-9">
+              <!-- Category Filter -->
+              <div class="mb-4">
+                <h6>Filter by Category:</h6>
+                <div class="d-flex flex-wrap">
+                  <button class="btn btn-outline-primary category-btn active" data-category="all">All Products</button>
+                  <button class="btn btn-outline-primary category-btn" data-category="ppe">PPE</button>
+                  <button class="btn btn-outline-primary category-btn" data-category="diagnostic">Diagnostic Tools</button>
+                  <button class="btn btn-outline-primary category-btn" data-category="first-aid">First Aid</button>
+                </div>
+              </div>
+
+              <!-- PPE Category -->
+              <div class="category-section" id="ppe-category">
+                <h6 class="category-title"><i class="fas fa-shield-virus me-2"></i>Personal Protective Equipment</h6>
+                <div class="row g-3">
+                  <!-- Product 1 -->
+                  <div class="col-md-4 col-sm-6 product-item" data-category="ppe">
+                    <div class="product-card">
+                      <img src="https://via.placeholder.com/300x200?text=Mask" alt="Surgical Mask">
+                      <div class="product-info">
+                        <div class="product-name"><i class="fas fa-mask-face me-1"></i>Surgical Mask</div>
+                        <div class="product-price">₱120 / box</div>
+                        <button class="btn btn-sm btn-primary w-100" onclick="addToQuotation('Surgical Mask', 120, 'box')">
+                          <i class="fas fa-cart-plus me-1"></i>Add to Quotation
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Product 2 -->
+                  <div class="col-md-4 col-sm-6 product-item" data-category="ppe">
+                    <div class="product-card">
+                      <img src="https://via.placeholder.com/300x200?text=Gloves" alt="Gloves">
+                      <div class="product-info">
+                        <div class="product-name"><i class="fas fa-hand-holding-medical me-1"></i>Medical Gloves</div>
+                        <div class="product-price">₱180 / box</div>
+                        <button class="btn btn-sm btn-primary w-100" onclick="addToQuotation('Medical Gloves', 180, 'box')">
+                          <i class="fas fa-cart-plus me-1"></i>Add to Quotation
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Product 3 -->
+                  <div class="col-md-4 col-sm-6 product-item" data-category="ppe">
+                    <div class="product-card">
+                      <img src="https://via.placeholder.com/300x200?text=Face+Shield" alt="Face Shield">
+                      <div class="product-info">
+                        <div class="product-name"><i class="fas fa-head-side-mask me-1"></i>Face Shield</div>
+                        <div class="product-price">₱75 / unit</div>
+                        <button class="btn btn-sm btn-primary w-100" onclick="addToQuotation('Face Shield', 75, 'unit')">
+                          <i class="fas fa-cart-plus me-1"></i>Add to Quotation
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Diagnostic Tools Category -->
+              <div class="category-section" id="diagnostic-category">
+                <h6 class="category-title"><i class="fas fa-stethoscope me-2"></i>Diagnostic Tools</h6>
+                <div class="row g-3">
+                  <!-- Product 4 -->
+                  <div class="col-md-4 col-sm-6 product-item" data-category="diagnostic">
+                    <div class="product-card">
+                      <img src="https://via.placeholder.com/300x200?text=Thermometer" alt="Thermometer">
+                      <div class="product-info">
+                        <div class="product-name"><i class="fas fa-thermometer me-1"></i>Digital Thermometer</div>
+                        <div class="product-price">₱250 / unit</div>
+                        <button class="btn btn-sm btn-primary w-100" onclick="addToQuotation('Digital Thermometer', 250, 'unit')">
+                          <i class="fas fa-cart-plus me-1"></i>Add to Quotation
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Product 5 -->
+                  <div class="col-md-4 col-sm-6 product-item" data-category="diagnostic">
+                    <div class="product-card">
+                      <img src="https://via.placeholder.com/300x200?text=BP+Monitor" alt="BP Monitor">
+                      <div class="product-info">
+                        <div class="product-name"><i class="fas fa-heartbeat me-1"></i>Blood Pressure Monitor</div>
+                        <div class="product-price">₱1,200 / unit</div>
+                        <button class="btn btn-sm btn-primary w-100" onclick="addToQuotation('Blood Pressure Monitor', 1200, 'unit')">
+                          <i class="fas fa-cart-plus me-1"></i>Add to Quotation
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Product 6 -->
+                  <div class="col-md-4 col-sm-6 product-item" data-category="diagnostic">
+                    <div class="product-card">
+                      <img src="https://via.placeholder.com/300x200?text=Oximeter" alt="Oximeter">
+                      <div class="product-info">
+                        <div class="product-name"><i class="fas fa-procedures me-1"></i>Pulse Oximeter</div>
+                        <div class="product-price">₱850 / unit</div>
+                        <button class="btn btn-sm btn-primary w-100" onclick="addToQuotation('Pulse Oximeter', 850, 'unit')">
+                          <i class="fas fa-cart-plus me-1"></i>Add to Quotation
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- First Aid Category -->
+              <div class="category-section" id="first-aid-category">
+                <h6 class="category-title"><i class="fas fa-first-aid me-2"></i>First Aid</h6>
+                <div class="row g-3">
+                  <!-- Product 7 -->
+                  <div class="col-md-4 col-sm-6 product-item" data-category="first-aid">
+                    <div class="product-card">
+                      <img src="https://via.placeholder.com/300x200?text=First+Aid+Kit" alt="First Aid Kit">
+                      <div class="product-info">
+                        <div class="product-name"><i class="fas fa-briefcase-medical me-1"></i>First Aid Kit</div>
+                        <div class="product-price">₱350 / kit</div>
+                        <button class="btn btn-sm btn-primary w-100" onclick="addToQuotation('First Aid Kit', 350, 'kit')">
+                          <i class="fas fa-cart-plus me-1"></i>Add to Quotation
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Product 8 -->
+                  <div class="col-md-4 col-sm-6 product-item" data-category="first-aid">
+                    <div class="product-card">
+                      <img src="https://via.placeholder.com/300x200?text=Bandage" alt="Bandage">
+                      <div class="product-info">
+                        <div class="product-name"><i class="fas fa-band-aid me-1"></i>Elastic Bandage</div>
+                        <div class="product-price">₱45 / roll</div>
+                        <button class="btn btn-sm btn-primary w-100" onclick="addToQuotation('Elastic Bandage', 45, 'roll')">
+                          <i class="fas fa-cart-plus me-1"></i>Add to Quotation
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Product 9 -->
+                  <div class="col-md-4 col-sm-6 product-item" data-category="first-aid">
+                    <div class="product-card">
+                      <img src="https://via.placeholder.com/300x200?text=Antiseptic" alt="Antiseptic">
+                      <div class="product-info">
+                        <div class="product-name"><i class="fas fa-spray-can me-1"></i>Antiseptic Solution</div>
+                        <div class="product-price">₱85 / bottle</div>
+                        <button class="btn btn-sm btn-primary w-100" onclick="addToQuotation('Antiseptic Solution', 85, 'bottle')">
+                          <i class="fas fa-cart-plus me-1"></i>Add to Quotation
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quotation Section -->
+            <div class="col-lg-3">
+              <div class="quotation-sidebar">
+                <div class="quotation-header">
+                  <h6><i class="fas fa-file-invoice-dollar me-2"></i>Your Quotation</h6>
+                </div>
+                <div class="quotation-items-container" id="quotationItems">
+                  <div class="empty-quotation">
+                    <i class="fas fa-shopping-cart fa-2x mb-2"></i>
+                    <p>Your quotation is empty</p>
+                  </div>
+                </div>
+                <div id="quotationTotal" class="quotation-total hidden">
+                  Total: ₱<span id="totalAmount">0</span>
+                </div>
+                <div class="mt-3">
+                  <button class="btn btn-success w-100 mb-2" onclick="generateQuotation()" id="generateQuoteBtn" disabled>
+                    <i class="fas fa-file-pdf me-1"></i>Generate Quotation
+                  </button>
+                  <button class="btn btn-outline-secondary w-100" onclick="clearQuotation()">
+                    <i class="fas fa-trash me-1"></i>Clear Quotation
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer mt-5">
+    <p class="mb-0">&copy; 2025 ProcureEase. All Rights Reserved.</p>
+  </div>
+
+  <!-- JavaScript Logic -->
+  <script>
+    let orders = [
+      { id: "PO123", supplier: "MedSupplies Co.", items: "Masks, Gloves", date: "2023-10-15", status: "Pending" },
+      { id: "PO124", supplier: "Global Health Ltd.", items: "Syringes, Sanitizers", date: "2023-10-10", status: "Approved" },
+      { id: "PO125", supplier: "Wellness Goods Inc.", items: "Bandages, Antiseptics", date: "2023-10-05", status: "In Transit" },
+      { id: "PO126", supplier: "PharmaSource Intl.", items: "Medications, IV Fluids", date: "2023-10-18", status: "Pending" },
+      { id: "PO127", supplier: "Surgical Equipment Co.", items: "Surgical Kits, Instruments", date: "2023-10-12", status: "Delivered" }
+    ];
+
+    let notifications = [
+      {
+        id: 1,
+        title: "Budget Approval Required",
+        message: "Order PO126 exceeds department budget. Please review and provide justification.",
+        type: "urgent",
+        priority: "high",
+        sender: "Finance Supervisor",
+        timestamp: new Date(Date.now() - 30 * 60 * 1000), // 30 minutes ago
+        read: false,
+        orderId: "PO126"
+      },
+      {
+        id: 2,
+        title: "Supplier Performance Review",
+        message: "Global Health Ltd. has delayed 3 shipments this quarter. Consider alternative suppliers.",
+        type: "info",
+        priority: "medium",
+        sender: "Procurement Supervisor",
+        timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+        read: false,
+        orderId: "PO124"
+      },
+      {
+        id: 3,
+        title: "Contract Renewal Reminder",
+        message: "Contract with MedSupplies Co. expires in 15 days. Initiate renewal process.",
+        type: "approval",
+        priority: "medium",
+        sender: "Operations Supervisor",
+        timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000), // 5 hours ago
+        read: false,
+        orderId: "PO123"
+      },
+      {
+        id: 4,
+        title: "Payment Received - Order PO127",
+        message: "Payment for Order PO127 has been received. Amount: ₱12,500. Status updated to Paid.",
+        type: "payment",
+        priority: "medium",
+        sender: "Finance Department",
+        timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
+        read: true,
+        orderId: "PO127"
+      },
+      {
+        id: 5,
+        title: "New Supplier Approved",
+        message: "BioMedical Supplies Inc. has been approved as a new vendor. You can now place orders.",
+        type: "info",
+        priority: "low",
+        sender: "Procurement Supervisor",
+        timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+        read: true
+      }
+    ];
+
+    // Quotation data
+    let quotationItems = [];
+    let quotationTotal = 0;
+
+    // Check if user is authenticated
+    function checkAuthentication() {
+      const userRole = localStorage.getItem('medventory_role');
+      const sessionExpiration = localStorage.getItem('medventory_session_expiration');
+      
+      if (!userRole || !sessionExpiration) {
+        // No valid session, redirect to login
+        window.location.href = 'index.html';
+        return false;
+      }
+      
+      if (Date.now() > parseInt(sessionExpiration)) {
+        // Session expired
+        localStorage.removeItem('medventory_role');
+        localStorage.removeItem('medventory_user_id');
+        localStorage.removeItem('medventory_user_email');
+        localStorage.removeItem('medventory_session_expiration');
+        window.location.href = 'index.html';
+        return false;
+      }
+      
+      return true;
+    }
+
+    function loadOrders() {
+      let orderList = document.getElementById("order-list");
+      orderList.innerHTML = "";
+      
+      orders.forEach((order, index) => {
+        let statusClass, statusText;
+        switch(order.status) {
+          case "Pending":
+            statusClass = "status-pending";
+            break;
+          case "Approved":
+            statusClass = "status-approved";
+            break;
+          case "In Transit":
+            statusClass = "status-transit";
+            break;
+          case "Delivered":
+            statusClass = "status-delivered";
+            break;
+          case "Paid":
+            statusClass = "status-paid";
+            break;
+          default:
+            statusClass = "status-pending";
+        }
+        
+        let statusBadge = `<span class="status-badge ${statusClass}">${order.status}</span>`;
+        
+        let row = `<tr>
+          <td>${order.id}</td>
+          <td>${order.supplier}</td>
+          <td>${order.items}</td>
+          <td>${order.date}</td>
+          <td>${statusBadge}</td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-outline-primary me-1" onclick="updateStatus(${index})" title="Update Status">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-info me-1" onclick="viewOrder(${index})" title="View Details">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-danger" onclick="deleteOrder(${index})" title="Delete Order">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>`;
+        orderList.innerHTML += row;
+      });
+
+      // Update counts
+      document.getElementById("pending-orders").textContent = orders.filter(order => order.status === "Pending").length;
+      document.getElementById("approved-orders").textContent = orders.filter(order => order.status === "Approved").length;
+      document.getElementById("transit-orders").textContent = orders.filter(order => order.status === "In Transit").length;
+      document.getElementById("delivered-orders").textContent = orders.filter(order => order.status === "Delivered").length;
+      document.getElementById("order-count").textContent = `${orders.length} orders`;
+    }
+
+    function loadNotifications() {
+      const notificationList = document.getElementById("notification-list");
+      notificationList.innerHTML = "";
+      
+      // Sort notifications by timestamp (newest first)
+      const sortedNotifications = [...notifications].sort((a, b) => b.timestamp - a.timestamp);
+      
+      // Display only the 5 most recent notifications in the dropdown
+      const recentNotifications = sortedNotifications.slice(0, 5);
+      
+      recentNotifications.forEach(notification => {
+        const timeAgo = getTimeAgo(notification.timestamp);
+        const unreadClass = notification.read ? "" : "unread";
+        const priorityBadge = `<span class="notification-priority priority-${notification.priority}">${notification.priority.toUpperCase()}</span>`;
+        
+        notificationList.innerHTML += `
+          <li>
+            <div class="notification-item ${unreadClass} ${notification.type}" onclick="viewNotification(${notification.id})">
+              <div class="d-flex justify-content-between">
+                <strong>${notification.title}</strong>
+                <span class="notification-time">${timeAgo}</span>
+              </div>
+              <div class="mt-1">${notification.message}</div>
+              <div class="d-flex justify-content-between mt-1">
+                <small><i class="fas fa-user-tie"></i> ${notification.sender}</small>
+                ${priorityBadge}
+              </div>
+              <div class="notification-actions">
+                <button class="btn btn-sm ${notification.read ? 'btn-outline-secondary' : 'btn-primary'}" onclick="event.stopPropagation(); markAsRead(${notification.id})">
+                  ${notification.read ? 'Mark as Unread' : 'Mark as Read'}
+                </button>
+                <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); deleteNotification(${notification.id})">
+                  Delete
+                </button>
+                ${notification.orderId ? `<button class="btn btn-sm btn-outline-info" onclick="event.stopPropagation(); viewRelatedOrder('${notification.orderId}')">
+                  View Order
+                </button>` : ''}
+              </div>
+            </div>
+          </li>
+        `;
+      });
+      
+      // Update notification count
+      const unreadCount = notifications.filter(n => !n.read).length;
+      document.getElementById("notification-count").textContent = unreadCount;
+    }
+
+    function getTimeAgo(timestamp) {
+      const now = new Date();
+      const diffMs = now - timestamp;
+      const diffMins = Math.floor(diffMs / 60000);
+      const diffHours = Math.floor(diffMs / 3600000);
+      const diffDays = Math.floor(diffMs / 86400000);
+      
+      if (diffMins < 1) return "Just now";
+      if (diffMins < 60) return `${diffMins} min ago`;
+      if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+      return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    }
+
+    function markAsRead(notificationId) {
+      const notification = notifications.find(n => n.id === notificationId);
+      if (notification) {
+        notification.read = !notification.read;
+        loadNotifications();
+      }
+    }
+
+    function markAllAsRead() {
+      notifications.forEach(notification => {
+        notification.read = true;
+      });
+      loadNotifications();
+      showToast("All notifications marked as read", "success");
+    }
+
+    function deleteNotification(notificationId) {
+      notifications = notifications.filter(n => n.id !== notificationId);
+      loadNotifications();
+      showToast("Notification deleted", "info");
+    }
+
+    function viewNotification(notificationId) {
+      const notification = notifications.find(n => n.id === notificationId);
+      if (notification) {
+        alert(`Notification Details:\n\nTitle: ${notification.title}\nMessage: ${notification.message}\nFrom: ${notification.sender}\nPriority: ${notification.priority}\nTime: ${notification.timestamp.toLocaleString()}`);
+        if (!notification.read) {
+          markAsRead(notificationId);
+        }
+      }
+    }
+
+    function viewRelatedOrder(orderId) {
+      const order = orders.find(o => o.id === orderId);
+      if (order) {
+        alert(`Order Details:\nID: ${order.id}\nSupplier: ${order.supplier}\nItems: ${order.items}\nDate: ${order.date}\nStatus: ${order.status}`);
+      } else {
+        showToast("Order not found", "warning");
+      }
+    }
+
+    function viewAllNotifications() {
+      // In a real application, this would navigate to a notifications page
+      alert("This would open a full notifications page in a real application.");
+    }
+
+    function updateStatus(index) {
+      let newStatus = prompt("Enter new status (Pending, Approved, In Transit, Delivered, Paid):", orders[index].status);
+      if (newStatus) {
+        orders[index].status = newStatus;
+        loadOrders();
+        showToast(`Order ${orders[index].id} status updated to ${newStatus}`, "success");
+        
+        // If status changed to Paid, add a notification
+        if (newStatus === "Paid") {
+          addPaymentNotification(orders[index].id);
+        }
+      }
+    }
     
-    <script>
-        let orders = [
-            { id: "PO123", supplier: "MedSupplies Co.", status: "Pending" },
-            { id: "PO124", supplier: "Global Health Ltd.", status: "Approved" },
-            { id: "PO125", supplier: "Wellness Goods Inc.", status: "In Transit" }
-        ];
-
-        function loadOrders() {
-            let orderList = document.getElementById("order-list");
-            orderList.innerHTML = "";
-            orders.forEach((order, index) => {
-                let row = `<tr>
-                    <td>${order.id}</td>
-                    <td>${order.supplier}</td>
-                    <td>${order.status}</td>
-                    <td><button class="btn btn-sm btn-outline-primary" onclick="updateStatus(${index})">Update Status</button></td>
-                </tr>`;
-                orderList.innerHTML += row;
-            });
-        }
-
-        function updateStatus(index) {
-            let newStatus = prompt("Enter new status (Pending, Approved, In Transit, Delivered):");
-            if (newStatus) {
-                orders[index].status = newStatus;
-                loadOrders();
-            }
-        }
-
-        function createOrder() {
-            let supplierName = prompt("Enter supplier name:");
-            let orderId = "PO" + (orders.length + 123);
-            if (supplierName) {
-                orders.push({ id: orderId, supplier: supplierName, status: "Pending" });
-                loadOrders();
-            }
-        }
-
-        function manageSuppliers() { alert("Redirecting to Manage Suppliers page..."); }
-        window.onload = loadOrders;
-    </script>
+    function viewOrder(index) {
+      alert(`Order Details:\nID: ${orders[index].id}\nSupplier: ${orders[index].supplier}\nItems: ${orders[index].items}\nDate: ${orders[index].date}\nStatus: ${orders[index].status}`);
+    }
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    function deleteOrder(index) {
+      if (confirm(`Are you sure you want to delete order ${orders[index].id}?`)) {
+        const deletedId = orders[index].id;
+        orders.splice(index, 1);
+        loadOrders();
+        showToast(`Order ${deletedId} has been deleted.`, "info");
+      }
+    }
+
+    function createOrder() {
+      let supplierName = prompt("Enter supplier name:");
+      if (!supplierName) return;
+      
+      let items = prompt("Enter items (comma separated):");
+      if (!items) return;
+      
+      let orderId = "PO" + (orders.length + 123);
+      let date = new Date().toISOString().split('T')[0];
+      
+      orders.push({ 
+        id: orderId, 
+        supplier: supplierName, 
+        items: items,
+        date: date,
+        status: "Pending" 
+      });
+      
+      loadOrders();
+      showToast(`Order ${orderId} created successfully!`, "success");
+    }
+
+    function manageSuppliers() {
+      showToast("Supplier management functionality coming soon!", "info");
+    }
+    
+    function generateReport() {
+      showToast("Report generation functionality coming soon!", "info");
+    }
+    
+    function filterOrders(type) {
+      showToast(`Filtering by: ${type}`, "info");
+    }
+    
+    // Toast notification function
+    function showToast(message, type) {
+      const toastContainer = document.getElementById('toastContainer');
+      
+      // Create toast element
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.setAttribute('role', 'alert');
+      toast.innerHTML = `
+        <div class="toast-header">
+          <i class="fas ${getToastIcon(type)} me-2"></i>
+          <strong class="me-auto">${getToastTitle(type)}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body">
+          ${message}
+        </div>
+      `;
+      
+      // Add toast to container
+      toastContainer.appendChild(toast);
+      
+      // Initialize and show toast
+      const bsToast = new bootstrap.Toast(toast, {
+        autohide: true,
+        delay: 1000 // Auto dismiss after 1 second
+      });
+      
+      bsToast.show();
+      
+      // Remove toast from DOM after it's hidden
+      toast.addEventListener('hidden.bs.toast', () => {
+        toast.remove();
+      });
+    }
+    
+    function getToastIcon(type) {
+      switch(type) {
+        case 'success': return 'fa-check-circle';
+        case 'info': return 'fa-info-circle';
+        case 'warning': return 'fa-exclamation-triangle';
+        case 'danger': return 'fa-exclamation-circle';
+        default: return 'fa-bell';
+      }
+    }
+    
+    function getToastTitle(type) {
+      switch(type) {
+        case 'success': return 'Success';
+        case 'info': return 'Information';
+        case 'warning': return 'Warning';
+        case 'danger': return 'Error';
+        default: return 'Notification';
+      }
+    }
+    
+    function logoutUser(event) {
+      event.preventDefault();
+
+      if (!confirm("Are you sure you want to log out?")) return;
+
+      // Clear all session data
+      localStorage.removeItem('medventory_role');
+      localStorage.removeItem('medventory_user_id');
+      localStorage.removeItem('medventory_user_email');
+      localStorage.removeItem('medventory_session_expiration');
+
+      showToast("You have been logged out successfully.", "success");
+      
+      // Redirect to login page after a short delay
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1500);
+    }
+
+    // Simulate receiving new notifications
+    function simulateNewNotification() {
+      const types = ["urgent", "approval", "info", "payment"];
+      const priorities = ["high", "medium", "low"];
+      const senders = ["Finance Supervisor", "Procurement Supervisor", "Operations Supervisor", "Finance Department"];
+      const titles = {
+        urgent: ["Budget Overrun Alert", "Urgent Approval Required", "Critical Supplier Issue"],
+        approval: ["Contract Approval Needed", "Vendor Evaluation Required", "Purchase Authorization"],
+        info: ["Monthly Report Reminder", "Supplier Performance Update", "Policy Change Notification"],
+        payment: ["Payment Received", "Payment Confirmation", "Invoice Paid"]
+      };
+      
+      const type = types[Math.floor(Math.random() * types.length)];
+      const priority = priorities[Math.floor(Math.random() * priorities.length)];
+      const sender = senders[Math.floor(Math.random() * senders.length)];
+      const title = titles[type][Math.floor(Math.random() * titles[type].length)];
+      
+      const messages = {
+        urgent: [
+          "Immediate action required: Budget for Q4 has been exceeded by 15%.",
+          "Urgent: Order PO128 requires immediate approval for critical supplies.",
+          "Critical: Primary supplier has declared force majeure. Need alternative sourcing."
+        ],
+        approval: [
+          "Please review and approve the updated contract terms with MedSupplies Co.",
+          "Vendor evaluation forms for Q3 are due by end of week.",
+          "Authorization required for purchase exceeding $50,000 limit."
+        ],
+        info: [
+          "Reminder: Monthly procurement report submission deadline is approaching.",
+          "Update: Supplier performance metrics for last quarter have been published.",
+          "Notification: New procurement policy changes effective next month."
+        ],
+        payment: [
+          "Payment for Order PO129 has been received. Amount: ₱8,750. Status updated to Paid.",
+          "Invoice #INV-2023-045 has been paid. Thank you for your prompt payment.",
+          "Payment confirmation: Order PO130 has been fully paid. Delivery will be scheduled."
+        ]
+      };
+      
+      const message = messages[type][Math.floor(Math.random() * messages[type].length)];
+      
+      const newNotification = {
+        id: notifications.length > 0 ? Math.max(...notifications.map(n => n.id)) + 1 : 1,
+        title: title,
+        message: message,
+        type: type,
+        priority: priority,
+        sender: sender,
+        timestamp: new Date(),
+        read: false
+      };
+      
+      notifications.unshift(newNotification);
+      loadNotifications();
+      
+      // Show a toast notification that auto-dismisses
+      showToast(`New notification from ${sender}: ${title}`, "info");
+    }
+
+    // Add payment notification
+    function addPaymentNotification(orderId) {
+      const paymentNotification = {
+        id: notifications.length > 0 ? Math.max(...notifications.map(n => n.id)) + 1 : 1,
+        title: "Payment Received",
+        message: `Payment for Order ${orderId} has been received. Amount: ₱${Math.floor(Math.random() * 10000) + 5000}. Status updated to Paid.`,
+        type: "payment",
+        priority: "medium",
+        sender: "Finance Department",
+        timestamp: new Date(),
+        read: false,
+        orderId: orderId
+      };
+      
+      notifications.unshift(paymentNotification);
+      loadNotifications();
+    }
+
+    // Quotation Functions
+    function addToQuotation(productName, price, unit) {
+      // Check if product already exists in quotation
+      const existingItem = quotationItems.find(item => item.name === productName);
+      
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        quotationItems.push({
+          name: productName,
+          price: price,
+          unit: unit,
+          quantity: 1
+        });
+      }
+      
+      updateQuotationDisplay();
+      showToast(`${productName} added to quotation`, "success");
+    }
+
+    function updateQuotationDisplay() {
+      const quotationItemsElement = document.getElementById("quotationItems");
+      const quotationTotalElement = document.getElementById("quotationTotal");
+      const totalAmountElement = document.getElementById("totalAmount");
+      const generateQuoteBtn = document.getElementById("generateQuoteBtn");
+      
+      // Clear current display
+      quotationItemsElement.innerHTML = "";
+      quotationTotal = 0;
+      
+      if (quotationItems.length === 0) {
+        quotationItemsElement.innerHTML = `
+          <div class="empty-quotation">
+            <i class="fas fa-shopping-cart fa-2x mb-2"></i>
+            <p>Your quotation is empty</p>
+          </div>
+        `;
+        quotationTotalElement.classList.add("hidden");
+        generateQuoteBtn.disabled = true;
+        return;
+      }
+      
+      // Add items to display
+      quotationItems.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        quotationTotal += itemTotal;
+        
+        const itemElement = document.createElement('div');
+        itemElement.className = 'quotation-item';
+        itemElement.innerHTML = `
+          <div class="d-flex justify-content-between align-items-start">
+            <div class="flex-grow-1">
+              <strong>${item.name}</strong><br>
+              <small class="text-muted">₱${item.price} / ${item.unit}</small>
+              <div class="quantity-controls mt-1">
+                <button class="btn btn-sm btn-outline-secondary quantity-btn" onclick="updateQuotationQuantity(${index}, -1)">
+                  <i class="fas fa-minus"></i>
+                </button>
+                <input type="number" class="form-control form-control-sm quantity-input" value="${item.quantity}" min="1" onchange="updateQuotationQuantityInput(${index}, this.value)">
+                <button class="btn btn-sm btn-outline-secondary quantity-btn" onclick="updateQuotationQuantity(${index}, 1)">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="text-end">
+              <div class="fw-bold">₱${itemTotal}</div>
+              <button class="btn btn-sm btn-outline-danger mt-1" onclick="removeFromQuotation(${index})">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+        `;
+        
+        quotationItemsElement.appendChild(itemElement);
+      });
+      
+      // Update total
+      totalAmountElement.textContent = quotationTotal.toLocaleString();
+      quotationTotalElement.classList.remove("hidden");
+      generateQuoteBtn.disabled = false;
+    }
+
+    function updateQuotationQuantity(index, change) {
+      quotationItems[index].quantity += change;
+      
+      // Ensure quantity doesn't go below 1
+      if (quotationItems[index].quantity < 1) {
+        quotationItems[index].quantity = 1;
+      }
+      
+      updateQuotationDisplay();
+    }
+
+    function updateQuotationQuantityInput(index, value) {
+      const quantity = parseInt(value);
+      
+      if (quantity > 0) {
+        quotationItems[index].quantity = quantity;
+        updateQuotationDisplay();
+      }
+    }
+
+    function removeFromQuotation(index) {
+      const itemName = quotationItems[index].name;
+      quotationItems.splice(index, 1);
+      updateQuotationDisplay();
+      showToast(`${itemName} removed from quotation`, "info");
+    }
+
+    function clearQuotation() {
+      if (quotationItems.length > 0) {
+        if (confirm('Are you sure you want to clear your quotation?')) {
+          quotationItems = [];
+          updateQuotationDisplay();
+          showToast("Quotation cleared", "info");
+        }
+      }
+    }
+
+    function generateQuotation() {
+      // In a real application, this would generate a PDF or send the quotation
+      showToast(`Quotation generated successfully! Total: ₱${quotationTotal.toLocaleString()}`, "success");
+      
+      // Close the modal
+      const modal = bootstrap.Modal.getInstance(document.getElementById('quotationModal'));
+      modal.hide();
+      
+      // Clear the quotation
+      quotationItems = [];
+      updateQuotationDisplay();
+    }
+
+    // Initialize on page load
+    window.onload = function() {
+      // Check authentication first
+      if (!checkAuthentication()) return;
+      
+      loadOrders();
+      loadNotifications();
+      
+      // Set up category filtering in quotation modal
+      const categoryButtons = document.querySelectorAll('.category-btn');
+      
+      categoryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Update active button
+          categoryButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          const category = this.getAttribute('data-category');
+          
+          // Show/hide products based on category
+          const productItems = document.querySelectorAll('.product-item');
+          
+          productItems.forEach(item => {
+            if (category === 'all' || item.getAttribute('data-category') === category) {
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+          
+          // Show/hide category sections
+          const categorySections = document.querySelectorAll('.category-section');
+          
+          categorySections.forEach(section => {
+            if (category === 'all' || section.id === `${category}-category`) {
+              section.style.display = 'block';
+            } else {
+              section.style.display = 'none';
+            }
+          });
+        });
+      });
+      
+      // Simulate receiving a new notification every 45 seconds for demo purposes
+      setInterval(simulateNewNotification, 45000);
+    };
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
