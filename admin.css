@@ -1,0 +1,127 @@
+
+body {
+  background-color: #f4f8fb;
+  font-family: Arial, sans-serif;
+}
+.navbar {
+  background-color: #198754;
+}
+.navbar-brand, .nav-link {
+  color: #fff !important;
+  font-weight: bold;
+}
+.hero-section {
+  background: linear-gradient(to right, #198754, #28a745);
+  color: white;
+  padding: 60px 0;
+  text-align: center;
+}
+.dashboard-card {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  text-align: center;
+}
+.dashboard-card i {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+.footer {
+  background-color: #198754;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  margin-top: 30px;
+}
+.btn i {
+  margin-right: 5px;
+}
+.table th, .table td {
+  vertical-align: middle;
+}
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.notification-dropdown {
+  width: 350px;
+}
+.notification-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+.notification-item:last-child {
+  border-bottom: none;
+}
+.notification-item.unread {
+  background-color: #f8f9fa;
+}
+.notification-item.procurement {
+  border-left: 4px solid #0d6efd;
+}
+.notification-item.finance {
+  border-left: 4px solid #fd7e14;
+}
+.notification-time {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+.system-inventory-section {
+  margin-top: 30px;
+}
+.system-card {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: white;
+}
+.system-card-header {
+  font-weight: bold;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+.system-info-item {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.system-info-label {
+  font-weight: 500;
+}
+.system-info-value {
+  color: #198754;
+}
+.system-status {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+.status-operational {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+.status-maintenance {
+  background-color: #fff3cd;
+  color: #856404;
+}
+.status-issue {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+.progress {
+  height: 8px;
+}

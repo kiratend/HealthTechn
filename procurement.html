@@ -865,30 +865,6 @@
     let quotationItems = [];
     let quotationTotal = 0;
 
-    // Check if user is authenticated
-    function checkAuthentication() {
-      const userRole = localStorage.getItem('medventory_role');
-      const sessionExpiration = localStorage.getItem('medventory_session_expiration');
-      
-      if (!userRole || !sessionExpiration) {
-        // No valid session, redirect to login
-        window.location.href = 'index.html';
-        return false;
-      }
-      
-      if (Date.now() > parseInt(sessionExpiration)) {
-        // Session expired
-        localStorage.removeItem('medventory_role');
-        localStorage.removeItem('medventory_user_id');
-        localStorage.removeItem('medventory_user_email');
-        localStorage.removeItem('medventory_session_expiration');
-        window.location.href = 'index.html';
-        return false;
-      }
-      
-      return true;
-    }
-
     function loadOrders() {
       let orderList = document.getElementById("order-list");
       orderList.innerHTML = "";
@@ -1175,18 +1151,13 @@
 
       if (!confirm("Are you sure you want to log out?")) return;
 
-      // Clear all session data
-      localStorage.removeItem('medventory_role');
-      localStorage.removeItem('medventory_user_id');
-      localStorage.removeItem('medventory_user_email');
-      localStorage.removeItem('medventory_session_expiration');
-
-      showToast("You have been logged out successfully.", "success");
-      
-      // Redirect to login page after a short delay
+      // Simulate AJAX call for logout
       setTimeout(() => {
-        window.location.href = 'index.html';
-      }, 1500);
+        showToast("You have been logged out successfully.", "success");
+        setTimeout(() => {
+          window.location.href = 'logout.html';
+        }, 1500);
+      }, 500);
     }
 
     // Simulate receiving new notifications
@@ -1401,9 +1372,6 @@
 
     // Initialize on page load
     window.onload = function() {
-      // Check authentication first
-      if (!checkAuthentication()) return;
-      
       loadOrders();
       loadNotifications();
       
