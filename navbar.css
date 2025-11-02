@@ -1,0 +1,29 @@
+/* ===== NAVBAR STYLES ===== */
+.navbar {
+    background-color: #00703c;
+    padding: 12px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+    color: white !important;
+    font-size: 1.5rem;
+  }
+  
+  .navbar-brand span {
+    color: #87e2ff;
+  }
+  
+  .nav-link {
+    color: white !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    transform: translateY(-2px);
+  }

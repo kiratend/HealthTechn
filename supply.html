@@ -11,14 +11,27 @@
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link href="supply.css" rel="stylesheet">
-  <link href="index_nav.php" rel="stylesheet">
-
-  <style>
-    
-  </style>
+  <link href="navbar.css" rel="stylesheet">
+  <link href="footer.css" rel="stylesheet">
 </head>
 <body>
-
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html"><i class="fas fa-stethoscope me-2"></i>Med<span>Ventory</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i>Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="supply.html"><i class="fas fa-boxes me-1"></i>Supply</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html"><i class="fas fa-phone me-1"></i>Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html"><i class="fas fa-sign-in-alt me-1"></i>Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
   <!-- Hero Banner -->
   <div class="hero">
@@ -393,7 +406,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-success" onclick="confirmOrder()">
+          <button type="button" class="btn btn-success" onclick="confirmOrder()" id="confirmOrderBtn">
             <i class="fas fa-check-circle me-1"></i>Confirm Order
           </button>
         </div>
@@ -419,228 +432,12 @@
   </footer>
 
   <!-- Scripts -->
-  <script>
-    // Order data
-    let orderItems = [];
-    let totalAmount = 0;
-
-    // Add product to order
-    function addToOrder(productName, price, unit) {
-      // Check if product already exists in order
-      const existingItem = orderItems.find(item => item.name === productName);
-      
-      if (existingItem) {
-        existingItem.quantity += 1;
-      } else {
-        orderItems.push({
-          name: productName,
-          price: price,
-          unit: unit,
-          quantity: 1
-        });
-      }
-      
-      updateOrderDisplay();
-    }
-
-    // Update order display
-    function updateOrderDisplay() {
-      const orderItemsElement = document.getElementById('orderItems');
-      const orderTotalElement = document.getElementById('orderTotal');
-      const totalAmountElement = document.getElementById('totalAmount');
-      const placeOrderBtn = document.getElementById('placeOrderBtn');
-      
-      // Clear current display
-      orderItemsElement.innerHTML = '';
-      totalAmount = 0;
-      
-      if (orderItems.length === 0) {
-        orderItemsElement.innerHTML = `
-          <div class="empty-order">
-            <i class="fas fa-shopping-cart fa-2x mb-2"></i>
-            <p>Your order is empty</p>
-          </div>
-        `;
-        orderTotalElement.classList.add('hidden');
-        placeOrderBtn.disabled = true;
-        return;
-      }
-      
-      // Add items to display
-      orderItems.forEach((item, index) => {
-        const itemTotal = item.price * item.quantity;
-        totalAmount += itemTotal;
-        
-        const itemElement = document.createElement('div');
-        itemElement.className = 'order-item';
-        itemElement.innerHTML = `
-          <div class="d-flex justify-content-between align-items-start">
-            <div class="flex-grow-1">
-              <strong>${item.name}</strong><br>
-              <small class="text-muted">₱${item.price} / ${item.unit}</small>
-              <div class="quantity-controls mt-1">
-                <button class="btn btn-sm btn-outline-secondary quantity-btn" onclick="updateQuantity(${index}, -1)">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <input type="number" class="form-control form-control-sm quantity-input" value="${item.quantity}" min="1" onchange="updateQuantityInput(${index}, this.value)">
-                <button class="btn btn-sm btn-outline-secondary quantity-btn" onclick="updateQuantity(${index}, 1)">
-                  <i class="fas fa-plus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="text-end">
-              <div class="fw-bold">₱${itemTotal}</div>
-              <button class="btn btn-sm btn-outline-danger mt-1" onclick="removeFromOrder(${index})">
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
-          </div>
-        `;
-        
-        orderItemsElement.appendChild(itemElement);
-      });
-      
-      // Update total
-      totalAmountElement.textContent = totalAmount.toLocaleString();
-      orderTotalElement.classList.remove('hidden');
-      placeOrderBtn.disabled = false;
-    }
-
-    // Update quantity with buttons
-    function updateQuantity(index, change) {
-      orderItems[index].quantity += change;
-      
-      // Ensure quantity doesn't go below 1
-      if (orderItems[index].quantity < 1) {
-        orderItems[index].quantity = 1;
-      }
-      
-      updateOrderDisplay();
-    }
-
-    // Update quantity with input
-    function updateQuantityInput(index, value) {
-      const quantity = parseInt(value);
-      
-      if (quantity > 0) {
-        orderItems[index].quantity = quantity;
-        updateOrderDisplay();
-      }
-    }
-
-    // Remove item from order
-    function removeFromOrder(index) {
-      orderItems.splice(index, 1);
-      updateOrderDisplay();
-    }
-
-    // Clear order
-    function clearOrder() {
-      if (orderItems.length > 0) {
-        if (confirm('Are you sure you want to clear your order?')) {
-          orderItems = [];
-          updateOrderDisplay();
-        }
-      }
-    }
-
-    // Place order - show modal
-    function placeOrder() {
-      // Populate order summary in modal
-      const orderSummaryElement = document.getElementById('orderSummaryItems');
-      orderSummaryElement.innerHTML = '';
-      
-      orderItems.forEach(item => {
-        const itemTotal = item.price * item.quantity;
-        
-        const itemElement = document.createElement('div');
-        itemElement.className = 'order-summary-item';
-        itemElement.innerHTML = `
-          <div class="order-item-details">
-            <div class="fw-bold">${item.name}</div>
-            <div class="text-muted">${item.quantity} ${item.unit} × ₱${item.price}</div>
-          </div>
-          <div class="order-item-price">₱${itemTotal}</div>
-        `;
-        
-        orderSummaryElement.appendChild(itemElement);
-      });
-      
-      // Update totals in modal
-      document.getElementById('modalSubtotal').textContent = totalAmount.toLocaleString();
-      document.getElementById('modalTotal').textContent = (totalAmount + 100).toLocaleString();
-      
-      // Show modal
-      new bootstrap.Modal(document.getElementById('orderModal')).show();
-    }
-
-    // Confirm order
-    function confirmOrder() {
-      const fullName = document.getElementById('fullName').value;
-      const address = document.getElementById('address').value;
-      const phone = document.getElementById('phone').value;
-      const paymentMethod = document.getElementById('paymentMethod').value;
-      
-      // Basic validation
-      if (!fullName || !address || !phone || !paymentMethod) {
-        alert('Please fill in all required fields.');
-        return;
-      }
-      
-      // In a real application, you would send this data to a server
-      // For now, we'll just show a success message
-      alert(`✅ Order Placed Successfully!\n\nThank you, ${fullName}!\nYour order will be delivered to:\n${address}\n\nPayment Method: ${paymentMethod}\nTotal: ₱${(totalAmount + 100).toLocaleString()}`);
-      
-      // Close modal and reset order
-      bootstrap.Modal.getInstance(document.getElementById('orderModal')).hide();
-      orderItems = [];
-      updateOrderDisplay();
-      
-      // Reset form
-      document.getElementById('fullName').value = '';
-      document.getElementById('address').value = '';
-      document.getElementById('phone').value = '';
-      document.getElementById('paymentMethod').value = '';
-      document.getElementById('notes').value = '';
-    }
-
-    // Category filtering
-    document.addEventListener('DOMContentLoaded', function() {
-      const categoryButtons = document.querySelectorAll('.category-btn');
-      
-      categoryButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          // Update active button
-          categoryButtons.forEach(btn => btn.classList.remove('active'));
-          this.classList.add('active');
-          
-          const category = this.getAttribute('data-category');
-          
-          // Show/hide products based on category
-          const productItems = document.querySelectorAll('.product-item');
-          
-          productItems.forEach(item => {
-            if (category === 'all' || item.getAttribute('data-category') === category) {
-              item.style.display = 'block';
-            } else {
-              item.style.display = 'none';
-            }
-          });
-          
-          // Show/hide category sections
-          const categorySections = document.querySelectorAll('.category-section');
-          
-          categorySections.forEach(section => {
-            if (category === 'all' || section.id === `${category}-category`) {
-              section.style.display = 'block';
-            } else {
-              section.style.display = 'none';
-            }
-          });
-        });
-      });
-    });
-  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Firebase Configuration -->
+  <script type="module" src="firebase-supply.js"></script>
+  
+  <!-- Order Management Script -->
+  <script src="supply.js"></script>
 </body>
 </html>

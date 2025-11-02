@@ -1,127 +1,151 @@
+/* Custom Styles */
+:root {
+  --primary-color: #1a73e8;
+  --secondary-color: #34a853;
+  --accent-color: #fbbc05;
+  --danger-color: #ea4335;
+  --light-color: #f8f9fa;
+  --dark-color: #202124;
+}
 
 body {
-  background-color: #f4f8fb;
-  font-family: Arial, sans-serif;
+  background-color: #f5f7fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+/* Navbar */
 .navbar {
-  background-color: #198754;
+  background-color: var(--primary-color);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
 .navbar-brand, .nav-link {
-  color: #fff !important;
-  font-weight: bold;
+  color: white !important;
 }
-.hero-section {
-  background: linear-gradient(to right, #198754, #28a745);
-  color: white;
-  padding: 60px 0;
-  text-align: center;
-}
-.dashboard-card {
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 25px;
-  text-align: center;
-}
-.dashboard-card i {
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
-.footer {
-  background-color: #198754;
-  color: white;
-  text-align: center;
-  padding: 15px;
-  margin-top: 30px;
-}
-.btn i {
-  margin-right: 5px;
-}
-.table th, .table td {
-  vertical-align: middle;
-}
+
 .notification-badge {
   position: absolute;
-  top: -5px;
-  right: -5px;
-  background-color: #dc3545;
+  top: 0;
+  right: 0;
+  background-color: var(--danger-color);
   color: white;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  font-size: 12px;
+  width: 18px;
+  height: 18px;
+  font-size: 0.7rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .notification-dropdown {
-  width: 350px;
+  width: 300px;
 }
-.notification-item {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  padding: 3rem 0;
+  text-align: center;
+  margin-bottom: 2rem;
 }
-.notification-item:last-child {
-  border-bottom: none;
-}
-.notification-item.unread {
-  background-color: #f8f9fa;
-}
-.notification-item.procurement {
-  border-left: 4px solid #0d6efd;
-}
-.notification-item.finance {
-  border-left: 4px solid #fd7e14;
-}
-.notification-time {
-  font-size: 0.8rem;
-  color: #6c757d;
-}
-.system-inventory-section {
-  margin-top: 30px;
-}
-.system-card {
+
+/* Dashboard Cards */
+.dashboard-card {
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-bottom: 20px;
-  background-color: white;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
 }
-.system-card-header {
-  font-weight: bold;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
 }
-.system-info-item {
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
+
+.dashboard-card i {
+  font-size: 2.5rem;
 }
-.system-info-label {
+
+.dashboard-card h5 {
+  font-weight: 600;
+}
+
+.dashboard-card p {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+/* Table Styling */
+.card {
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.card-header {
+  border-bottom: none;
+  padding: 1rem 1.25rem;
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table th {
+  border-top: none;
+  font-weight: 600;
+}
+
+/* Footer */
+.footer {
+  background-color: var(--dark-color);
+  color: white;
+  text-align: center;
+  padding: 1.5rem 0;
+  margin-top: 2rem;
+}
+
+/* Buttons */
+.btn {
+  border-radius: 6px;
   font-weight: 500;
 }
-.system-info-value {
-  color: #198754;
+
+/* Status Badges */
+.badge {
+  font-size: 0.75rem;
+  padding: 0.4em 0.6em;
 }
-.system-status {
-  display: inline-block;
-  padding: 3px 8px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  font-weight: bold;
+
+/* Modal Styling */
+.modal-header {
+  background-color: var(--primary-color);
+  color: white;
 }
-.status-operational {
-  background-color: #d1e7dd;
-  color: #0f5132;
+
+.modal-footer {
+  border-top: 1px solid #dee2e6;
 }
-.status-maintenance {
-  background-color: #fff3cd;
-  color: #856404;
+
+/* Form Styling */
+.form-label {
+  font-weight: 500;
 }
-.status-issue {
-  background-color: #f8d7da;
-  color: #721c24;
+
+.form-control, .form-select {
+  border-radius: 6px;
 }
-.progress {
-  height: 8px;
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .dashboard-card {
+      margin-bottom: 1rem;
+  }
+  
+  .modal-dialog {
+      margin: 1rem;
+  }
 }

@@ -1,202 +1,213 @@
+/* MedVentory Theme Styles */
+:root {
+  --primary-green: #198754;
+  --dark-green: #0f5132;
+  --light-green: #d1e7dd;
+  --white: #ffffff;
+  --light-gray: #f5f5f5;
+  --error-red: #dc3545;
+  --error-bg: #f8d7da;
+  --error-border: #f5c6cb;
+}
 
-    :root {
-      --primary-color: #198754;
-      --primary-hover: #157347;
-      --light-bg: #f4f8fb;
-      --input-bg: #d9f2e6;
-    }
-    
-    body {
-      background-color: var(--light-bg);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    
-    .navbar {
-      background-color: var(--primary-color);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .navbar-brand, .nav-link {
-      color: white !important;
-      font-weight: bold;
-    }
-    
-    .login-container {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 40px 20px;
-      background: linear-gradient(135deg, #f4f8fb 0%, #e3f2ef 100%);
-    }
-    
-    .login-box {
-      background: white;
-      padding: 35px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      width: 100%;
-      max-width: 420px;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-    
-    .login-box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
-    }
-    
-    .login-box h2 {
-      color: var(--primary-color);
-      margin-bottom: 25px;
-      font-weight: 700;
-    }
-    
-    .input-group-text {
-      background-color: var(--input-bg);
-      border: none;
-      border-radius: 8px 0 0 8px !important;
-    }
-    
-    .form-control, .form-select {
-      border: 1px solid #ced4da;
-      border-radius: 8px;
-      padding: 12px 16px;
-      transition: all 0.3s;
-    }
-    
-    .form-control:focus, .form-select:focus {
-      box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.2);
-      border-color: var(--primary-color);
-    }
-    
-    .btn-primary {
-      background-color: var(--primary-color);
-      border: none;
-      padding: 12px;
-      font-weight: 600;
-      border-radius: 8px;
-      transition: all 0.3s;
-    }
-    
-    .btn-primary:hover {
-      background-color: var(--primary-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    
-    .footer {
-      background-color: var(--primary-color);
-      color: white;
-      text-align: center;
-      padding: 16px;
-      margin-top: auto;
-    }
-    
-    .role-selector {
-      margin-bottom: 20px;
-    }
-    
-    .input-group.has-select {
-      flex-wrap: nowrap;
-    }
-    
-    .input-group.has-select .input-group-text {
-      border-radius: 8px 0 0 8px;
-    }
-    
-    .input-group.has-select .form-select {
-      border-radius: 0 8px 8px 0;
-      border-left: 1px solid #ced4da;
-    }
-    
-    .toast-container {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 9999;
-    }
-    
-    .toast {
-      background-color: rgba(255, 255, 255, 0.98);
-      border-left: 4px solid var(--primary-color);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-    }
-    
-    .toast.error {
-      border-left-color: #dc3545;
-    }
-    
-    .spinner-border-sm {
-      width: 1rem;
-      height: 1rem;
-    }
-    
-    .password-toggle {
-      cursor: pointer;
-      background-color: var(--input-bg);
-      border: none;
-      border-radius: 0 8px 8px 0;
-      padding: 0 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .form-label {
-      font-weight: 600;
-      color: #495057;
-      margin-bottom: 8px;
-    }
-    
-    .session-info {
-      background-color: #e9f5ef;
-      border-radius: 8px;
+body {
+  background-color: var(--light-gray);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--light-green) 0%, #f0f8ff 100%);
+}
+
+.medventory-logout-container {
+  width: 100%;
+  max-width: 450px;
+  padding: 20px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.medventory-logout-card {
+  background-color: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(25, 135, 84, 0.15);
+  padding: 50px 40px;
+  text-align: center;
+  border-top: 6px solid var(--primary-green);
+  transition: transform 0.3s ease;
+}
+
+.medventory-logout-card:hover {
+  transform: translateY(-5px);
+}
+
+.medventory-logout-icon {
+  font-size: 60px;
+  color: var(--primary-green);
+  margin-bottom: 25px;
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  border-radius: 50%;
+  background-color: var(--light-green);
+}
+
+.medventory-logout-title {
+  color: var(--dark-green);
+  font-weight: 700;
+  margin-bottom: 15px;
+  font-size: 28px;
+}
+
+.medventory-logout-subtitle {
+  color: #555;
+  font-size: 17px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.medventory-logo {
+  margin-top: 30px;
+  font-size: 16px;
+  color: #666;
+}
+
+.medventory-logo strong {
+  color: var(--primary-green);
+  font-weight: 700;
+}
+
+.progress-container {
+  width: 80%;
+  height: 6px;
+  background-color: #e0e0e0;
+  border-radius: 3px;
+  margin: 25px auto;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: var(--primary-green);
+  border-radius: 3px;
+  animation: progress 1.5s ease-in-out forwards;
+}
+
+@keyframes progress {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.security-note {
+  font-size: 14px;
+  color: #777;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.security-note i {
+  color: var(--primary-green);
+}
+
+.error-message {
+  color: var(--error-red);
+  background-color: var(--error-bg);
+  border: 1px solid var(--error-border);
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 20px;
+  display: none;
+}
+
+.success-message {
+  color: var(--dark-green);
+  background-color: var(--light-green);
+  border: 1px solid #badbcc;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 20px;
+  display: none;
+}
+
+.action-buttons {
+  margin-top: 20px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-success {
+  background-color: var(--primary-green);
+  border-color: var(--primary-green);
+}
+
+.btn-success:hover {
+  background-color: var(--dark-green);
+  border-color: var(--dark-green);
+}
+
+.btn-outline-success {
+  color: var(--primary-green);
+  border-color: var(--primary-green);
+}
+
+.btn-outline-success:hover {
+  background-color: var(--primary-green);
+  color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+  .medventory-logout-container {
       padding: 15px;
-      margin-top: 20px;
-      font-size: 0.9rem;
-      display: none;
-    }
-    
-    .session-info.active {
-      display: block;
-    }
-    
-    .session-info h6 {
-      color: var(--primary-color);
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-    
-    .support-link {
-      color: var(--primary-color);
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s;
-    }
-    
-    .support-link:hover {
-      color: var(--primary-hover);
-      text-decoration: underline;
-    }
-    
-    .logout-btn {
-      background-color: #dc3545;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 6px;
-      font-weight: 500;
-      transition: all 0.3s;
-      display: none;
-    }
-    
-    .logout-btn:hover {
-      background-color: #bb2d3b;
-      transform: translateY(-2px);
-    }
- 
+  }
+  
+  .medventory-logout-card {
+      padding: 30px 20px;
+  }
+  
+  .medventory-logout-icon {
+      width: 80px;
+      height: 80px;
+      line-height: 80px;
+      font-size: 40px;
+  }
+  
+  .medventory-logout-title {
+      font-size: 24px;
+  }
+  
+  .medventory-logout-subtitle {
+      font-size: 16px;
+  }
+  
+  .action-buttons {
+      flex-direction: column;
+  }
+}
+
+/* Loading animation for the spinner */
+.fa-spin {
+  animation: fa-spin 2s infinite linear;
+}
+
+@keyframes fa-spin {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}

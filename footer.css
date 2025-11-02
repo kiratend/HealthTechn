@@ -1,0 +1,41 @@
+/* ===== FOOTER STYLES ===== */
+.footer {
+    background-color: #00703c;
+    color: white;
+    text-align: center;
+    padding: 40px 10px;
+  }
+  
+  .footer a {
+    color: #c2fbd8;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .footer a:hover {
+    color: white;
+    text-decoration: underline;
+  }
+  
+  .social-icons {
+    margin: 20px 0;
+  }
+  
+  .social-icons a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 50%;
+    margin: 0 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .social-icons a:hover {
+    background: white;
+    color: #00703c;
+    transform: translateY(-5px);
+  }

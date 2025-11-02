@@ -1,7 +1,8 @@
-// Firebase Configuration
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getDatabase } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+// Firebase configuration and initialization
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCTfRRVc-QRKpEpzIpe3OtI2cYeotP1WCs",
   authDomain: "healthtechn-c15da.firebaseapp.com",
@@ -14,7 +15,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
 
-// Export for use in other modules
-export { database };
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
+
+export { db };
+

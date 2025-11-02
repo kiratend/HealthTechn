@@ -1,159 +1,38 @@
-/* ===== MAIN CONTENT STYLES ===== */
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.6;
-}
+<?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-.hero {
-  background: linear-gradient(rgba(0, 112, 60, 0.7), rgba(0, 112, 60, 0.5)), 
-              url('https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1480&q=80') no-repeat center center;
-  background-size: cover;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  color: white;
-  padding: 40px 20px;
-  position: relative;
-}
+require 'PHPMailer/PHPMailer/src/Exception.php';
+require 'PHPMailer/PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/PHPMailer/src/SMTP.php';
 
-.hero-content {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 40px;
-  max-width: 550px;
-  border-radius: 12px;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-  color: #333;
-  margin-left: 10%;
-}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = htmlspecialchars($_POST["name"]);
+    $email = htmlspecialchars($_POST["email"]);
+    $message = htmlspecialchars($_POST["message"]);
 
-.hero-content h2 {
-  color: #00703c;
-  font-size: 2.2rem;
-  margin-bottom: 20px;
-}
+    $mail = new PHPMailer(true);
 
-.hero-content p {
-  font-size: 1.1rem;
-  margin-bottom: 25px;
-  color: #555;
-}
+    try {
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'dr7541813@gmail.com'; 
+        $mail->Password = 'cbna wkum zrew vrbp'; 
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
 
-.btn-light-outline {
-  background-color: transparent;
-  border: 2px solid #00703c;
-  color: #00703c;
-  font-weight: bold;
-  padding: 12px 25px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
+        $mail->setFrom($email, $name);
+        $mail->addAddress('your-email@gmail.com'); 
 
-.btn-light-outline:hover {
-  background-color: #00703c;
-  color: white;
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0, 112, 60, 0.3);
-}
+        $mail->isHTML(true);
+        $mail->Subject = "New Contact Form Submission from $name";
+        $mail->Body    = "<strong>Name:</strong> $name<br><strong>Email:</strong> $email<br><strong>Message:</strong><br>$message";
 
-.mission-vision {
-  padding: 80px 0;
-  background-color: #f8f9fa;
+        $mail->send();
+        echo "Success! Your message has been sent.";
+    } catch (Exception $e) {
+        echo "Error! Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
 }
-
-.mission-vision h2 {
-  color: #00703c;
-  margin-bottom: 20px;
-  font-weight: 700;
-}
-
-.mission-vision .card {
-  border: none;
-  border-radius: 12px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%;
-}
-
-.mission-vision .card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.mission-vision .card h3 {
-  color: #00703c;
-  font-weight: 600;
-}
-
-.features {
-  padding: 80px 0;
-  background-color: white;
-}
-
-.feature-box {
-  text-align: center;
-  padding: 30px 20px;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  height: 100%;
-}
-
-.feature-box:hover {
-  background-color: #f0f9f4;
-  transform: translateY(-5px);
-}
-
-.feature-icon {
-  font-size: 3rem;
-  color: #00703c;
-  margin-bottom: 20px;
-}
-
-.testimonials {
-  padding: 80px 0;
-  background-color: #f8f9fa;
-}
-
-.testimonial-card {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-  margin: 15px 0;
-}
-
-.testimonial-text {
-  font-style: italic;
-  color: #555;
-  margin-bottom: 20px;
-}
-
-.testimonial-author {
-  font-weight: 600;
-  color: #00703c;
-}
-
-.modal-content {
-  border-radius: 12px;
-  border: none;
-}
-
-.modal-header {
-  background-color: #00703c;
-  color: white;
-  border-radius: 12px 12px 0 0;
-}
-
-.btn-close {
-  filter: invert(1);
-}
-
-@media (max-width: 768px) {
-  .hero-content {
-    margin-left: 0;
-    padding: 25px;
-  }
-  
-  .hero-content h2 {
-    font-size: 1.8rem;
-  }
-}
+?>

@@ -1,402 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Login | MedVentory</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="logout.css">
-
+    <title>Logging Out... - Medventory</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Medventory Theme Styles */
+        :root {
+            --primary-blue: #2196F3;
+            --dark-blue: #1976D2;
+            --light-blue: #E3F2FD;
+            --white: #ffffff;
+            --light-gray: #f5f5f5;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--light-blue) 0%, #f0f8ff 100%);
+        }
+        
+        .medventory-logout-container {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .medventory-logout-card {
+            background-color: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.15);
+            padding: 50px 40px;
+            text-align: center;
+            border-top: 6px solid var(--primary-blue);
+            transition: transform 0.3s ease;
+        }
+        
+        .medventory-logout-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .medventory-logout-icon {
+            font-size: 60px;
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            line-height: 100px;
+            border-radius: 50%;
+            background-color: var(--light-blue);
+        }
+        
+        .medventory-logout-title {
+            color: var(--dark-blue);
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+        
+        .medventory-logout-subtitle {
+            color: #555;
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .medventory-logo {
+            margin-top: 30px;
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .medventory-logo strong {
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+        
+        .progress-container {
+            width: 80%;
+            height: 6px;
+            background-color: #e0e0e0;
+            border-radius: 3px;
+            margin: 25px auto;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: var(--primary-blue);
+            border-radius: 3px;
+            animation: progress 1.5s ease-in-out forwards;
+        }
+        
+        @keyframes progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .security-note {
+            font-size: 14px;
+            color: #777;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .security-note i {
+            color: #4CAF50;
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-
-  <!-- Toast Notifications -->
-  <div class="toast-container"></div>
-
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg">
-    <div class="container">
-      <a class="navbar-brand" href="#">
-        <i class="fa-solid fa-stethoscope me-2"></i>MedVentory Admin
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#"><i class="fa-solid fa-circle-question me-1"></i> Support</a>
-          </li>
-          <li class="nav-item">
-            <button class="btn logout-btn mt-1 ms-2" id="logoutButton">
-              <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
-            </button>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Login Section -->
-  <div class="login-container">
-    <div class="login-box">
-      <h2><i class="fa-solid fa-user-shield me-2"></i>Admin Login</h2>
-      
-      <!-- Role Selector -->
-      <div class="role-selector mb-3">
-        <label class="form-label">Select Account Type</label>
-        <div class="input-group has-select">
-          <span class="input-group-text"><i class="fa-solid fa-user-tie"></i></span>
-          <select class="form-select" id="userRole" required>
-            <option value="" selected disabled>Select your role</option>
-            <option value="admin">Administrator</option>
-            <option value="procurement">Procurement</option>
-            <option value="finance">Finance</option>
-            <option value="supervisor">Supervisor</option>
-          </select>
-        </div>
-      </div>
-      
-      <form id="loginForm">
-        <div class="mb-3 input-group">
-          <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
-          <input type="email" class="form-control" id="email" placeholder="Email address" required />
-        </div>
-        <div class="mb-3 input-group">
-          <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
-          <input type="password" class="form-control" id="password" placeholder="Password" required />
-          <span class="password-toggle" id="passwordToggle">
-            <i class="fa-solid fa-eye"></i>
-          </span>
-        </div>
-        <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="rememberMe">
-          <label class="form-check-label" for="rememberMe">Remember me</label>
-        </div>
-        <button type="submit" class="btn btn-primary w-100" id="loginButton">
-          <i class="fa-solid fa-right-to-bracket me-1"></i> Sign In
-        </button>
-      </form>
-      
-      <div class="mt-3 text-center">
-        <a href="#" class="support-link">Forgot password?</a>
-      </div>
-      
-      <div class="session-info" id="sessionInfo">
-        <h6><i class="fa-solid fa-circle-info me-1"></i> Session Info</h6>
-        <div id="sessionDetails">No active session</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2025 MedVentory. All rights reserved. <span class="d-block d-sm-inline mt-2 mt-sm-0">v2.1.0</span></p>
-    </div>
-  </footer>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  
-  <script>
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCTfRRVc-QRKpEpzIpe3OtI2cYeotP1WCs",
-      authDomain: "healthtechn-c15da.firebaseapp.com",
-      databaseURL: "https://healthtechn-c15da-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "healthtechn-c15da",
-      storageBucket: "healthtechn-c15da.appspot.com",
-      messagingSenderId: "508561693923",
-      appId: "1:508561693923:web:d5ce35934eded8ff50f9d6"
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-
-    // DOM Elements
-    const loginForm = document.getElementById("loginForm");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const userRoleSelect = document.getElementById("userRole");
-    const loginButton = document.getElementById("loginButton");
-    const passwordToggle = document.getElementById("passwordToggle");
-    const sessionInfo = document.getElementById("sessionInfo");
-    const sessionDetails = document.getElementById("sessionDetails");
-    const rememberMe = document.getElementById("rememberMe");
-    const logoutButton = document.getElementById("logoutButton");
-
-    // Toast notification function
-    function showToast(message, type = 'success') {
-      const toastContainer = document.querySelector('.toast-container');
-      const toastId = 'toast-' + Date.now();
-      const borderColor = type === 'error' ? '#dc3545' : '#198754';
-      const icon = type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-check';
-      
-      const toastEl = document.createElement('div');
-      toastEl.className = `toast align-items-center ${type === 'error' ? 'error' : ''}`;
-      toastEl.setAttribute('role', 'alert');
-      toastEl.setAttribute('id', toastId);
-      toastEl.style.borderLeftColor = borderColor;
-      
-      toastEl.innerHTML = `
-        <div class="d-flex">
-          <div class="toast-body">
-            <i class="fas ${icon} me-2" style="color: ${borderColor};"></i>
-            ${message}
-          </div>
-          <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button>
-        </div>
-      `;
-      
-      toastContainer.appendChild(toastEl);
-      const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
-      toast.show();
-      
-      // Remove toast from DOM after it hides
-      toastEl.addEventListener('hidden.bs.toast', () => {
-        toastEl.remove();
-      });
-    }
-
-    // Toggle password visibility
-    passwordToggle.addEventListener('click', function() {
-      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordInput.setAttribute('type', type);
-      
-      // Toggle icon
-      const icon = this.querySelector('i');
-      icon.classList.toggle('fa-eye');
-      icon.classList.toggle('fa-eye-slash');
-    });
-
-    // Check for existing session on page load
-    document.addEventListener('DOMContentLoaded', function() {
-      const savedEmail = localStorage.getItem('medventory_email');
-      const savedRememberMe = localStorage.getItem('medventory_remember') === 'true';
-      
-      if (savedEmail && savedRememberMe) {
-        emailInput.value = savedEmail;
-        rememberMe.checked = true;
-      }
-      
-      // Check if user is already logged in
-      auth.onAuthStateChanged((user) => {
-        if (user) {
-          const userRole = localStorage.getItem('medventory_role');
-          const sessionExpiration = localStorage.getItem('medventory_session_expiration');
-          
-          if (userRole && sessionExpiration && Date.now() < parseInt(sessionExpiration)) {
-            // Valid session exists, show logout button
-            logoutButton.style.display = 'block';
+    <!-- Medventory Logout Screen -->
+    <div class="medventory-logout-container">
+        <div class="medventory-logout-card">
+            <div class="medventory-logout-icon">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+            </div>
+            <h2 class="medventory-logout-title">Logging Out...</h2>
+            <p class="medventory-logout-subtitle">Please wait while we securely log you out of Medventory</p>
             
-            // Valid session exists, redirect to dashboard
-            showToast(`Welcome back! Redirecting to ${userRole} dashboard...`);
-            setTimeout(() => {
-              window.location.href = `${userRole}.html`;
-            }, 1500);
-          } else {
-            // Session expired or invalid
-            if (sessionExpiration && Date.now() > parseInt(sessionExpiration)) {
-              showToast('Your session has expired. Please log in again.', 'error');
-              logout();
-            }
-          }
-        } else {
-          // No user is signed in, hide logout button
-          logoutButton.style.display = 'none';
-        }
-        
-        // Update session info display
-        updateSessionInfo();
-      });
-    });
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+            </div>
+            
+            <div class="security-note">
+                <i class="fa-solid fa-shield-check"></i>
+                <span>Your session is being securely terminated</span>
+            </div>
+            
+            <div class="medventory-logo">
+                <strong>Medventory</strong> - Smart Medical Inventory Management
+            </div>
+        </div>
+    </div>
 
-    // Update session information display
-    function updateSessionInfo() {
-      const userRole = localStorage.getItem('medventory_role');
-      const sessionExpiration = localStorage.getItem('medventory_session_expiration');
-      
-      if (userRole && sessionExpiration) {
-        const expirationDate = new Date(parseInt(sessionExpiration));
-        const now = new Date();
-        const timeLeft = expirationDate - now;
-        
-        if (timeLeft > 0) {
-          const hoursLeft = Math.floor(timeLeft / (1000 * 60 * 60));
-          const minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-          
-          sessionDetails.innerHTML = `
-            <div><strong>Role:</strong> ${userRole}</div>
-            <div><strong>Session expires in:</strong> ${hoursLeft}h ${minutesLeft}m</div>
-            <div><strong>Full expiration:</strong> ${expirationDate.toLocaleString()}</div>
-          `;
-          sessionInfo.classList.add('active');
-          return;
-        }
-      }
-      
-      sessionInfo.classList.remove('active');
-    }
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCTfRRVc-QRKpEpzIpe3OtI2cYeotP1WCs",
+            authDomain: "healthtechn-c15da.firebaseapp.com",
+            databaseURL: "https://healthtechn-c15da-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "healthtechn-c15da",
+            storageBucket: "healthtechn-c15da.appspot.com",
+            messagingSenderId: "508561693923",
+            appId: "1:508561693923:web:d5ce35934eded8ff50f9d6"
+        };
 
-    // Handle login form submission
-    loginForm.addEventListener("submit", async function (event) {
-      event.preventDefault();
-      
-      const email = emailInput.value.trim();
-      const password = passwordInput.value.trim();
-      const userRole = userRoleSelect.value;
-      
-      if (!email || !password || !userRole) {
-        showToast("Please fill in all fields.", "error");
-        return;
-      }
-      
-      // Show loading state
-      const originalText = loginButton.innerHTML;
-      loginButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Signing in...';
-      loginButton.disabled = true;
-      
-      try {
-        // Save remember me preference
-        if (rememberMe.checked) {
-          localStorage.setItem('medventory_email', email);
-          localStorage.setItem('medventory_remember', 'true');
-        } else {
-          localStorage.removeItem('medventory_email');
-          localStorage.removeItem('medventory_remember');
-        }
-        
-        // Sign in with Firebase Auth
-        const userCredential = await auth.signInWithEmailAndPassword(email, password);
-        const user = userCredential.user;
-        
-        // In a real application, you would verify the user's role from your database
-        // For this example, we'll simulate a successful authentication
-        
-        // Store session data
-        const sessionDuration = 24 * 60 * 60 * 1000; // 24 hours
-        const expirationTime = Date.now() + sessionDuration;
-        
-        localStorage.setItem('medventory_role', userRole);
-        localStorage.setItem('medventory_user_id', user.uid);
-        localStorage.setItem('medventory_user_email', user.email);
-        localStorage.setItem('medventory_session_expiration', expirationTime.toString());
-        
-        // Show logout button
-        logoutButton.style.display = 'block';
-        
-        showToast(`Login successful! Redirecting to ${userRole} dashboard...`);
-        
-        // Update session info
-        updateSessionInfo();
-        
-        // Redirect after a brief delay
-        setTimeout(() => {
-          window.location.href = `${userRole}.html`;
-        }, 1500);
-        
-      } catch (error) {
-        console.error("Login error:", error);
-        let errorMessage = "Login failed. Please try again.";
-        
-        if (error.code === 'auth/invalid-email') {
-          errorMessage = "Invalid email address format.";
-        } else if (error.code === 'auth/user-disabled') {
-          errorMessage = "This account has been disabled.";
-        } else if (error.code === 'auth/user-not-found') {
-          errorMessage = "No account found with this email.";
-        } else if (error.code === 'auth/wrong-password') {
-          errorMessage = "Incorrect password.";
-        } else if (error.code === 'auth/network-request-failed') {
-          errorMessage = "Network error. Please check your connection.";
-        }
-        
-        showToast(errorMessage, "error");
-      } finally {
-        // Restore button state
-        loginButton.innerHTML = originalText;
-        loginButton.disabled = false;
-      }
-    });
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
 
-    // Logout function
-    function logout() {
-      // Sign out from Firebase
-      auth.signOut().then(() => {
-        // Clear all stored session data
-        localStorage.removeItem('medventory_role');
-        localStorage.removeItem('medventory_user_id');
-        localStorage.removeItem('medventory_user_email');
-        localStorage.removeItem('medventory_session_expiration');
-        
-        // Hide logout button
-        logoutButton.style.display = 'none';
-        
-        // Show logout message
-        showToast('You have been logged out successfully.');
-        
-        // Check if we're already on the login page
-        const isLoginPage = window.location.pathname.includes('index.html') || 
-                           window.location.pathname === '/' || 
-                           window.location.pathname.endsWith('.html') === false;
-        
-        // If not on the login page, redirect to login page
-        if (!isLoginPage) {
-          setTimeout(() => {
-            window.location.href = 'index.html';
-          }, 1000);
-        }
-      }).catch((error) => {
-        console.error('Logout error:', error);
-        showToast('Error during logout. Please try again.', 'error');
-      });
-    }
-
-    // Add event listener to logout button
-    logoutButton.addEventListener('click', function() {
-      if (confirm('Are you sure you want to log out?')) {
-        logout();
-      }
-    });
-
-    // Session management functions for other pages
-    function checkAuth() {
-      return new Promise((resolve, reject) => {
-        auth.onAuthStateChanged((user) => {
-          if (user) {
-            // Check if session is still valid
-            const expirationTime = localStorage.getItem('medventory_session_expiration');
-            if (expirationTime && Date.now() > parseInt(expirationTime)) {
-              // Session expired
-              logout();
-              reject(new Error("Session expired"));
-            } else {
-              // User is signed in and session is valid
-              resolve(user);
-            }
-          } else {
-            // No user is signed in
-            reject(new Error("Not authenticated"));
-          }
+        document.addEventListener("DOMContentLoaded", () => {
+            auth.signOut().then(() => {
+                // Show success message briefly before redirecting
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 1500);
+            }).catch((error) => {
+                console.error("Logout Error:", error);
+                // Show error message and redirect anyway
+                document.querySelector('.medventory-logout-title').textContent = 'Logout Error';
+                document.querySelector('.medventory-logout-subtitle').textContent = 'Redirecting to login page...';
+                setTimeout(() => {
+                    window.location.href = "login.html";
+                }, 2000);
+            });
         });
-      });
-    }
-
-    // Make these functions available globally for other pages
-    window.checkAuth = checkAuth;
-    window.logout = logout;
-    window.showToast = showToast;
-    
-    // Update session info every minute
-    setInterval(updateSessionInfo, 60000);
-  </script>
+    </script>
 </body>
 </html>
