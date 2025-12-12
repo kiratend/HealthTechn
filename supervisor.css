@@ -231,3 +231,292 @@ body {
         margin-bottom: 0.5rem;
     }
 }
+
+/* Supervisor Dashboard Styles */
+
+/* General Styles */
+body[data-role="supervisor"] {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+  }
+  
+  /* Navbar */
+  .navbar {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+  .navbar-brand {
+    font-weight: 600;
+    font-size: 1.5rem;
+  }
+  
+  .notification-badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #e74c3c;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Hero Section */
+  .hero-section {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 3rem 0;
+    margin-bottom: 2rem;
+  }
+  
+  .hero-section h1 {
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+  }
+  
+  /* Dashboard Cards */
+  .dashboard-card {
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    color: white;
+  }
+  
+  .dashboard-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .dashboard-card i {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .dashboard-card h5 {
+    font-weight: 600;
+  }
+  
+  .dashboard-card h2 {
+    font-weight: 700;
+    margin-top: 0.5rem;
+  }
+  
+  .card-approved {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+  }
+  
+  .card-pending {
+    background: linear-gradient(135deg, #f39c12, #f1c40f);
+  }
+  
+  .card-transit {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+  }
+  
+  .card-delivered {
+    background: linear-gradient(135deg, #8e44ad, #9b59b6);
+  }
+  
+  /* Table Styles */
+  .card-header {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(0,0,0,0.125);
+  }
+  
+  .table th {
+    font-weight: 600;
+    background-color: #f8f9fa;
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: rgba(52, 152, 219, 0.1);
+  }
+  
+  .status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  
+  .status-active {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+  
+  /* Notification Dropdown */
+  .notification-dropdown {
+    min-width: 350px;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .notification-item {
+    padding: 0.75rem;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .notification-item:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .notification-item.unread {
+    background-color: #e7f3ff;
+    border-left: 3px solid #3498db;
+  }
+  
+  .notification-actions {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  /* Modal Styles */
+  .modal-xl {
+    max-width: 1200px;
+  }
+  
+  .request-item {
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #3498db;
+  }
+  
+  .request-item.border-warning {
+    border-left-color: #f39c12;
+  }
+  
+  .bg-warning-light {
+    background-color: #fff9e6;
+  }
+  
+  /* Action Buttons */
+  .btn-success {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    border: none;
+  }
+  
+  .btn-success:hover {
+    background: linear-gradient(135deg, #219653, #27ae60);
+  }
+  
+  .btn-primary {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #2980b9, #2573a7);
+  }
+  
+  .btn-warning {
+    background: linear-gradient(135deg, #f39c12, #f1c40f);
+    border: none;
+    color: white;
+  }
+  
+  .btn-warning:hover {
+    background: linear-gradient(135deg, #e67e22, #f39c12);
+    color: white;
+  }
+  
+  .btn-danger {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    border: none;
+  }
+  
+  .btn-danger:hover {
+    background: linear-gradient(135deg, #c0392b, #a93226);
+  }
+  
+  /* Alert Styles */
+  .alert {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  .alert-success {
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+    color: #155724;
+  }
+  
+  .alert-info {
+    background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+    color: #0c5460;
+  }
+  
+  .alert-warning {
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    color: #856404;
+  }
+  
+  .alert-danger {
+    background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+    color: #721c24;
+  }
+  
+  /* Footer */
+  .footer {
+    background-color: #2c3e50;
+    color: white;
+    padding: 1.5rem 0;
+    text-align: center;
+    margin-top: 3rem;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .action-buttons {
+      flex-direction: column;
+    }
+    
+    .action-buttons .btn {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+    
+    .notification-dropdown {
+      min-width: 300px;
+    }
+    
+    .modal-dialog {
+      margin: 0.5rem;
+    }
+  }
+  
+  /* Table Actions */
+  .table .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+  }
+  
+  /* Scrollbar Styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }

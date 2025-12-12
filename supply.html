@@ -24,8 +24,11 @@
       </button>
       <!-- Firebase & Supply Logic -->
   <script type="module" src="firebase-config.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 <script type="module" src="firebase-supply.js"></script>
 <script src="supply.js"></script>
+
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
@@ -67,10 +70,10 @@
             <!-- Product 1 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="ppe">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=Mask" alt="Surgical Mask">
+                <img src="img/Surgical Mask.jpeg" alt="Surgical Mask">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-mask-face me-1"></i>Surgical Mask</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Surgical Mask', 120, 'box')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('Surgical Mask', 120, 'box')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -79,10 +82,10 @@
             <!-- Product 2 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="ppe">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=Gloves" alt="Gloves">
+                <img src="img/Gloves.jpeg" alt="Gloves">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-hand-holding-medical me-1"></i>Medical Gloves</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Medical Gloves', 180, 'box')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('Medical Gloves', 180, 'box')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -91,10 +94,10 @@
             <!-- Product 3 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="ppe">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=Face+Shield" alt="Face Shield">
+                <img src="img/Face Shield.jpeg" alt="Face Shield">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-head-side-mask me-1"></i>Face Shield</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Face Shield', 75, 'unit')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('Face Shield', 75, 'unit')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -103,10 +106,10 @@
             <!-- Product 4 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="ppe">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=Sanitizer" alt="Sanitizer">
+                <img src="img/Sanitizer.jpeg" alt="Sanitizer">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-pump-soap me-1"></i>Hand Sanitizer</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Hand Sanitizer', 60, 'bottle')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('Hand Sanitizer', 60, 'bottle')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -115,10 +118,10 @@
             <!-- Product 5 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="ppe">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=Gown" alt="Medical Gown">
+                <img src="img/Med Gown.jpeg" alt="Medical Gown">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-user-md me-1"></i>Medical Gown</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Medical Gown', 220, 'piece')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('Medical Gown', 220, 'piece')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -127,10 +130,10 @@
             <!-- Product 6 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="ppe">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=Shoe+Covers" alt="Shoe Covers">
+                <img src="img/Shoe Cover.jpeg" alt="Shoe Covers">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-shoe-prints me-1"></i>Shoe Covers</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Shoe Covers', 40, 'pair')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('Shoe Covers', 40, 'pair')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -146,10 +149,10 @@
             <!-- Product 7 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="diagnostic">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=Thermometer" alt="Thermometer">
+                <img src="img/Thermometer.jpeg" alt="Thermometer">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-thermometer me-1"></i>Digital Thermometer</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Digital Thermometer', 250, 'unit')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('Digital Thermometer', 250, 'unit')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -158,10 +161,10 @@
             <!-- Product 8 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="diagnostic">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=BP+Monitor" alt="BP Monitor">
+                <img src="img/BP.jpeg" alt="BP Monitor">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-heartbeat me-1"></i>Blood Pressure Monitor</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Blood Pressure Monitor', 1200, 'unit')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('Blood Pressure Monitor', 1200, 'unit')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -170,10 +173,10 @@
             <!-- Product 9 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="diagnostic">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=Oximeter" alt="Oximeter">
+                <img src="img/Pulse Oximeter.jpeg" alt="Oximeter">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-procedures me-1"></i>Pulse Oximeter</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Pulse Oximeter', 850, 'unit')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('Pulse Oximeter', 850, 'unit')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -182,10 +185,10 @@
             <!-- Product 10 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="diagnostic">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=Stethoscope" alt="Stethoscope">
+                <img src="img/Sthetoscope.jpeg" alt="Stethoscope">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-stethoscope me-1"></i>Stethoscope</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Stethoscope', 650, 'unit')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('Stethoscope', 650, 'unit')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -194,10 +197,10 @@
             <!-- Product 11 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="diagnostic">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=Glucometer" alt="Glucometer">
+                <img src="img/Glucometer.jpeg" alt="Glucometer">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-tint me-1"></i>Glucometer</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Glucometer', 950, 'unit')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('Glucometer', 950, 'unit')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -206,10 +209,10 @@
             <!-- Product 12 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="diagnostic">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=ECG+Machine" alt="ECG Machine">
+                <img src="img/ECG.jpeg" alt="ECG Machine">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-heart me-1"></i>Portable ECG Machine</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Portable ECG Machine', 8500, 'unit')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('Portable ECG Machine', 8500, 'unit')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -225,10 +228,10 @@
             <!-- Product 13 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="first-aid">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=First+Aid+Kit" alt="First Aid Kit">
+                <img src="img/First Aid.jpeg" alt="First Aid Kit">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-briefcase-medical me-1"></i>First Aid Kit</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('First Aid Kit', 350, 'kit')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('First Aid Kit', 350, 'kit')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -237,10 +240,10 @@
             <!-- Product 14 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="first-aid">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=Bandage" alt="Bandage">
+                <img src="img/Gauze.jpeg" alt="Bandage">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-band-aid me-1"></i>Elastic Bandage</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Elastic Bandage', 45, 'roll')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('Elastic Bandage', 45, 'roll')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -249,10 +252,10 @@
             <!-- Product 15 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="first-aid">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=Antiseptic" alt="Antiseptic">
+                <img src="img/Antiseptic.jpeg" alt="Antiseptic">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-spray-can me-1"></i>Antiseptic Solution</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Antiseptic Solution', 85, 'bottle')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('Antiseptic Solution', 85, 'bottle')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -261,10 +264,10 @@
             <!-- Product 16 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="first-aid">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=Gauze" alt="Gauze">
+                <img src="img/Gauze Pad.jpeg" alt="Gauze">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-bandage me-1"></i>Sterile Gauze</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Sterile Gauze', 35, 'pack')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('Sterile Gauze', 35, 'pack')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -273,10 +276,10 @@
             <!-- Product 17 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="first-aid">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=Adhesive+Tape" alt="Adhesive Tape">
+                <img src="img/Tape.jpeg" alt="Adhesive Tape">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-tape me-1"></i>Medical Adhesive Tape</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Medical Adhesive Tape', 25, 'roll')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('Medical Adhesive Tape', 25, 'roll')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -285,10 +288,10 @@
             <!-- Product 18 -->
             <div class="col-md-4 col-sm-6 product-item" data-category="first-aid">
               <div class="product-card">
-                <img src="https://via.placeholder.com/300x200?text=Scissors" alt="Medical Scissors">
+                <img src="img/Scissor.jpeg" alt="Medical Scissors">
                 <div class="product-info">
                   <div class="product-name"><i class="fas fa-cut me-1"></i>Medical Scissors</div>
-                  <button class="btn btn-sm btn-primary w-100" onclick="addToOrder('Medical Scissors', 120, 'unit')">
+                  <button class="btn btn-sm btn-success w-100" onclick="addToOrder('Medical Scissors', 120, 'unit')">
                     <i class="fas fa-cart-plus me-1"></i>Add to Order
                   </button>
                 </div>
@@ -341,7 +344,21 @@
               <!-- Order items will be populated here -->
             </div>
           </div>
-          
+           <!-- Hospital and Receiver Selection -->
+           <div class="row mb-4">
+            <div class="col-md-6">
+              <label for="hospitalSelect" class="form-label">
+                <i class="fas fa-hospital me-1"></i>Select Hospital
+              </label>
+              <select class="form-select" id="hospitalSelect" required>
+                <option value="">-- Select Hospital --</option>
+                <option value="Ospital ng Lipa">Ospital ng Lipa</option>
+                <option value="Mary Mediatrix Medical Center">Mary Mediatrix Medical Center</option>
+                <option value="Metro Lipa Medical Center">Metro Lipa Medical Center</option>
+                <option value="Paramount Medical Center">Paramount Medical Center</option>
+                <option value="NL. Villa Memorical Center">NL. Villa Memorical Center</option>
+              </select>
+            </div>
           <div class="row mb-3">
             <div class="col-md-6">
               <h6>Shipping Information</h6>

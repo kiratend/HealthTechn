@@ -152,29 +152,89 @@ function placeOrder() {
     new bootstrap.Modal(document.getElementById('orderModal')).show();
 }
 
-// Save order to Firebase
-async function saveOrderToFirebase(orderData) {
+// Generate unique quotation ID
+function generateQuotationId() {
+    const timestamp = new Date().getTime();
+    const random = Math.floor(Math.random() * 1000);
+    return `QUOT${timestamp}${random}`;
+}
+
+// Save order to Firebase Firestore
+async function saveOrderToFirestore(orderData) {
     try {
-        const database = window.firebaseDatabase;
-        const ordersRef = window.firebaseRef(database, 'orders');
-        const newOrderRef = window.firebasePush(ordersRef);
+        // Initialize Firebase if not already done
+        if (!window.firebaseApp) {
+            console.error('Firebase not initialized');
+            throw new Error('Firebase not initialized');
+        }
+
+        const db = window.firestoreDB;
+        const quotationId = generateQuotationId();
         
-        await window.firebaseSet(newOrderRef, {
-            ...orderData,
-            orderId: newOrderRef.key,
+        // Save to quotations collection with your structure
+        const orderRef = await window.addDoc(window.collection(db, "quotations", "quotation", "quotation"), {
+            quotationid: quotationId,
+            AMOUNT: `₱${orderData.totalAmount}`,
+            "APPROVE BY": "Pending",
+            Date: new Date(),
+            HOSPITAL: orderData.customerInfo.address.includes("Hospital") ? orderData.customerInfo.address : "Customer Address",
+            "NAME/DESC": "Order",
+            QTY: orderData.orderItems.reduce((total, item) => total + item.quantity, 0),
+            customerInfo: orderData.customerInfo.fullName,
+            // Add additional fields to match your structure
+            orderItems: orderData.orderItems,
+            paymentMethod: orderData.paymentMethod,
+            notes: orderData.notes,
+            subtotal: orderData.subtotal,
+            shippingFee: orderData.shippingFee,
             status: 'pending',
-            createdAt: new Date().toISOString(),
+            createdAt: new Date(),
             timestamp: Date.now()
         });
-        
-        return newOrderRef.key;
+
+        return quotationId;
     } catch (error) {
-        console.error('Error saving order to Firebase:', error);
+        console.error('Error saving order to Firestore:', error);
         throw error;
     }
 }
 
-// Confirm order with Firebase integration
+// Alternative: Save to a simpler collection structure
+async function saveOrderToFirestoreSimple(orderData) {
+    try {
+        const db = window.firestoreDB;
+        const quotationId = generateQuotationId();
+        
+        // Simple collection structure
+        const ordersCollection = window.collection(db, "orders");
+        const orderRef = await window.addDoc(ordersCollection, {
+            quotationid: quotationId,
+            AMOUNT: orderData.totalAmount,
+            "APPROVE BY": "Pending",
+            Date: new Date(),
+            HOSPITAL: orderData.customerInfo.address,
+            "NAME/DESC": "Order",
+            QTY: orderData.orderItems.reduce((total, item) => total + item.quantity, 0),
+            customerInfo: orderData.customerInfo.fullName,
+            customerDetails: orderData.customerInfo,
+            orderItems: orderData.orderItems,
+            paymentMethod: orderData.paymentMethod,
+            notes: orderData.notes,
+            subtotal: orderData.subtotal,
+            shippingFee: orderData.shippingFee,
+            status: 'pending',
+            createdAt: new Date(),
+            timestamp: Date.now()
+        });
+
+        return quotationId;
+    } catch (error) {
+        console.error('Error saving order to Firestore:', error);
+        throw error;
+    }
+}
+
+// Confirm order with Firestore integration
 async function confirmOrder() {
     const fullName = document.getElementById('fullName').value;
     const address = document.getElementById('address').value;
@@ -213,11 +273,11 @@ async function confirmOrder() {
             timestamp: Date.now()
         };
         
-        // Save to Firebase
-        const orderId = await saveOrderToFirebase(orderData);
+        // Save to Firestore
+        const quotationId = await saveOrderToFirestoreSimple(orderData);
         
         // Show success message
-        alert(`✅ Order Placed Successfully!\n\nOrder ID: ${orderId}\nThank you, ${fullName}!\nYour order will be delivered to:\n${address}\n\nPayment Method: ${paymentMethod}\nTotal: ₱${(totalAmount + 100).toLocaleString()}\n\nYour order has been saved to our database.`);
+        alert(`✅ Order Placed Successfully!\n\nQuotation ID: ${quotationId}\nThank you, ${fullName}!\nYour order will be delivered to:\n${address}\n\nPayment Method: ${paymentMethod}\nTotal: ₱${(totalAmount + 100).toLocaleString()}\n\nYour order has been automatically saved to Firestore.`);
         
         // Close modal and reset order
         bootstrap.Modal.getInstance(document.getElementById('orderModal')).hide();
@@ -241,30 +301,54 @@ async function confirmOrder() {
     }
 }
 
-// Listen for real-time order updates (for admin purposes)
+// Listen for real-time order updates from Firestore
 function listenForOrderUpdates() {
     try {
-        const database = window.firebaseDatabase;
-        const ordersRef = window.firebaseRef(database, 'orders');
+        const db = window.firestoreDB;
+        const ordersRef = window.collection(db, "orders");
         
-        window.firebaseOnValue(ordersRef, (snapshot) => {
-            const orders = snapshot.val();
-            console.log('Real-time orders update:', orders);
+        window.onSnapshot(ordersRef, (snapshot) => {
+            const orders = [];
+            snapshot.forEach((doc) => {
+                orders.push({
+                    id: doc.id,
+                    ...doc.data()
+                });
+            });
+            
+            console.log('Real-time Firestore orders update:', orders);
+            
+            // Update order counter
+            updateOrderCounter(orders.length);
             
             // You can add real-time notifications here
-            if (orders) {
-                const orderCount = Object.keys(orders).length;
-                updateOrderCounter(orderCount);
+            if (orders.length > 0) {
+                const latestOrder = orders[orders.length - 1];
+                showNewOrderNotification(latestOrder);
             }
         });
     } catch (error) {
-        console.error('Error setting up real-time listener:', error);
+        console.error('Error setting up Firestore real-time listener:', error);
     }
 }
 
-// Update order counter (optional - for display purposes)
+// Show notification for new orders
+function showNewOrderNotification(order) {
+    // You can implement desktop notifications or UI alerts here
+    console.log(`New order received: ${order.quotationid} from ${order.customerInfo}`);
+    
+    // Example: Show a toast notification
+    if (window.showToast) {
+        window.showToast(`New Order: ${order.quotationid}`, 'success');
+    }
+}
+
+// Update order counter
 function updateOrderCounter(count) {
-    // You can display this somewhere in your admin panel
+    const orderCounter = document.getElementById('orderCounter');
+    if (orderCounter) {
+        orderCounter.textContent = count;
+    }
     console.log(`Total orders in system: ${count}`);
 }
 
@@ -305,15 +389,48 @@ function initializeCategoryFilter() {
     });
 }
 
+// Initialize Firebase (call this when your app loads)
+async function initializeFirebase() {
+    try {
+        // Your Firebase configuration - UPDATE THESE WITH YOUR ACTUAL VALUES
+        const firebaseConfig = {
+            apiKey: "your-api-key",
+            authDomain: "healthtechn-cli6da.firebaseapp.com",
+            projectId: "healthtechn-cli6da",
+            storageBucket: "healthtechn-cli6da.appspot.com",
+            messagingSenderId: "your-sender-id",
+            appId: "your-app-id"
+        };
+
+        // Initialize Firebase
+        window.firebaseApp = window.initializeApp(firebaseConfig);
+        window.firestoreDB = window.getFirestore(window.firebaseApp);
+        
+        // Make Firebase functions available globally
+        window.collection = window.collection || window.firestoreDB.collection;
+        window.addDoc = window.addDoc || window.firestoreDB.addDoc;
+        window.onSnapshot = window.onSnapshot || window.firestoreDB.onSnapshot;
+        
+        console.log('Firebase initialized successfully');
+        return true;
+    } catch (error) {
+        console.error('Firebase initialization error:', error);
+        return false;
+    }
+}
+
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     initializeCategoryFilter();
     
-    // Start listening for real-time order updates after a short delay
-    // to ensure Firebase is initialized
-    setTimeout(() => {
-        listenForOrderUpdates();
-    }, 1000);
+    // Initialize Firebase and start listening for orders
+    initializeFirebase().then(success => {
+        if (success) {
+            setTimeout(() => {
+                listenForOrderUpdates();
+            }, 1000);
+        }
+    });
 });
 
 // Make functions globally available
