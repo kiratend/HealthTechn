@@ -34,3 +34,4 @@ window.firebaseServices = {
   auth: auth,
   database: database
 };
+

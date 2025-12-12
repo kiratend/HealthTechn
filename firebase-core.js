@@ -1,13 +1,7 @@
-// firebase-config.js
-
+// firebase-core.js - Core Firebase initialization
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { 
-  getDatabase, 
-  ref, 
-  set, 
-  push, 
-  onValue // ✅ now correctly exported
-} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+import { getDatabase } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCTfRRVc-QRKpEpzIpe3OtI2cYeotP1WCs",
@@ -18,11 +12,10 @@ const firebaseConfig = {
   messagingSenderId: "508561693923",
   appId: "1:508561693923:web:d5ce35934eded8ff50f9d6"
 };
-  
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
+const auth = getAuth(app);
 
-// ✅ Export all used Firebase functions
-export { database, ref, set, push, onValue };
-
+export { app, database, auth };

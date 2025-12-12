@@ -1,110 +1,154 @@
-:root {
-    --primary: #198754;
-    --primary-light: #28a745;
-    --secondary: #f8f9fa;
-    --accent-warning: #ffc107;
-    --accent-danger: #dc3545;
-    --accent-info: #0dcaf0;
-    --text-dark: #212529;
-    --text-light: #f8f9fa;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+/* ================================
+   Supervisor Dashboard Custom CSS
+   ================================ */
+
+   :root {
+    --primary-color: #1E8449;       /* Navbar + buttons */
+    --secondary-color: #239B56;     /* Hero gradient */
+    --success-color: #198754;       /* Approved */
+    --warning-color: #f4b20b;       /* Pending */
+    --info-color: #00c4ff;          /* In transit */
+    --gray-color: #7f8c8d;          /* Delivered */
+    --danger-color: #e74c3c;
+    --light-color: #ecf0f1;
+    --dark-color: #34495e;
 }
 
+/* Global */
 body {
-    background-color: #f4f8fb;
+    background-color: #f8f9fa;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* ================================
+   NAVBAR
+   ================================ */
 .navbar {
-    background-color: var(--primary) !important;
-    box-shadow: var(--shadow);
+    background-color: var(--primary-color);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.navbar-brand, .nav-link {
-    color: var(--text-light) !important;
-    font-weight: 600;
+.navbar-brand,
+.nav-link {
+    color: white !important;
 }
 
+.navbar-brand i,
+.nav-link i {
+    margin-right: 5px;
+}
+
+/* ================================
+   HERO SECTION
+   ================================ */
 .hero-section {
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
-    padding: 60px 0;
-    text-align: center;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
 }
 
+/* ================================
+   DASHBOARD CARDS
+   ================================ */
 .dashboard-card {
+    padding: 1.5rem;
     border-radius: 12px;
-    box-shadow: var(--shadow);
-    padding: 25px;
     text-align: center;
-    transition: transform 0.3s ease;
-    height: 100%;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .dashboard-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.15);
 }
 
 .dashboard-card i {
-    font-size: 2.2rem;
-    margin-bottom: 15px;
-    background: rgba(255, 255, 255, 0.2);
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
-    border-radius: 50%;
+    font-size: 2.5rem;
+    margin-bottom: 8px;
 }
 
-.card-header {
-    background: linear-gradient(135deg, var(--primary), var(--primary-light)) !important;
-    color: var(--text-light);
+/* Card Title & Number */
+.dashboard-card h5 {
+    margin-top: 5px;
     font-weight: 600;
 }
 
-.footer {
-    background-color: var(--primary);
-    color: var(--text-light);
-    text-align: center;
-    padding: 15px;
-    margin-top: 30px;
+.dashboard-card h2 {
+    margin: 0;
+    font-weight: bold;
 }
 
-.btn i {
-    margin-right: 5px;
+/* ================================
+   CUSTOM CARD COLORS
+   ================================ */
+.card-approved {
+    background-color: var(--success-color);
+    color: white;
 }
 
-.table th, .table td {
+.card-pending {
+    background-color: var(--warning-color);
+    color: black;
+}
+
+.card-transit {
+    background-color: var(--info-color);
+    color: white;
+}
+
+.card-delivered {
+    background-color: var(--gray-color);
+    color: white;
+}
+
+/* ================================
+   TABLES
+   ================================ */
+.table th {
+    border-top: none;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.table td {
     vertical-align: middle;
 }
 
+/* ================================
+   BADGES
+   ================================ */
 .status-badge {
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 500;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
 }
 
 .status-active {
-    background-color: rgba(25, 135, 84, 0.15);
-    color: var(--primary);
+    background-color: #d4edda;
+    color: #155724;
 }
 
 .status-pending {
-    background-color: rgba(255, 193, 7, 0.15);
-    color: #ffc107;
+    background-color: #fff3cd;
+    color: #856404;
 }
 
-/* Notification Styles */
+/* ================================
+   NOTIFICATIONS
+   ================================ */
 .notification-badge {
     position: absolute;
     top: -5px;
     right: -5px;
-    background-color: var(--accent-danger);
+    background-color: var(--danger-color);
     color: white;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    font-size: 12px;
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -117,81 +161,73 @@ body {
 }
 
 .notification-item {
-    padding: 10px;
+    padding: 0.75rem 1rem;
     border-bottom: 1px solid #eee;
     cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-.notification-item:last-child {
-    border-bottom: none;
-}
-
-.notification-item.unread {
+.notification-item:hover {
     background-color: #f8f9fa;
 }
 
-.notification-item.purchase-request {
-    border-left: 4px solid var(--accent-info);
-}
-
-.notification-item.supply-alert {
-    border-left: 4px solid var(--accent-warning);
-}
-
-.notification-item.budget-approval {
-    border-left: 4px solid var(--accent-danger);
+.notification-item.unread {
+    background-color: #e3f2fd;
+    border-left: 3px solid var(--secondary-color);
 }
 
 .notification-time {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #6c757d;
 }
 
-.notification-priority {
-    display: inline-block;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 0.7rem;
-    font-weight: bold;
-    margin-left: 5px;
+/* ================================
+   BUTTONS
+   ================================ */
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
-.priority-high {
-    background-color: rgba(220, 53, 69, 0.15);
-    color: var(--accent-danger);
+.btn-success {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
-.priority-medium {
-    background-color: rgba(255, 193, 7, 0.15);
-    color: var(--accent-warning);
+.btn-success:hover {
+    background-color: #16693c;
+    border-color: #16693c;
 }
 
-.priority-low {
-    background-color: rgba(13, 110, 253, 0.15);
-    color: #0d6efd;
+/* ================================
+   FOOTER
+   ================================ */
+.footer {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1.5rem 0;
+    margin-top: 2rem;
 }
 
-.notification-actions {
-    margin-top: 8px;
-    display: flex;
-    gap: 5px;
-}
-
-.notification-actions .btn {
-    font-size: 0.75rem;
-    padding: 2px 8px;
-}
-
+/* ================================
+   RESPONSIVE
+   ================================ */
 @media (max-width: 768px) {
-    .hero-section {
-        padding: 30px 0;
-    }
-    
     .dashboard-card {
-        margin-bottom: 15px;
+        margin-bottom: 1rem;
     }
-    
+
     .notification-dropdown {
         width: 300px;
+    }
+
+    .d-flex.flex-wrap {
+        justify-content: center;
+    }
+
+    .btn {
+        margin-bottom: 0.5rem;
     }
 }
